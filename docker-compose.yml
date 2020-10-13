@@ -18,6 +18,18 @@ services:
     volumes:
       - ./influxdb/database_files:/var/lib/influxdb
       - ./influxdb/config_files/influxdb.conf:/etc/influxdb/influxdb.conf:ro
+  telegraf:
+    image: telegraf:latest
+    container_name: telegraf
+    privileged: true
+    volumes:
+      - "./telegraf/telegraf_docker.conf:/etc/telegraf/telegraf.conf:ro"
+      - "/:/hostfs:ro"
+    environment:
+      - HOST_MOUNT_PREFIX=/hostfs
+      - HOST_PROC=/hostfs/proc
+    links:
+      - influxdb
 
 
       

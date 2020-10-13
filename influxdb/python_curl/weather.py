@@ -19,6 +19,7 @@ from requests.exceptions import HTTPError, ConnectionError
 import platform  # For getting the operating system name
 import subprocess  # For executing a shell command
 
+# TODO Fix logging (after one cycle it wont write in file)
 # create logger with 'spam_application'
 logger = logging.getLogger()
 logger.setLevel(logging.DEBUG)
@@ -145,7 +146,7 @@ def main(argv):
             sleep_time = int(arg)
         if opt in ("-d", "--database"):
             database_name_arg = arg
-        if opt in "--debug":
+        if opt == "--debug":
             ch.setLevel(logging.DEBUG)
         if opt in ("-a", "--address"):
             url_domain_arg = arg
@@ -176,9 +177,9 @@ def main(argv):
                 logger.info("No connection to wi-fi")
                 # TODO Add saving to local file
         except HTTPError as http_err:
-            print(f'HTTP error occurred: {http_err}')
+            logger.error(f'HTTP error occurred: {http_err}')
         except ConnectionError as conn_err:
-            print(f'Connection error occurred: {conn_err}')
+            logger.error(f'Connection error occurred: {conn_err}')
         except Exception as err:
             logger.error(f'Other error occurred: {err}')
             sys.exit()

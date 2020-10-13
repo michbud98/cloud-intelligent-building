@@ -1,0 +1,1 @@
+docker run -d --rm --name telegraf --net=container:influxdb_database telegraf
