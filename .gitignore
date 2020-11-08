@@ -1,4 +1,5 @@
 .DS_Store
 influxdb/database_files/
 grafana/grafana_data
-influxdb/python_curl/weather_output.log
+**/logs
+**/secrets
