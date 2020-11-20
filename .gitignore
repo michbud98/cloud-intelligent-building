@@ -1,5 +1,5 @@
 .DS_Store
-influxdb/database_files/
-grafana/grafana_data
+**influxdb/database_files
+**grafana/grafana_data
 **/logs
 **/secrets
