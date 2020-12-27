@@ -1,0 +1,1 @@
+docker build -t michbud98/telegraf-python:1.0 .

@@ -1,5 +1,9 @@
 .DS_Store
 **influxdb/database_files
+**influxdb2.0/database_files
 **grafana/grafana_data
-**/logs
-**/secrets
+/telegraf/nodemcu/sensor_values.html
+/telegraf/nodemcu/telegraf
+**/venv
+/telegraf/nodemcu/telegraf_docker_my.conf
+/telegraf/enviro-plus-rpi-sensor/telegraf_docker_my.conf
