@@ -32,6 +32,6 @@ services:
     container_name: telegraf
     volumes:
       - $PWD/telegraf/nodemcu/telegraf_docker_my.conf:/etc/telegraf/telegraf.conf:ro
-      - $PWD/telegraf/nodemcu/get_weather_data_nodemcu.py:/etc/telegraf/get_weather_data_nodemcu.py
+      - $PWD/telegraf/nodemcu/get_sensor_data_nodemcu.py:/etc/telegraf/get_sensor_data_nodemcu.py
     links:
       - influxdb 
