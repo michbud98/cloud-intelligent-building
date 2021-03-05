@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid pt-4">
+    <div class="d-flex justify-content-around mb-3">
+        <form action="{% url 'room_remove' room_id=obj.id %}" method="POST"> {% csrf_token %}
+            <h1>Comfirm removal of <u>{{ obj.room_name }}</u></h1>
+            <div class="d-flex justify-content-around mb-3 pt-4">
+                <input class="btn btn-danger" type="submit" value="REMOVE"> 
+                <a class="btn btn-danger" href="{% url 'room_list'%}">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+ 
+
+{% endblock %}

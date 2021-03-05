@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid pt-4">
+<h1>Devices list</h1>
+{% if devices_set %}
+    <table class="table">
+        <tr>
+            <th scope="col">Device_id</th>
+            <th scope="col">Device_type</th>
+            <th scope="col">Room</th>
+            <th scope="col"><!-- Column headers added for formatting --></th>
+            <th scope="col"></th>
+            <th scope="col"></th>
+        </tr>
+        {% for device in devices_set %}
+        <tr>
+            <td scope="row">{{ device.device_id }}</td>
+            <td>{{ device.device_type }}</td>
+            {% if device.room %}
+                <td><a class="pt-1 btn btn-secondary" href="{% url 'room_detail' room_id=device.room.id %}">{{ device.room }}</a></td>
+            {% else %}
+                <td></td>
+            {% endif %}
+            <td><a class="p-1 btn btn-success" href="{% url 'device_update' device_id=device.device_id %}">Edit</a></td>
+            <td><a class="p-1 btn btn-info" href="{% url 'device_detail' device_id=device.device_id %}">Detail</a></td>
+            <td><a class="p-1 btn btn-danger" href="{% url 'device_remove' device_id=device.device_id %}">Remove</a></td>
+        </tr>
+        {% endfor %}
+    </table>
+    <div class="d-flex justify-content-around mb-3">
+        <a class="btn btn-success" href="{% url 'device_create' %}">Add new device</a>
+    </div>
+    
+    {% else %}
+    <p>There are no devices in a database. <a href="{% url 'device_create' %}">Please add new devices.</a></p>
+    {% endif %}
+    <div class="d-flex justify-content-around mb-3">
+        <a class="p-2 links-btn links-color" href="{% url 'room_list' %}">Back to room list</a>
+        <a class="p-2 links-btn links-color" href="{% url 'home' %}">Back to main menu</a>
+    </div>
+    
+</div>
+{% endblock %}

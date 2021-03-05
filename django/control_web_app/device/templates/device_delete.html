@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block content %} 
+<div class="container-fluid pt-4">
+    <div class="d-flex justify-content-around mb-3">
+        <form action="{% url 'device_remove' device_id=obj.device_id %}" method="POST"> {% csrf_token %}
+            <h1>Comfirm removal of device id: <u>{{ obj.device_id }}</u></h1>
+            <p><label>Device type:</label> <value >{{ obj.device_type }}</value></p>
+            {% if obj.room %}
+            <p>
+                <label>Room:</label> 
+                <a class="badge bg-info text-dark text-decoration-none" href="{% url 'room_detail' room_id=obj.room.id %}">
+                {{ obj.room }}</a>
+            </p>
+            {% endif %}
+            <div class="d-flex justify-content-around mb-3 pt-4">
+                <input class="btn btn-danger" type="submit" value="REMOVE">
+                <a class="btn btn-warning" href="{% url 'device_list'%}">Cancel</a>
+            </div> 
+            
+        </form>
+    </div>
+</div>
+
+{% endblock %}

@@ -8,7 +8,7 @@ services:
     ports:
       - 3000:3000
     volumes:
-      - "$PWD/grafana/grafana_data:/var/lib/grafana"
+      - "grafana_data:/var/lib/grafana"
     links:
       - influxdb
 
@@ -16,22 +16,26 @@ services:
     restart: always
     container_name: influxdb
     ports:
-      - '9999:9999'
-    image: voidborn/rpi_influxdb2
+      - '8086:8086'
+    image: influxdb:2.0.4
     volumes:
-      - $PWD/influxdb2.0/database_files:/var/lib/influxdb2
-      # command which loads data from mount
-    command: influxd run --bolt-path /var/lib/influxdb2/influxd.bolt --engine-path /var/lib/influxdb2/engine --store bolt
+      - influxdb_data:/var/lib/influxdb2
 
   telegraf:
     restart: always
     build: 
-      context: $PWD/telegraf/nodemcu/
+      context: ./telegraf/nodemcu/
       dockerfile: Dockerfile
     image: michbud98/telegraf-python:1.0
     container_name: telegraf
     volumes:
-      - $PWD/telegraf/nodemcu/telegraf_docker_my.conf:/etc/telegraf/telegraf.conf:ro
-      - $PWD/telegraf/nodemcu/get_sensor_data_nodemcu.py:/etc/telegraf/get_sensor_data_nodemcu.py
+      - ./telegraf/nodemcu/telegraf_docker_my.conf:/etc/telegraf/telegraf.conf:ro
+      - ./telegraf/nodemcu/get_sensor_data_nodemcu.py:/etc/telegraf/get_sensor_data_nodemcu.py
+      - ./telegraf/nodemcu/telegraf_logs:/tmp/
+      - ./telegraf/nodemcu/telegraf_logs:/var/log/telegraf/
     links:
       - influxdb 
+
+volumes:
+  influxdb_data:
+  grafana_data:

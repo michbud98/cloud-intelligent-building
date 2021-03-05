@@ -1,0 +1,86 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container-fluid pt-4">
+    <h1>{{ obj.room_name }} detail</h1>
+    <h2>Last values collected by sensors:</h2>
+    {% if sensors_set %}
+    <div class="row">
+        <table class="table">
+            <tr>
+                <th scope="col">Sensor_id</th>
+                <th scope="col">Sensor_hostname</th>
+                <th scope="col">Sensor_type</th>
+                <th scope="col">Temperature</th>
+                <th scope="col">Pressure</th>
+                <th scope="col">Humidity</th>
+            </tr>
+            {% for sensor in sensors_set %}
+            <tr>
+                <td scope="row">{{ sensor.sensor_id }}</td>
+                <td>{{ sensor.hostname }}</td>
+                <td>{{ sensor.sensor_type }}</td>
+                <td>{{ temp_dict|get_item:sensor.sensor_id }} °C</td>
+                <td>{{ pressure_dict|get_item:sensor.sensor_id }} HPa</td>
+                <td>{{ humidity_dict|get_item:sensor.sensor_id }} %</td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="d-flex justify-content-around mb-3">
+            <a class="btn btn-success" href="{% url 'sensor_list' %}">Add sensor from sensor list</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="d-flex justify-content-around mb-3">
+        <p>No sensor set for this room. 
+            You can browse sensor list and 
+            <a class="badge bg-success text-decoration-none" href="{% url 'sensor_list' %}">
+                add sensor to this room.</a>
+        </p>
+    </div>
+    {% endif %}
+    <h2>Available devices: </h2>
+    {% if devices_set %}
+    <div class="row">
+        <table class="table">
+            <tr>
+                <th scope="col">Device_id</th>
+                <th scope="col">Device_type</th>
+                <th scope="col">Device_value</th>
+                <th scope="col"></th>
+            </tr>
+            {% for device in devices_set %}
+            <tr>
+                <td scope="row">{{ device.device_id }}</td>
+                <td>{{ device.device_type }}</td>
+                {% if device.device_type == "sunblind" %}
+                <td>{{ device.set_open_value }}</td>
+                {% elif device.device_type == "thermo_head" %}
+                <td>{{ device.set_heat_value }}</td>
+                {% endif %}
+                <td><a class="badge bg-secondary text-decoration-none" 
+                    href="{% url 'device_values_edit' device_id=device.device_id room_id=obj.id %}">
+                    Edit device values</a>
+                </td>
+            </tr>
+            {% endfor %}
+        </table>
+        <div class="d-flex justify-content-around mb-3">
+            <a class="btn btn-success" href="{% url 'device_create' %}">Add device</a>
+            <a class="p-2 links-btn links-color"  href="{% url 'device_list' %}">Show devices list</a>
+        </div>
+    </div>
+    {% else %}
+    <div class="d-flex justify-content-around mb-3">
+        <p>No device set for this room. 
+            You can browse device list and 
+            <a class="badge bg-success text-decoration-none" href="{% url 'device_list' %}">
+                add device to this room</a>.
+        </p>
+    </div>
+    {% endif %}
+    <div class="d-flex justify-content-around mb-3">
+        <a class="p-2 links-btn links-color" href="{% url 'room_list' %}">Back to room list</a>
+    </div>
+</div>
+{% endblock %}

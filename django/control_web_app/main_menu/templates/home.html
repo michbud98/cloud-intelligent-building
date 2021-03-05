@@ -1,0 +1,57 @@
+{% extends "base.html" %}
+
+{% block content %} 
+<div class="container-fluid pt-5">
+    <div class="d-flex justify-content-around mb-3">
+        <table class="table">
+            <tr>
+                <th>Average temperature indoors</th>
+                <th>Average pressure indoors</th>
+                <th>Average humidity indoors</th>
+            </tr>
+            <tr>
+                <td><value>{{ avg_tmp_indoors }}</value> °C</td>
+                <td><value>{{ avg_pres_indoors }}</value> HPa</td>
+                <td><value>{{ avg_hum_indoors }}</value> %</td>
+            </tr>
+        </table>
+    </div>
+    <div class="d-flex justify-content-around mb-3">
+        <table class="table">
+            <tr>
+                <th>Average temperature outdoors</th>
+                <th>Average pressure outdoors</th>
+                <th>Average humidity outdoors</th>
+            </tr>
+            <tr>
+                <td><value>{{ avg_tmp_out }}</value> °C</td>
+                <td><value>{{ avg_pres_out }}</value> HPa</td>
+                <td><value>{{ avg_hum_out }}</value> %</td>
+            </tr>
+        </table>
+    </div>
+    <div class="d-flex justify-content-around mb-3">
+        <table class="table">
+            <tr>
+                <th>Radiators input water temp</th>
+                <th>Radiators output water temp</th>
+                <th>Domestic hot water temp</th>
+                <th>Domestic hot water coil temp</th>
+            </tr>
+            <tr>
+                <td><value>{{ tmp_in }}</value> °C</td>
+                <td><value>{{ tmp_out }}</value> °C</td>
+                <td>{{ dwh_tmp }}</value> °C</td>
+                <td><value>{{ dwh_coil_tmp }}</value> °C</td>
+            </tr>
+        </table>
+    </div>
+    <nav class="d-flex justify-content-around pt-5">
+        <a class="p-2 links-btn links-color" href="{% url 'room_list' %}">Rooms list</a>
+        <a class="p-2 links-btn links-color" href="{% url 'sensor_list' %}">Sensors list</a>
+        <a class="p-2 links-btn links-color" href="{% url 'device_list' %}">Devices list</a>
+    </nav>
+</div>
+
+{% endblock %}
+

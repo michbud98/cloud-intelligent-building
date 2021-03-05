@@ -7,6 +7,7 @@ import requests
 from bs4 import BeautifulSoup
 
 
+
 def get_sensor_data_html(sensor_url: str) -> str:
     """
     Gets html from nodemcu sensor
@@ -79,12 +80,13 @@ def main(argumentList):
 
     sensor_html = get_sensor_data_html(http)  # "http://192.168.77.108/values"
     sensor_id = "nodemcu-" + get_id_from_sensor(sensor_html)
-    print("sensor_temperature,sensor_id={} temperature={}".format(
-        sensor_id, get_value_from_sensor(sensor_html, "°[cC]$")))
-    print("sensor_pressure,sensor_id={} pressure={}".format(
-        sensor_id, get_value_from_sensor(sensor_html, "hPa")))
-    print("sensor_humidity,sensor_id={} humidity={}".format(
-        sensor_id, get_value_from_sensor(sensor_html, "%$")))
+    sensor_type = "BME280" # TODO Make dynamic
+    print("sensor_temperature,sensor_id={},sensor_type={} temperature={}".format(
+        sensor_id, sensor_type, get_value_from_sensor(sensor_html, "°[cC]$")))
+    print("sensor_pressure,sensor_id={},sensor_type={} pressure={}".format(
+        sensor_id, sensor_type, get_value_from_sensor(sensor_html, "hPa")))
+    print("sensor_humidity,sensor_id={},sensor_type={} humidity={}".format(
+        sensor_id, sensor_type, get_value_from_sensor(sensor_html, "%$")))
 
 
 if __name__ == "__main__":

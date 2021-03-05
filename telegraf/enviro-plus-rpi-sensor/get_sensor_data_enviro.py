@@ -84,13 +84,14 @@ def main():
         except:
             print(traceback.format_exc())
     sensor_id = "raspi-" + get_serial_number()
+    sensor_type = "Enviro-plus" # TODO Make dynamic
     # mymeasurement,tag1=tag1,tag2=tag2 fieldA="aaa",fieldB="bbb
-    print("sensor_temperature,sensor_id={} temperature={:.2f},temperature_compensated={:.2f}".format(
-        sensor_id, temperature, temperature_compensated))
-    print("sensor_pressure,sensor_id={} pressure={:.2f}".format(sensor_id, pressure))
-    print("sensor_humidity,sensor_id={} humidity={:.2f}".format(sensor_id, humidity))
-    print("sensor_light,sensor_id={} light={:.2f},proximity={:.2f}".format(
-        sensor_id, lux, prox))
+    print("sensor_temperature,sensor_id={},sensor_type={} temperature={:.2f},temperature_compensated={:.2f}".format(
+        sensor_id, sensor_type, temperature, temperature_compensated))
+    print("sensor_pressure,sensor_id={},sensor_type={} pressure={:.2f}".format(sensor_id, sensor_type, pressure))
+    print("sensor_humidity,sensor_id={},sensor_type={} humidity={:.2f}".format(sensor_id, sensor_type, humidity))
+    print("sensor_light,sensor_id={},sensor_type={} light={:.2f},proximity={:.2f}".format(
+        sensor_id, sensor_type, lux, prox))
 
 
 if __name__ == "__main__":

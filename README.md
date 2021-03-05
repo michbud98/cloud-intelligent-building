@@ -4,6 +4,9 @@ Collection of programs running inside intelligent building
 InfluxDB 2.0 Cloud database url:
 https://eu-central-1-1.aws.cloud2.influxdata.com/
 
+Grafana cloud url:
+https://intelligentbuilding2.grafana.net/
+
 ## Used resources:
 ### Raspberry pi Enviro Plus sensor library by pimoroni
 - https://github.com/pimoroni/enviroplus-python
