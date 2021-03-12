@@ -9,16 +9,22 @@ https://intelligentbuilding2.grafana.net/
 
 ## How to run
 ### TIG on local machine
-`docker-compose up`
+```
+docker-compose up
+```
 
 ### Django control web app on local machine
-`cd django`
-`docker-compose up`
+```
+cd django
+docker-compose up
+```
 
 ### Dummy machines
-`cd dummy_machines`
-`docker build -t <docker image name> .`
-`docker run --rm --network="host" <docker image name> -s 5 -url http://localhost:<port of control app> Thermometer 1`
+```
+cd dummy_machines
+docker build -t <docker image name> .
+docker run --rm --network="host" <docker image name> -s 5 -url http://localhost:<port of control app> Thermometer 1
+```
 
 ## Used resources:
 ### Raspberry pi Enviro Plus sensor library by pimoroni
