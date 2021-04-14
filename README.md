@@ -7,6 +7,9 @@ https://eu-central-1-1.aws.cloud2.influxdata.com/
 Grafana cloud url:
 https://intelligentbuilding2.grafana.net/
 
+Control web app cloud url:
+https://intelligent-building-django.herokuapp.com/
+
 ## How to run
 ### TIG on local machine
 ```
