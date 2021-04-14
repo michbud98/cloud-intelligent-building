@@ -4,8 +4,8 @@ RUN mkdir /home/root
 WORKDIR /home/root
 
 
-COPY ./telegraf_docker_my.conf /etc/telegraf/telegraf.conf:ro
-COPY ./get_sensor_data_nodemcu.py /etc/telegraf/get_sensor_data_nodemcu.py
+#COPY ./telegraf_docker_my.conf /etc/telegraf/telegraf.conf:ro
+#COPY ./get_sensor_data_nodemcu.py /etc/telegraf/get_sensor_data_nodemcu.py
 # Map Volumes
 # $PWD/telegraf/nodemcu/telegraf_docker_my.conf:/etc/telegraf/telegraf.conf:ro
 # $PWD/telegraf/nodemcu/get_sensor_data_nodemcu.py:/etc/telegraf/get_sensor_data_nodemcu.py
