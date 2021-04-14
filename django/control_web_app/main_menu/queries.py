@@ -14,10 +14,11 @@ def query_avg_values_from_location(location):
     
     for sensor in sensor_set:
         temperature, pressure, humidity = get_sensor_values(sensor.sensor_id)
-        tmp_list.append(temperature)
-        pres_list.append(pressure)
-        hum_list.append(humidity)
-    
+        if temperature != None and pressure != None and humidity != None:
+            tmp_list.append(temperature)
+            pres_list.append(pressure)
+            hum_list.append(humidity)
+
     return round(get_list_average(tmp_list),2), round(get_list_average(pres_list),2), round(get_list_average(hum_list),2), 
 
 def get_sensor_values(sensor_id):
