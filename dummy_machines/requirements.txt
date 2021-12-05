@@ -1,2 +1,0 @@
-# Do not remove. It installs local custom modules in Heroku or by using "pip install -r requirements.txt".
--e .

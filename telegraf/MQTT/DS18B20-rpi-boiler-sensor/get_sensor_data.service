@@ -1,0 +1,9 @@
+[Unit]
+Description=Boiler sensor collection
+After=multi-user.target
+[Service]
+Type=simple
+Restart=always
+ExecStart=/usr/bin/python3 /home/pi/boiler_data_collect/get_sensor_data_1wire.py
+[Install]
+WantedBy=multi-user.target

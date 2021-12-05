@@ -1,1 +1,0 @@
-telegraf --config influx_recovery_file_my.conf --once 

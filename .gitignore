@@ -2,6 +2,9 @@
 .DS_Store
 .vscode
 
+# Other
+test
+
 # TIG Configs, database files
 **influxdb/database_files
 **influxdb2.0/database_files

@@ -14,28 +14,68 @@ services:
 
   influxdb:
     restart: always
+    image: influxdb:latest
     container_name: influxdb
     ports:
-      - '8086:8086'
-    image: influxdb:2.0.4
+      - 8086:8086
     volumes:
       - influxdb_data:/var/lib/influxdb2
 
   telegraf:
     restart: always
     build: 
-      context: ./telegraf/nodemcu/
+      context: ./telegraf/Main/
       dockerfile: Dockerfile
     image: michbud98/telegraf-python:1.0
     container_name: telegraf
     volumes:
-      - ./telegraf/nodemcu/telegraf_docker_my.conf:/etc/telegraf/telegraf.conf:ro
-      - ./telegraf/nodemcu/get_sensor_data_nodemcu.py:/etc/telegraf/get_sensor_data_nodemcu.py
-      - ./telegraf/nodemcu/telegraf_logs:/tmp/
-      - ./telegraf/nodemcu/telegraf_logs:/var/log/telegraf/
+      - ./telegraf/Wi-Fi/nodemcu-luftdaten-scrap/pocasidoma_meteo_scrap.py:/etc/telegraf/pocasidoma_meteo_scrap.py
+      - ./telegraf/Wi-Fi/nodemcu-luftdaten-scrap/luftdaten_scrap.py:/etc/telegraf/luftdaten_scrap.py
+      - ./telegraf/Main/telegraf_docker_my.conf:/etc/telegraf/telegraf.conf:ro
+      - ./telegraf/Main/telegraf_logs:/tmp/
+      - ./telegraf/Main/telegraf_logs:/var/log/telegraf/
     links:
       - influxdb 
 
+  mosquito:
+    restart: always
+    build: 
+      context: ./telegraf/MQTT/
+      dockerfile: Dockerfile
+    image: michbud98/mosquitto
+    container_name: mosquitto
+    ports: 
+      - 1883:1883 
+    volumes:
+      - mosquitto:/mosquitto/config/
+    links:
+      - telegraf 
+
+  nodered:
+    restart: always
+    image: nodered/node-red
+    container_name: nodered
+    volumes:
+      - "node_red_data:/data"
+    ports:
+      - "1880:1880"
+    links:
+      - mariadb
+      - mosquito
+      - influxdb
+
+  mariadb:
+    restart: always
+    image: mariadb
+    container_name: mariadb
+    command: --default-authentication-plugin=mysql_native_password
+    volumes:
+     - "mariadb_data:/var/lib/mysql"
+    env_file: .env
+      
 volumes:
+  mosquitto:
   influxdb_data:
   grafana_data:
+  node_red_data:
+  mariadb_data:

@@ -1,0 +1,943 @@
+[
+    {
+        "id": "2ea865067ea82e10",
+        "type": "group",
+        "z": "f6f2187d.f17ca8",
+        "name": "Room selection UI",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "3cf2ddb2d049a0b3",
+            "c5dc653808fe5778",
+            "ca7c81d03b0407bf",
+            "b7a5643d6349c131",
+            "e250e872bb569915",
+            "c0e24c660bd8d17b",
+            "b6fba50961fa06bb",
+            "ca4be2dadc94bee1",
+            "7834919cbfc6cc2a",
+            "6189a271221595d0",
+            "b006d3fef169f565",
+            "cc365c70a6e337ab",
+            "c66106090c9d5c0f",
+            "b206f46388be3911",
+            "924cc8d0bcd319cc",
+            "a9b14b385aefc2bc",
+            "fc9bf0a09982f8ed",
+            "e5caea0b81d15499",
+            "050862e7a876f1ad",
+            "0704747d1da8393e",
+            "32636855bbd4a4fc",
+            "2dcc8a659844b949",
+            "b45cb15dc6960154",
+            "d79e436c22edc0b5"
+        ],
+        "env": [],
+        "x": 14,
+        "y": 377,
+        "w": 1172,
+        "h": 484
+    },
+    {
+        "id": "4e5e6fb077080fff",
+        "type": "subflow",
+        "name": "Get room",
+        "info": "Queries room from DB for specified sensor_id\n\n:input msg.payload - sensor_id of sensor for which we want to find room.\n\n:output msg.room - Room set for sensor_id.\n:output msg.sensor_id - sensor_id of sensor for which we want to find room.",
+        "category": "",
+        "in": [
+            {
+                "x": 60,
+                "y": 160,
+                "wires": [
+                    {
+                        "id": "9d980fb4671db250"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 600,
+                "y": 220,
+                "wires": [
+                    {
+                        "id": "39f55663ac9c12e0",
+                        "port": 0
+                    },
+                    {
+                        "id": "c2202819ef147b55",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "5040ec414bc16ee2",
+        "type": "comment",
+        "z": "4e5e6fb077080fff",
+        "name": "Query current room of sensor",
+        "info": "Queries room from DB for specified sensor_id\n\n:input msg.payload - sensor_id of sensor for which we want to find room.\n\n:output msg.room - Room set for sensor_id.\n:output msg.sensor_id - sensor_id of sensor for which we want to find room.",
+        "x": 260,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "dded03747665e27c",
+        "type": "mysql",
+        "z": "4e5e6fb077080fff",
+        "mydb": "77baa11c77157752",
+        "name": "",
+        "x": 360,
+        "y": 160,
+        "wires": [
+            [
+                "ea402475fd1ea75a"
+            ]
+        ]
+    },
+    {
+        "id": "9d980fb4671db250",
+        "type": "function",
+        "z": "4e5e6fb077080fff",
+        "name": "Create query",
+        "func": "/*var sensorId = msg.payload;\nmsg.query =  `from(bucket: \"Sensor_data\")\n    |> range(start: -1h)\n    |> filter(fn: (r) => r.sensor_id == \"${sensorId}\")\n    |> keyValues(keyColumns: [\"room\"])\n    |> keep(columns: [\"_value\"])\n    |> group()\n    |> distinct()`*/\nmsg.sensor_id = msg.payload\nmsg.topic=`select sensor_id, room from sensors where sensor_id = \"${msg.sensor_id}\";`\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 180,
+        "y": 160,
+        "wires": [
+            [
+                "dded03747665e27c"
+            ]
+        ]
+    },
+    {
+        "id": "ea402475fd1ea75a",
+        "type": "switch",
+        "z": "4e5e6fb077080fff",
+        "name": "",
+        "property": "payload",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "nempty"
+            },
+            {
+                "t": "empty"
+            }
+        ],
+        "checkall": "false",
+        "repair": false,
+        "outputs": 2,
+        "x": 160,
+        "y": 260,
+        "wires": [
+            [
+                "c2202819ef147b55"
+            ],
+            [
+                "39f55663ac9c12e0"
+            ]
+        ]
+    },
+    {
+        "id": "60981c41507bea5b",
+        "type": "comment",
+        "z": "4e5e6fb077080fff",
+        "name": "If empty array returns \"Room not yet set\" in room val",
+        "info": "",
+        "x": 350,
+        "y": 340,
+        "wires": []
+    },
+    {
+        "id": "39f55663ac9c12e0",
+        "type": "change",
+        "z": "4e5e6fb077080fff",
+        "name": "Set \"No room\" when empty",
+        "rules": [
+            {
+                "t": "set",
+                "p": "room",
+                "pt": "msg",
+                "to": "Room not yet set",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 380,
+        "y": 300,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "c2202819ef147b55",
+        "type": "change",
+        "z": "4e5e6fb077080fff",
+        "name": "Move to msg.room var",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload[0].room",
+                "pt": "msg",
+                "to": "room",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 360,
+        "y": 240,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "77baa11c77157752",
+        "type": "MySQLdatabase",
+        "name": "RPI4_MariaDB",
+        "host": "mariadb",
+        "port": "3306",
+        "db": "sensor",
+        "tz": "",
+        "charset": "UTF8"
+    },
+    {
+        "id": "98df4c30829c6402",
+        "type": "subflow",
+        "name": "Get all sensor_ids",
+        "info": "Gets all sensor_id values from InfluxDB",
+        "category": "",
+        "in": [
+            {
+                "x": 50,
+                "y": 30,
+                "wires": [
+                    {
+                        "id": "14bb6ad5b90437d6"
+                    }
+                ]
+            }
+        ],
+        "out": [
+            {
+                "x": 360,
+                "y": 320,
+                "wires": [
+                    {
+                        "id": "0acfe7da4899a86a",
+                        "port": 0
+                    }
+                ]
+            }
+        ],
+        "env": [],
+        "meta": {},
+        "color": "#DDAA99"
+    },
+    {
+        "id": "14bb6ad5b90437d6",
+        "type": "influxdb in",
+        "z": "98df4c30829c6402",
+        "influxdb": "f64d2d329f647e71",
+        "name": "Query",
+        "query": "import \"influxdata/influxdb/v1\"\nv1.tagValues(\n    bucket: \"Sensor_data\",\n    tag: \"sensor_id\",\n    predicate: (r) => r.comm_protocol != \"Scrap\" and r.room != \"water_boiler_room\",\n    start: -1d\n)",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "org": "swiftblade1982@gmail.com",
+        "x": 190,
+        "y": 160,
+        "wires": [
+            [
+                "b979f2c4032b3704"
+            ]
+        ]
+    },
+    {
+        "id": "b979f2c4032b3704",
+        "type": "split",
+        "z": "98df4c30829c6402",
+        "name": "Split values",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "payload",
+        "x": 170,
+        "y": 200,
+        "wires": [
+            [
+                "04c3fbb9e8fdb252"
+            ]
+        ]
+    },
+    {
+        "id": "04c3fbb9e8fdb252",
+        "type": "change",
+        "z": "98df4c30829c6402",
+        "name": "Get sensor_id",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload._value",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 180,
+        "y": 240,
+        "wires": [
+            [
+                "63c954b73f480d60"
+            ]
+        ]
+    },
+    {
+        "id": "63c954b73f480d60",
+        "type": "join",
+        "z": "98df4c30829c6402",
+        "name": "Join in array",
+        "mode": "auto",
+        "build": "array",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "num",
+        "reduceFixup": "",
+        "x": 190,
+        "y": 280,
+        "wires": [
+            [
+                "0acfe7da4899a86a"
+            ]
+        ]
+    },
+    {
+        "id": "0acfe7da4899a86a",
+        "type": "change",
+        "z": "98df4c30829c6402",
+        "name": "Pass to msg.options",
+        "rules": [
+            {
+                "t": "move",
+                "p": "payload",
+                "pt": "msg",
+                "to": "options",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 200,
+        "y": 320,
+        "wires": [
+            []
+        ]
+    },
+    {
+        "id": "01a62efd963d73c9",
+        "type": "comment",
+        "z": "98df4c30829c6402",
+        "name": "Gets all sensor_id values from InfluxDB",
+        "info": "",
+        "x": 370,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "f64d2d329f647e71",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "RPI4 Influxdb",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "3cf2ddb2d049a0b3",
+        "type": "ui_dropdown",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Choose sensor_id",
+        "label": "",
+        "tooltip": "",
+        "place": "Select a sensor_id",
+        "group": "d8aece7e220cdf0e",
+        "order": 1,
+        "width": 0,
+        "height": 0,
+        "passthru": true,
+        "multiple": false,
+        "options": [],
+        "payload": "",
+        "topic": "topic",
+        "topicType": "msg",
+        "className": "",
+        "x": 550,
+        "y": 460,
+        "wires": [
+            [
+                "b7a5643d6349c131"
+            ]
+        ]
+    },
+    {
+        "id": "c5dc653808fe5778",
+        "type": "subflow:98df4c30829c6402",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "",
+        "env": [],
+        "x": 330,
+        "y": 460,
+        "wires": [
+            [
+                "3cf2ddb2d049a0b3",
+                "ca7c81d03b0407bf"
+            ]
+        ]
+    },
+    {
+        "id": "ca7c81d03b0407bf",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "options",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 510,
+        "y": 420,
+        "wires": []
+    },
+    {
+        "id": "b7a5643d6349c131",
+        "type": "subflow:4e5e6fb077080fff",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "",
+        "x": 740,
+        "y": 460,
+        "wires": [
+            [
+                "b006d3fef169f565",
+                "a9b14b385aefc2bc",
+                "cc365c70a6e337ab"
+            ]
+        ]
+    },
+    {
+        "id": "e250e872bb569915",
+        "type": "ui_ui_control",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Reset web UI",
+        "events": "connect",
+        "x": 120,
+        "y": 500,
+        "wires": [
+            [
+                "c5dc653808fe5778",
+                "2dcc8a659844b949"
+            ]
+        ]
+    },
+    {
+        "id": "c0e24c660bd8d17b",
+        "type": "ui_button",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Reset button",
+        "group": "d8aece7e220cdf0e",
+        "order": 5,
+        "width": 0,
+        "height": 0,
+        "passthru": false,
+        "label": "Reload_sensor_ids",
+        "tooltip": "",
+        "color": "white",
+        "bgcolor": "red",
+        "className": "",
+        "icon": "",
+        "payload": "",
+        "payloadType": "str",
+        "topic": "topic",
+        "topicType": "msg",
+        "x": 130,
+        "y": 440,
+        "wires": [
+            [
+                "c5dc653808fe5778",
+                "2dcc8a659844b949"
+            ]
+        ]
+    },
+    {
+        "id": "b6fba50961fa06bb",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Print new room",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 860,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "ca4be2dadc94bee1",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Move room val to payload object",
+        "func": "msg.payload = {\"room\": msg.room}\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 360,
+        "y": 620,
+        "wires": [
+            [
+                "b206f46388be3911"
+            ]
+        ]
+    },
+    {
+        "id": "7834919cbfc6cc2a",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Move room val to payload",
+        "rules": [
+            {
+                "t": "move",
+                "p": "room",
+                "pt": "msg",
+                "to": "payload",
+                "tot": "msg"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 650,
+        "y": 780,
+        "wires": [
+            [
+                "6189a271221595d0",
+                "924cc8d0bcd319cc"
+            ]
+        ]
+    },
+    {
+        "id": "6189a271221595d0",
+        "type": "ui_text",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "group": "d8aece7e220cdf0e",
+        "order": 2,
+        "width": 0,
+        "height": 0,
+        "name": "Show current room",
+        "label": "Current room of sensor:",
+        "format": "{{msg.payload}}",
+        "layout": "row-spread",
+        "className": "",
+        "x": 890,
+        "y": 780,
+        "wires": []
+    },
+    {
+        "id": "b006d3fef169f565",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Print room",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "room",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 904,
+        "y": 418,
+        "wires": []
+    },
+    {
+        "id": "cc365c70a6e337ab",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Print sensor_id",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "sensor_id",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 914,
+        "y": 498,
+        "wires": []
+    },
+    {
+        "id": "c66106090c9d5c0f",
+        "type": "link in",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "",
+        "links": [
+            "0704747d1da8393e"
+        ],
+        "x": 135,
+        "y": 680,
+        "wires": [
+            [
+                "7834919cbfc6cc2a",
+                "ca4be2dadc94bee1"
+            ]
+        ]
+    },
+    {
+        "id": "b206f46388be3911",
+        "type": "ui_form",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Update room",
+        "label": "",
+        "group": "d8aece7e220cdf0e",
+        "order": 3,
+        "width": 0,
+        "height": 0,
+        "options": [
+            {
+                "label": "Room",
+                "value": "room",
+                "type": "text",
+                "required": true,
+                "rows": null
+            }
+        ],
+        "formValue": {
+            "room": ""
+        },
+        "payload": "",
+        "submit": "Save",
+        "cancel": "cancel",
+        "topic": "topic",
+        "topicType": "msg",
+        "splitLayout": false,
+        "className": "",
+        "x": 610,
+        "y": 620,
+        "wires": [
+            [
+                "b6fba50961fa06bb",
+                "fc9bf0a09982f8ed",
+                "d79e436c22edc0b5"
+            ]
+        ]
+    },
+    {
+        "id": "924cc8d0bcd319cc",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Print room on label",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 890,
+        "y": 740,
+        "wires": []
+    },
+    {
+        "id": "a9b14b385aefc2bc",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Move room val to flow",
+        "rules": [
+            {
+                "t": "move",
+                "p": "sensor_id",
+                "pt": "msg",
+                "to": "sensor_id",
+                "tot": "flow"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 934,
+        "y": 458,
+        "wires": [
+            [
+                "0704747d1da8393e"
+            ]
+        ]
+    },
+    {
+        "id": "fc9bf0a09982f8ed",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Format MQTT msg",
+        "func": "/*sensor_id = msg.payload[0].sensor_id;\nroom = msg.payload[0].room;\nmsg.payload = sensor_id + \"-\" + room;*/\nsensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room == \"Room not yet set\") {\n    return null\n}\nelse{\n    msg.payload = sensor_id + \"-\" + room;\n    return msg;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 830,
+        "y": 620,
+        "wires": [
+            [
+                "e5caea0b81d15499",
+                "050862e7a876f1ad"
+            ]
+        ]
+    },
+    {
+        "id": "e5caea0b81d15499",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Print MQTT msg",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1040,
+        "y": 560,
+        "wires": []
+    },
+    {
+        "id": "050862e7a876f1ad",
+        "type": "mqtt out",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Send room to sensor",
+        "topic": "esp/bme680/room",
+        "qos": "",
+        "retain": "",
+        "respTopic": "",
+        "contentType": "",
+        "userProps": "",
+        "correl": "",
+        "expiry": "",
+        "broker": "b34a1617c5275030",
+        "x": 1060,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "0704747d1da8393e",
+        "type": "link out",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Output room val",
+        "mode": "link",
+        "links": [
+            "c66106090c9d5c0f"
+        ],
+        "x": 1089,
+        "y": 458,
+        "wires": []
+    },
+    {
+        "id": "32636855bbd4a4fc",
+        "type": "change",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Reset room val",
+        "rules": [
+            {
+                "t": "set",
+                "p": "payload",
+                "pt": "msg",
+                "to": "None",
+                "tot": "str"
+            }
+        ],
+        "action": "",
+        "property": "",
+        "from": "",
+        "to": "",
+        "reg": false,
+        "x": 660,
+        "y": 820,
+        "wires": [
+            [
+                "6189a271221595d0"
+            ]
+        ]
+    },
+    {
+        "id": "2dcc8a659844b949",
+        "type": "link out",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "RESET INPUT",
+        "mode": "link",
+        "links": [
+            "b45cb15dc6960154",
+            "212c8eb2d862f64d"
+        ],
+        "x": 305,
+        "y": 520,
+        "wires": []
+    },
+    {
+        "id": "b45cb15dc6960154",
+        "type": "link in",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Reset link 2",
+        "links": [
+            "2dcc8a659844b949"
+        ],
+        "x": 475,
+        "y": 820,
+        "wires": [
+            [
+                "32636855bbd4a4fc"
+            ]
+        ]
+    },
+    {
+        "id": "d79e436c22edc0b5",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Update room label",
+        "func": "msg.payload = msg.payload.room\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 670,
+        "y": 740,
+        "wires": [
+            [
+                "6189a271221595d0"
+            ]
+        ]
+    },
+    {
+        "id": "d8aece7e220cdf0e",
+        "type": "ui_group",
+        "name": "Room",
+        "tab": "d1f25c62d446af39",
+        "order": 1,
+        "disp": true,
+        "width": "6",
+        "collapse": false,
+        "className": ""
+    },
+    {
+        "id": "b34a1617c5275030",
+        "type": "mqtt-broker",
+        "name": "RPI4_MQTT",
+        "broker": "mosquito",
+        "port": "1883",
+        "clientid": "",
+        "autoConnect": true,
+        "usetls": false,
+        "protocolVersion": "4",
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "birthMsg": {},
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "closeMsg": {},
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": "",
+        "willMsg": {},
+        "sessionExpiry": ""
+    },
+    {
+        "id": "d1f25c62d446af39",
+        "type": "ui_tab",
+        "name": "Sensor tab",
+        "icon": "dashboard",
+        "order": 1,
+        "disabled": false,
+        "hidden": false
+    }
+]
