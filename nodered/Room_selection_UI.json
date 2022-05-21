@@ -216,7 +216,11 @@
         "port": "3306",
         "db": "sensor",
         "tz": "",
-        "charset": "UTF8"
+        "charset": "UTF8",
+        "credentials": {
+            "user": "root",
+            "password": "example"
+        }
     },
     {
         "id": "98df4c30829c6402",
@@ -787,7 +791,7 @@
         "z": "f6f2187d.f17ca8",
         "g": "2ea865067ea82e10",
         "name": "Send room to sensor",
-        "topic": "esp/bme680/room",
+        "topic": "sensor/room",
         "qos": "",
         "retain": "",
         "respTopic": "",
@@ -909,7 +913,7 @@
         "id": "b34a1617c5275030",
         "type": "mqtt-broker",
         "name": "RPI4_MQTT",
-        "broker": "mosquito",
+        "broker": "mosquitto",
         "port": "1883",
         "clientid": "",
         "autoConnect": true,

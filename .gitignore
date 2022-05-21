@@ -9,10 +9,11 @@ test
 **influxdb/database_files
 **influxdb2.0/database_files
 **grafana/grafana_data
-telegraf_docker_my.conf
+telegraf.conf
 telegraf_sensor_data_my.conf
 influx_recovery_file_my.conf
-**/telegraf_logs
+**/volumes
+settings.js
 
 # Django Secrets, migration files and postgressdb
 **/secrets
