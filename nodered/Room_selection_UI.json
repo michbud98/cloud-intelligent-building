@@ -24,19 +24,19 @@
             "b206f46388be3911",
             "924cc8d0bcd319cc",
             "a9b14b385aefc2bc",
-            "fc9bf0a09982f8ed",
-            "e5caea0b81d15499",
-            "050862e7a876f1ad",
             "0704747d1da8393e",
             "32636855bbd4a4fc",
             "2dcc8a659844b949",
             "b45cb15dc6960154",
-            "d79e436c22edc0b5"
+            "d79e436c22edc0b5",
+            "e5caea0b81d15499",
+            "fc9bf0a09982f8ed",
+            "6fd83a886d66d701",
+            "069131aa5c579c54"
         ],
-        "env": [],
         "x": 14,
-        "y": 377,
-        "w": 1172,
+        "y": 317,
+        "w": 1352,
         "h": 484
     },
     {
@@ -216,11 +216,7 @@
         "port": "3306",
         "db": "sensor",
         "tz": "",
-        "charset": "UTF8",
-        "credentials": {
-            "user": "root",
-            "password": "example"
-        }
+        "charset": "UTF8"
     },
     {
         "id": "98df4c30829c6402",
@@ -418,7 +414,7 @@
         "topicType": "msg",
         "className": "",
         "x": 550,
-        "y": 460,
+        "y": 400,
         "wires": [
             [
                 "b7a5643d6349c131"
@@ -433,7 +429,7 @@
         "name": "",
         "env": [],
         "x": 330,
-        "y": 460,
+        "y": 400,
         "wires": [
             [
                 "3cf2ddb2d049a0b3",
@@ -456,7 +452,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 510,
-        "y": 420,
+        "y": 360,
         "wires": []
     },
     {
@@ -466,7 +462,7 @@
         "g": "2ea865067ea82e10",
         "name": "",
         "x": 740,
-        "y": 460,
+        "y": 400,
         "wires": [
             [
                 "b006d3fef169f565",
@@ -483,7 +479,7 @@
         "name": "Reset web UI",
         "events": "connect",
         "x": 120,
-        "y": 500,
+        "y": 440,
         "wires": [
             [
                 "c5dc653808fe5778",
@@ -513,7 +509,7 @@
         "topic": "topic",
         "topicType": "msg",
         "x": 130,
-        "y": 440,
+        "y": 380,
         "wires": [
             [
                 "c5dc653808fe5778",
@@ -527,7 +523,7 @@
         "z": "f6f2187d.f17ca8",
         "g": "2ea865067ea82e10",
         "name": "Print new room",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -536,7 +532,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 860,
-        "y": 660,
+        "y": 600,
         "wires": []
     },
     {
@@ -552,7 +548,7 @@
         "finalize": "",
         "libs": [],
         "x": 360,
-        "y": 620,
+        "y": 560,
         "wires": [
             [
                 "b206f46388be3911"
@@ -580,7 +576,7 @@
         "to": "",
         "reg": false,
         "x": 650,
-        "y": 780,
+        "y": 720,
         "wires": [
             [
                 "6189a271221595d0",
@@ -603,7 +599,7 @@
         "layout": "row-spread",
         "className": "",
         "x": 890,
-        "y": 780,
+        "y": 720,
         "wires": []
     },
     {
@@ -621,7 +617,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 904,
-        "y": 418,
+        "y": 358,
         "wires": []
     },
     {
@@ -639,7 +635,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 914,
-        "y": 498,
+        "y": 438,
         "wires": []
     },
     {
@@ -652,7 +648,7 @@
             "0704747d1da8393e"
         ],
         "x": 135,
-        "y": 680,
+        "y": 620,
         "wires": [
             [
                 "7834919cbfc6cc2a",
@@ -691,12 +687,11 @@
         "splitLayout": false,
         "className": "",
         "x": 610,
-        "y": 620,
+        "y": 560,
         "wires": [
             [
                 "b6fba50961fa06bb",
-                "fc9bf0a09982f8ed",
-                "d79e436c22edc0b5"
+                "fc9bf0a09982f8ed"
             ]
         ]
     },
@@ -706,7 +701,7 @@
         "z": "f6f2187d.f17ca8",
         "g": "2ea865067ea82e10",
         "name": "Print room on label",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -715,7 +710,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 890,
-        "y": 740,
+        "y": 680,
         "wires": []
     },
     {
@@ -723,7 +718,7 @@
         "type": "change",
         "z": "f6f2187d.f17ca8",
         "g": "2ea865067ea82e10",
-        "name": "Move room val to flow",
+        "name": "Move sensor_id val to flow",
         "rules": [
             {
                 "t": "move",
@@ -738,71 +733,13 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 934,
-        "y": 458,
+        "x": 954,
+        "y": 398,
         "wires": [
             [
                 "0704747d1da8393e"
             ]
         ]
-    },
-    {
-        "id": "fc9bf0a09982f8ed",
-        "type": "function",
-        "z": "f6f2187d.f17ca8",
-        "g": "2ea865067ea82e10",
-        "name": "Format MQTT msg",
-        "func": "/*sensor_id = msg.payload[0].sensor_id;\nroom = msg.payload[0].room;\nmsg.payload = sensor_id + \"-\" + room;*/\nsensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room == \"Room not yet set\") {\n    return null\n}\nelse{\n    msg.payload = sensor_id + \"-\" + room;\n    return msg;\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 830,
-        "y": 620,
-        "wires": [
-            [
-                "e5caea0b81d15499",
-                "050862e7a876f1ad"
-            ]
-        ]
-    },
-    {
-        "id": "e5caea0b81d15499",
-        "type": "debug",
-        "z": "f6f2187d.f17ca8",
-        "g": "2ea865067ea82e10",
-        "name": "Print MQTT msg",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1040,
-        "y": 560,
-        "wires": []
-    },
-    {
-        "id": "050862e7a876f1ad",
-        "type": "mqtt out",
-        "z": "f6f2187d.f17ca8",
-        "g": "2ea865067ea82e10",
-        "name": "Send room to sensor",
-        "topic": "sensor/room",
-        "qos": "",
-        "retain": "",
-        "respTopic": "",
-        "contentType": "",
-        "userProps": "",
-        "correl": "",
-        "expiry": "",
-        "broker": "b34a1617c5275030",
-        "x": 1060,
-        "y": 620,
-        "wires": []
     },
     {
         "id": "0704747d1da8393e",
@@ -814,8 +751,8 @@
         "links": [
             "c66106090c9d5c0f"
         ],
-        "x": 1089,
-        "y": 458,
+        "x": 1115,
+        "y": 400,
         "wires": []
     },
     {
@@ -839,7 +776,7 @@
         "to": "",
         "reg": false,
         "x": 660,
-        "y": 820,
+        "y": 760,
         "wires": [
             [
                 "6189a271221595d0"
@@ -858,7 +795,7 @@
             "212c8eb2d862f64d"
         ],
         "x": 305,
-        "y": 520,
+        "y": 460,
         "wires": []
     },
     {
@@ -871,7 +808,7 @@
             "2dcc8a659844b949"
         ],
         "x": 475,
-        "y": 820,
+        "y": 760,
         "wires": [
             [
                 "32636855bbd4a4fc"
@@ -891,12 +828,85 @@
         "finalize": "",
         "libs": [],
         "x": 670,
-        "y": 740,
+        "y": 680,
         "wires": [
             [
                 "6189a271221595d0"
             ]
         ]
+    },
+    {
+        "id": "e5caea0b81d15499",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Print MQTT msg",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1100,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "fc9bf0a09982f8ed",
+        "type": "function",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "Handle DB room update",
+        "func": "/*sensor_id = msg.payload[0].sensor_id;\nroom = msg.payload[0].room;\nmsg.payload = sensor_id + \"-\" + room;*/\nsensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    msg.payload = {\n        sensor_id: sensor_id,\n        room: room\n    }\n    msg.topic=\"INSERT INTO sensors (`sensor_id`, `room`) VALUES (:sensor_id, :room) ON DUPLICATE KEY UPDATE `sensor_id`=:sensor_id, `room`=:room;\"\n    return msg;\n}\nelse{\n    return null;\n}",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 850,
+        "y": 560,
+        "wires": [
+            [
+                "e5caea0b81d15499",
+                "6fd83a886d66d701",
+                "d79e436c22edc0b5"
+            ]
+        ]
+    },
+    {
+        "id": "6fd83a886d66d701",
+        "type": "mysql",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "mydb": "77baa11c77157752",
+        "name": "",
+        "x": 1100,
+        "y": 560,
+        "wires": [
+            [
+                "069131aa5c579c54"
+            ]
+        ]
+    },
+    {
+        "id": "069131aa5c579c54",
+        "type": "debug",
+        "z": "f6f2187d.f17ca8",
+        "g": "2ea865067ea82e10",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1270,
+        "y": 560,
+        "wires": []
     },
     {
         "id": "d8aece7e220cdf0e",
@@ -908,32 +918,6 @@
         "width": "6",
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "b34a1617c5275030",
-        "type": "mqtt-broker",
-        "name": "RPI4_MQTT",
-        "broker": "mosquitto",
-        "port": "1883",
-        "clientid": "",
-        "autoConnect": true,
-        "usetls": false,
-        "protocolVersion": "4",
-        "keepalive": "60",
-        "cleansession": true,
-        "birthTopic": "",
-        "birthQos": "0",
-        "birthPayload": "",
-        "birthMsg": {},
-        "closeTopic": "",
-        "closeQos": "0",
-        "closePayload": "",
-        "closeMsg": {},
-        "willTopic": "",
-        "willQos": "0",
-        "willPayload": "",
-        "willMsg": {},
-        "sessionExpiry": ""
     },
     {
         "id": "d1f25c62d446af39",

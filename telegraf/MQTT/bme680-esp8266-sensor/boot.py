@@ -13,8 +13,6 @@ esp.osdebug(None)
 import gc
 gc.collect()
 
-led = Pin(2, Pin.OUT)
-led.value(1)
 
 ssid = 'SET WIFI NAME'
 password = 'SET PASSWORD'
@@ -35,16 +33,13 @@ pub_sensor_status = b'sensor/status'
 # Topics to subscribe
 sub_room = b'sensor/room'
 
-last_message = 0
-message_interval = 60
-burn_time = 600
+message_interval_ms = 60000
 
 station = network.WLAN(network.STA_IF)
-
-station.active(True)
-station.connect(ssid, password)
-
-while station.isconnected() == False:
-  pass
-
-print('Connection successful')
+#Disable ESP8266 Access point interface
+access_point = network.WLAN(network.AP_IF)
+access_point.active(False)
+ 
+# configure RTC.ALARM0 to be able to wake the device
+rtc = machine.RTC()
+rtc.irq(trigger=rtc.ALARM0, wake=machine.DEEPSLEEP)

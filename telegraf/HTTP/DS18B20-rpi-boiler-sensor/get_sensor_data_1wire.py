@@ -28,7 +28,7 @@ def main():
     sensor_id = board_type + "-" + get_serial_number()
     sensor_type = "1wire"
     room_arg = "water_boiler_room"
-    print("sensor_data,sensor_id={0},board_type={1},sensor_type={2},room={3},comm_protocol=Wi-fi tmp_in={4:.2f},tmp_out={5:.2f},dhw_tmp={6:.2f},dhw_coil_tmp={7:.2f}".format(
+    print("sensor_data,sensor_id={0},board_type={1},sensor_type={2},room={3},comm_protocol=HTTP tmp_in={4:.2f},tmp_out={5:.2f},dhw_tmp={6:.2f},dhw_coil_tmp={7:.2f}".format(
       sensor_id, board_type, sensor_type, room_arg, to_inp, to_out, dhw_tmp, dhw_coil_temp))
 
 
