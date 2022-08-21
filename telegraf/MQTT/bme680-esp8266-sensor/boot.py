@@ -3,11 +3,12 @@ import time
 from umqttsimple import MQTTClient
 import ubinascii
 import machine
+from machine import Pin, I2C
+import sys
 import micropython
 import network
 import esp
 from bme680 import *
-from machine import Pin, I2C
 
 esp.osdebug(None)
 import gc
@@ -34,6 +35,7 @@ pub_sensor_status = b'sensor/status'
 sub_room = b'sensor/room'
 
 message_interval_ms = 60000
+DEBUG_FILE = 1
 
 station = network.WLAN(network.STA_IF)
 #Disable ESP8266 Access point interface

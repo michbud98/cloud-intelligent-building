@@ -2,11 +2,11 @@ import time
 from umqttsimple import MQTTClient
 import ubinascii
 import machine
+from machine import Pin, I2C
+from sys import print_exception
 import micropython
 import network
 from bme680 import *
-from machine import Pin, I2C
-
 import gc
 gc.collect()
 
@@ -43,6 +43,31 @@ i2c = I2C(1, scl=Pin(15), sda=Pin(14))
 bme = BME680_I2C(i2c=i2c)
 led = Pin("LED", Pin.OUT)
 
+DEBUG_FILE = 1
+DEBUG_LED = 1
+
+def flash_led():
+  if DEBUG_LED == 0:
+    led.toggle()
+    time.sleep_ms(500)
+    led.toggle()
+
+def log(input_string, debug_file_override = 1):
+  log_text = f"{input_string}"
+  if DEBUG_FILE == 0 or debug_file_override == 0:
+    file = open("log.txt", "a")
+    file.write(f"{log_text}\r\n")
+    print(log_text)
+    file.close()
+  else:
+    print(log_text)
+
+def log_exception(exception, file_name):
+  file = open(file_name, "a")
+  print_exception(exception)
+  print_exception(exception,file)
+  file.close()
+
 
 def room_change(last_msg):
   """
@@ -54,8 +79,8 @@ def room_change(last_msg):
   last_msg_list = tuple(last_msg.split("-"))
   if len(last_msg_list) == 3:
     msg_sensor_type, msg_sensor_id, msg_room = tuple(last_msg_list)
-    print("Message {}".format(last_msg))
-    print("From message sensor type is {} ID is {} and room is {}".format(
+    log("Recieved message {}".format(last_msg))
+    log("From message sensor type is {} ID is {} and room is {}".format(
         msg_sensor_type, msg_sensor_id, msg_room))
     if msg_sensor_id in sensor_id and room != msg_room:
       room = msg_room
@@ -63,15 +88,19 @@ def room_change(last_msg):
           sensor_id, room)
 
   if response_msg:
-    print(response_msg)
+    log(response_msg)
     client.publish(pub_sensor_status, response_msg)
 
 
 def check_room(status_topic, sensor_id):
-  client.publish(
-      status_topic, "REQUEST:Sensor [{}] value [room].".format(sensor_id))
-  time.sleep(2)
-  client.check_msg()
+  log("Sending room value request to database.")
+  client.publish(status_topic, "REQUEST:Sensor [{}] value [room].".format(sensor_id))
+  max_wait = 0
+  while not room and max_wait <= 10:
+    log(f"Checking for response. Attempt {max_wait}")
+    time.sleep(1)
+    client.check_msg()
+    max_wait += 1
 
 
 def create_data_str(temp_arg, pres_arg, hum_arg, room_arg):
@@ -110,7 +139,7 @@ def read_bme_sensor():
 
 
 def publish_values(values_topic, data):
-  print(data)
+  log(data)
   client.publish(values_topic, data)
 
 
@@ -124,7 +153,7 @@ def connect_mqtt():
   # client = MQTTClient(client_id, mqtt_server, user=your_username, password=your_password)
   client.set_callback(sub_cb)
   client.connect()
-  print('Connected to %s MQTT broker' % (mqtt_server))
+  log('Connected to %s MQTT broker' % (mqtt_server))
   client.subscribe(sub_room)
   return client
 
@@ -132,50 +161,50 @@ def connect_mqtt():
 def connect_to_wifi():
   # Connect to local network using Wi-fi
   mac = ubinascii.hexlify(network.WLAN().config('mac'), ':').decode()
-  print(f"\r\nSensor id: {sensor_id}")
-  print(f"Device mac adress: {mac}")
-  print(f"Connecting to {ssid}")
+  log(f"Sensor id: {sensor_id}")
+  log(f"Device mac adress: {mac}")
+  log(f"Connecting to {ssid}")
   station.connect(ssid, password)
 
   # Wait for connect or fail
-  max_wait = 10
-  while max_wait > 0:
-    print(f"Connection status: {station.status()}")
+  max_wait = 0
+  while max_wait <= 15:
+    log(f"Connection attempt {max_wait} status code: {station.status()}")
     if station.status() < 0 or station.status() >= 3:
       break
-    max_wait -= 1
-    print('waiting for connection...')
+    max_wait += 1
+    log('waiting for connection...')
     time.sleep(2)
   # Handle connection error
   if station.status() != 3:
+    log(f"Status code {station.status()}. Sensor couldn't connect.")
     raise RuntimeError('Network connection failed')
   else:
-    print(f'Connected to {ssid}')
+    log(f'Status code {station.status()}. Connected to {ssid}')
     status = station.ifconfig()
-    print('ip = ' + status[0])
+    log('ip = ' + status[0])
     
     
     
 def disconnect_from_wifi():
   station.disconnect()
   if station.isconnected() == False:
-    print(f'Wifi connection {station.isconnected()} Succesfully disconnected')
+    log(f'Wifi connection {station.isconnected()} Succesfully disconnected')
 
 def restart_and_reconnect():
   time.sleep(10)
+  log("Restarting sensor.")
   machine.soft_reset()
 
 def put_to_light_sleep():
-  print(f"Putting sensor in lightsleep mode for {message_interval_ms/1000} seconds in 5 seconds.")
+  log(f"Putting sensor in lightsleep mode for {message_interval_ms/1000} seconds in 5 seconds.")
   time.sleep(5)
-  print(f"Sensor is now in lightsleep mode for {message_interval_ms/1000} seconds.")
+  log(f"Sensor is now in lightsleep mode for {message_interval_ms/1000} seconds.")
   machine.lightsleep(message_interval_ms)
 
 while True:
   try:
-    led.toggle()
-    time.sleep_ms(500)
-    led.toggle()
+    flash_led()
     connect_to_wifi()
     client = connect_mqtt()
     client.check_msg()
@@ -187,12 +216,14 @@ while True:
     disconnect_from_wifi()
     put_to_light_sleep()
   except OSError as e:
-    print(f'Failed to read data from sensor. Attempting restart.')
+    log_exception(e, "log.txt")
+    log(f'Failed to read data from sensor. Attempting restart.', 0)
     restart_and_reconnect()
   except RuntimeError as e:
-    print(f'Failed to connect to MQTT broker on adress: {mqtt_server}. Attempting to restart and reconnect.')
+    log_exception(e, "log.txt")
+    log(f'Failed to connect to MQTT broker on adress: {mqtt_server}. Attempting to restart and reconnect.', 0)
     restart_and_reconnect()
-  except:
-    print(f'Unknown error. Attempting to reconnect.')
+  except Exception as e:
+    log_exception(e, "log.txt")
+    log(f'Unknown exception {type(e).__name__}. Attempting to reconnect.', 0)
     restart_and_reconnect()
-
