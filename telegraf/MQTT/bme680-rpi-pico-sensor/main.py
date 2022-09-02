@@ -80,13 +80,10 @@ def room_change(last_msg):
   if len(last_msg_list) == 3:
     msg_sensor_type, msg_sensor_id, msg_room = tuple(last_msg_list)
     log("Recieved message {}".format(last_msg))
-    log("From message sensor type is {} ID is {} and room is {}".format(
-        msg_sensor_type, msg_sensor_id, msg_room))
+    log("From message sensor type is {} ID is {} and room is {}".format(msg_sensor_type, msg_sensor_id, msg_room))
     if msg_sensor_id in sensor_id and room != msg_room:
       room = msg_room
-      response_msg = "UPDATE:Sensor [{}] changed room to [{}]".format(
-          sensor_id, room)
-
+      response_msg = "UPDATE:Sensor [{}] changed room to [{}]".format(sensor_id, room)
   if response_msg:
     log(response_msg)
     client.publish(pub_sensor_status, response_msg)
@@ -119,6 +116,7 @@ def create_data_str(temp_arg, pres_arg, hum_arg, room_arg):
   elif not room_arg:
     MQTT_sensor_data = "sensor_data,sensor_id={0},board_type={1},sensor_type={2},comm_protocol=MQTT temperature={3:.2f},pressure={4:.2f},humidity={5:.2f}".format(
       sensor_id, board_type, sensor_type, temp_arg, pres_arg, hum_arg)
+  log(f"Created Influx data: {MQTT_sensor_data}")
   return MQTT_sensor_data
 
 
@@ -128,18 +126,18 @@ def read_bme_sensor():
 
   :return Tuple with measurements in order (Temp:Float, pres:Float, hum:Float)
   """
-  # temp = ('{:.2f}'.format(bme.temperature))
-  # pres = ('{:.2f}'.format(bme.pressure))
-  # hum = ('{:.2f}'.format(bme.humidity))
-  # gas = ('{:.3f}'.format(bme.gas))
-
-  return bme.temperature, bme.pressure, bme.humidity
+  temp = bme.temperature
+  pres = bme.pressure
+  hum = bme.humidity
+  #gas = ('{:.3f}'.format(bme.gas))
+  log(f"Pulled data from BME680 sensor:\r\nTemperature: {temp}\r\nPressure: {pres}\r\nHumidity: {hum}")
+  return temp, pres, hum
   # else:
   #  return('Invalid sensor readings.')
 
 
 def publish_values(values_topic, data):
-  log(data)
+  log(f"Published values {data}")
   client.publish(values_topic, data)
 
 
@@ -153,7 +151,7 @@ def connect_mqtt():
   # client = MQTTClient(client_id, mqtt_server, user=your_username, password=your_password)
   client.set_callback(sub_cb)
   client.connect()
-  log('Connected to %s MQTT broker' % (mqtt_server))
+  log(f"Connected to {mqtt_server} MQTT broker")
   client.subscribe(sub_room)
   return client
 
@@ -173,23 +171,23 @@ def connect_to_wifi():
     if station.status() < 0 or station.status() >= 3:
       break
     max_wait += 1
-    log('waiting for connection...')
+    log("Waiting for connection...")
     time.sleep(2)
   # Handle connection error
   if station.status() != 3:
     log(f"Status code {station.status()}. Sensor couldn't connect.")
     raise RuntimeError('Network connection failed')
   else:
-    log(f'Status code {station.status()}. Connected to {ssid}')
+    log(f"Status code {station.status()}. Connected to {ssid}")
     status = station.ifconfig()
-    log('ip = ' + status[0])
+    log(f"Sensor ip adress = {status[0]}")
     
     
     
 def disconnect_from_wifi():
   station.disconnect()
   if station.isconnected() == False:
-    log(f'Wifi connection {station.isconnected()} Succesfully disconnected')
+    log(f"Wifi connection {station.isconnected()} Succesfully disconnected")
 
 def restart_and_reconnect():
   time.sleep(10)
@@ -217,13 +215,13 @@ while True:
     put_to_light_sleep()
   except OSError as e:
     log_exception(e, "log.txt")
-    log(f'Failed to read data from sensor. Attempting restart.', 0)
+    log(f"Failed to read data from sensor. Attempting restart.", 0)
     restart_and_reconnect()
   except RuntimeError as e:
     log_exception(e, "log.txt")
-    log(f'Failed to connect to MQTT broker on adress: {mqtt_server}. Attempting to restart and reconnect.', 0)
+    log(f"Failed to connect to MQTT broker on adress: {mqtt_server}. Attempting to restart and reconnect.", 0)
     restart_and_reconnect()
   except Exception as e:
     log_exception(e, "log.txt")
-    log(f'Unknown exception {type(e).__name__}. Attempting to reconnect.', 0)
+    log(f"Unknown exception {type(e).__name__}. Attempting to reconnect.", 0)
     restart_and_reconnect()
