@@ -4,6 +4,7 @@
 
 # Other
 test
+*log*
 
 # TIG Configs, database files
 **influxdb/database_files

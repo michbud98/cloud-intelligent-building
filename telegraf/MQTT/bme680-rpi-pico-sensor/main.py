@@ -1,11 +1,11 @@
-import time
+import utime
 from umqttsimple import MQTTClient
 import ubinascii
 import machine
-from machine import Pin, I2C
+from machine import Pin, I2C, RTC
 from sys import print_exception
 import micropython
-import network
+import network, urequests
 from bme680 import *
 import gc
 gc.collect()
@@ -43,17 +43,24 @@ i2c = I2C(1, scl=Pin(15), sda=Pin(14))
 bme = BME680_I2C(i2c=i2c)
 led = Pin("LED", Pin.OUT)
 
+# internal real time clock
+rtc = RTC()
+rtc_update_url = "https://worldtimeapi.org/api/timezone/Europe/Prague"
+
 DEBUG_FILE = 1
 DEBUG_LED = 1
 
 def flash_led():
   if DEBUG_LED == 0:
     led.toggle()
-    time.sleep_ms(500)
+    utime.sleep_ms(500)
     led.toggle()
 
 def log(input_string, debug_file_override = 1):
-  log_text = f"{input_string}"
+  #(year, month, day, weekday, hours, minutes, seconds, subseconds)
+  datetime = rtc.datetime()
+  datetime_str = f"{datetime[2]}.{datetime[1]}.{datetime[0]}|-|{datetime[4]}-{datetime[5]}-{datetime[6]}"
+  log_text = f"{datetime_str}: {input_string}"
   if DEBUG_FILE == 0 or debug_file_override == 0:
     file = open("log.txt", "a")
     file.write(f"{log_text}\r\n")
@@ -67,6 +74,39 @@ def log_exception(exception, file_name):
   print_exception(exception)
   print_exception(exception,file)
   file.close()
+
+def get_datetime_url(datetime_url):
+  response = None
+  max_retry = 0
+  while max_retry <= 10:
+    try:
+      print(f"Requesting datetime from {rtc_update_url}. Try number {max_retry}")
+      response = urequests.get(datetime_url)
+    except:
+      print("Datetime request failed. Retry after 5 sec")
+    if response and response.status_code == 200:
+      print(f"Datetime request succesfull.")
+      break
+    utime.sleep(5)
+    max_retry += 1
+
+  if response.status_code == 200:
+    log(response.text)
+    parsed = response.json()
+    datetime_str = str(parsed["datetime"])
+    year = int(datetime_str[0:4])
+    month = int(datetime_str[5:7])
+    day = int(datetime_str[8:10])
+    hour = int(datetime_str[11:13])
+    minute = int(datetime_str[14:16])
+    second = int(datetime_str[17:19])
+    subsecond = int(round(int(datetime_str[20:26]) / 10000))
+
+    # update internal RTC
+    rtc.datetime((year, month, day, 0, hour, minute, second, subsecond))
+    log(f"RTC updated. Current datetime is: {rtc.datetime()}")
+  else:
+    log("RTC update failed")
 
 
 def room_change(last_msg):
@@ -92,12 +132,12 @@ def room_change(last_msg):
 def check_room(status_topic, sensor_id):
   log("Sending room value request to database.")
   client.publish(status_topic, "REQUEST:Sensor [{}] value [room].".format(sensor_id))
-  max_wait = 0
-  while not room and max_wait <= 10:
-    log(f"Checking for response. Attempt {max_wait}")
-    time.sleep(1)
+  max_retry = 0
+  while not room and max_retry <= 10:
+    log(f"Checking for response. Attempt {max_retry}")
+    utime.sleep(1)
     client.check_msg()
-    max_wait += 1
+    max_retry += 1
 
 
 def create_data_str(temp_arg, pres_arg, hum_arg, room_arg):
@@ -165,14 +205,14 @@ def connect_to_wifi():
   station.connect(ssid, password)
 
   # Wait for connect or fail
-  max_wait = 0
-  while max_wait <= 15:
-    log(f"Connection attempt {max_wait} status code: {station.status()}")
+  max_retry = 0
+  while max_retry <= 15:
+    log(f"Connection attempt {max_retry} status code: {station.status()}")
     if station.status() < 0 or station.status() >= 3:
       break
-    max_wait += 1
+    max_retry += 1
     log("Waiting for connection...")
-    time.sleep(2)
+    utime.sleep(2)
   # Handle connection error
   if station.status() != 3:
     log(f"Status code {station.status()}. Sensor couldn't connect.")
@@ -183,20 +223,19 @@ def connect_to_wifi():
     log(f"Sensor ip adress = {status[0]}")
     
     
-    
 def disconnect_from_wifi():
   station.disconnect()
   if station.isconnected() == False:
     log(f"Wifi connection {station.isconnected()} Succesfully disconnected")
 
 def restart_and_reconnect():
-  time.sleep(10)
+  utime.sleep(10)
   log("Restarting sensor.")
   machine.soft_reset()
 
 def put_to_light_sleep():
   log(f"Putting sensor in lightsleep mode for {message_interval_ms/1000} seconds in 5 seconds.")
-  time.sleep(5)
+  utime.sleep(5)
   log(f"Sensor is now in lightsleep mode for {message_interval_ms/1000} seconds.")
   machine.lightsleep(message_interval_ms)
 
@@ -204,12 +243,12 @@ while True:
   try:
     flash_led()
     connect_to_wifi()
+    get_datetime_url(rtc_update_url)
     client = connect_mqtt()
-    client.check_msg()
-    temp, pres, hum = read_bme_sensor()
     check_room(pub_sensor_status, sensor_id)
+    temp, pres, hum = read_bme_sensor()
     publish_values(pub_values, create_data_str(temp, pres, hum, room))
-    time.sleep(5)
+    utime.sleep(5)
     client.disconnect()
     disconnect_from_wifi()
     put_to_light_sleep()
