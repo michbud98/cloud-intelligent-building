@@ -1,4 +1,3 @@
-
 import time
 from umqttsimple import MQTTClient
 import ubinascii

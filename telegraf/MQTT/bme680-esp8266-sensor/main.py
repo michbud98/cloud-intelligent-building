@@ -16,6 +16,12 @@ def log(input_string, debug_file_override = 1):
   else:
     print(log_text)
 
+def log_exception(exception, file_name):
+  file = open(file_name, "a")
+  sys.print_exception(exception)
+  sys.print_exception(exception,file)
+  file.close()
+
 def room_change(last_msg):
   """
   Changes room value if message contains sensor id
@@ -26,12 +32,11 @@ def room_change(last_msg):
   last_msg_list = tuple(last_msg.split("-"))
   if len(last_msg_list) == 3:
     msg_sensor_type, msg_sensor_id, msg_room = tuple(last_msg_list)
-    log("Message {}".format(last_msg))
+    log("Recieved message {}".format(last_msg))
     log("From message sensor type is {} ID is {} and room is {}".format(msg_sensor_type, msg_sensor_id, msg_room))
     if msg_sensor_id in sensor_id and room != msg_room:
       room = msg_room
       response_msg = "UPDATE:Sensor [{}] changed room to [{}]".format(sensor_id, room)
-  
   if response_msg:
     log(response_msg)
     client.publish(pub_sensor_status, response_msg)
@@ -39,12 +44,12 @@ def room_change(last_msg):
 def check_room(status_topic, sensor_id):
   log("Sending room value request to database.")
   client.publish(status_topic, "REQUEST:Sensor [{}] value [room].".format(sensor_id))
-  max_wait = 0
-  while not room and max_wait <= 10:
-    log(f"Checking for response. Attempt {max_wait}")
+  max_retry = 0
+  while not room and max_retry <= 10:
+    log(f"Checking for response. Attempt {max_retry}")
     time.sleep(1)
     client.check_msg()
-    max_wait += 1
+    max_retry += 1
 
 def create_data_str(temp_arg, pres_arg, hum_arg, room_arg):
   """
@@ -62,6 +67,7 @@ def create_data_str(temp_arg, pres_arg, hum_arg, room_arg):
   elif not room_arg:
     MQTT_sensor_data = "sensor_data,sensor_id={0},board_type={1},sensor_type={2},comm_protocol=MQTT temperature={3:.2f},pressure={4:.2f},humidity={5:.2f}".format(
       sensor_id, board_type, sensor_type, temp_arg, pres_arg, hum_arg)
+  log(f"Created Influx data: {MQTT_sensor_data}")
   return MQTT_sensor_data
 
 def read_bme_sensor():
@@ -70,20 +76,17 @@ def read_bme_sensor():
 
   :return Tuple with measurements in order (Temp:Float, pres:Float, hum:Float)
   """
-  try:
-    # temp = ('{:.2f}'.format(bme.temperature))
-    # pres = ('{:.2f}'.format(bme.pressure))
-    # hum = ('{:.2f}'.format(bme.humidity))
-    # gas = ('{:.3f}'.format(bme.gas))
-
-    return bme.temperature, bme.pressure, bme.humidity
-    #else:
-    #  return('Invalid sensor readings.')
-  except OSError as e:
-    return('Failed to read sensor.')
+  temp = bme.temperature
+  pres = bme.pressure
+  hum = bme.humidity
+  #gas = ('{:.3f}'.format(bme.gas))
+  log(f"Pulled data from BME680 sensor:\r\nTemperature: {temp}\r\nPressure: {pres}\r\nHumidity: {hum}")
+  return temp, pres, hum
+  # else:
+  #  return('Invalid sensor readings.')
 
 def publish_values(values_topic, data):
-  log(data)
+  log(f"Published values {data}")
   client.publish(values_topic, data)
 
 def sub_cb(topic, msg):
@@ -95,7 +98,7 @@ def connect_mqtt():
   #client = MQTTClient(client_id, mqtt_server, user=your_username, password=your_password)
   client.set_callback(sub_cb)
   client.connect()
-  log('Connected to %s MQTT broker' % (mqtt_server))
+  log(f"Connected to {mqtt_server} MQTT broker")
   client.subscribe(sub_room)
   return client
 
@@ -150,12 +153,10 @@ while True:
     disconnect_from_wifi()
     put_to_deep_sleep()
   except OSError as e:
+    log_exception(e, "log.txt")
     log(f'Failed to read data from sensor. Attempting restart.', 0)
     restart_and_reconnect()
   except Exception as e:
-    file = open("log.txt", "a")
-    sys.print_exception(e)
-    sys.print_exception(e,file)
-    file.close()
+    log_exception(e, "log.txt")
     log(f'Unknown exception {type(e).__name__}. Attempting to reconnect.', 0)
     restart_and_reconnect()
