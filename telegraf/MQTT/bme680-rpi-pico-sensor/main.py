@@ -45,7 +45,7 @@ led = Pin("LED", Pin.OUT)
 
 # internal real time clock
 rtc = RTC()
-rtc_update_url = "https://worldtimeapi.org/api/timezone/Europe/Prague"
+rtc_update_url = f"http://{mqtt_server}:1880/datetime" # rtc_update_url = "https://worldtimeapi.org/api/timezone/Europe/Prague"
 
 DEBUG_FILE = 1
 DEBUG_LED = 1
@@ -80,7 +80,7 @@ def get_datetime_url(datetime_url):
   max_retry = 0
   while max_retry <= 10:
     try:
-      print(f"Requesting datetime from {rtc_update_url}. Try number {max_retry}")
+      print(f"Requesting datetime from {datetime_url}. Try number {max_retry}")
       response = urequests.get(datetime_url)
     except:
       print("Datetime request failed. Retry after 5 sec")
@@ -100,10 +100,9 @@ def get_datetime_url(datetime_url):
     hour = int(datetime_str[11:13])
     minute = int(datetime_str[14:16])
     second = int(datetime_str[17:19])
-    subsecond = int(round(int(datetime_str[20:26]) / 10000))
 
     # update internal RTC
-    rtc.datetime((year, month, day, 0, hour, minute, second, subsecond))
+    rtc.datetime((year, month, day, 0, hour, minute, second, 0))
     log(f"RTC updated. Current datetime is: {rtc.datetime()}")
   else:
     log("RTC update failed")

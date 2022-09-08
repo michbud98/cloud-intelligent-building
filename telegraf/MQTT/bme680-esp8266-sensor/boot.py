@@ -5,7 +5,7 @@ import machine
 from machine import Pin, I2C
 import sys
 import micropython
-import network
+import network, urequests
 import esp
 from bme680 import *
 
@@ -44,3 +44,4 @@ access_point.active(False)
 # configure RTC.ALARM0 to be able to wake the device
 rtc = machine.RTC()
 rtc.irq(trigger=rtc.ALARM0, wake=machine.DEEPSLEEP)
+rtc_update_url = f"http://{mqtt_server}:1880/datetime" # rtc_update_url = "https://worldtimeapi.org/api/timezone/Europe/Prague"

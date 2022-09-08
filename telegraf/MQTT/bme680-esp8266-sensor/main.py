@@ -7,7 +7,10 @@ i2c = I2C(scl=Pin(5), sda=Pin(4))
 bme = BME680_I2C(i2c=i2c)
 
 def log(input_string, debug_file_override = 1):
-  log_text = f"{input_string}"
+  #(year, month, day, weekday, hours, minutes, seconds, subseconds)
+  datetime = rtc.datetime()
+  datetime_str = f"{datetime[2]}.{datetime[1]}.{datetime[0]}|-|{datetime[4]}-{datetime[5]}-{datetime[6]}"
+  log_text = f"{datetime_str}: {input_string}"
   if DEBUG_FILE == 0 or debug_file_override == 0:
     file = open("log.txt", "a")
     file.write(f"{log_text}\r\n")
@@ -21,6 +24,37 @@ def log_exception(exception, file_name):
   sys.print_exception(exception)
   sys.print_exception(exception,file)
   file.close()
+
+def get_datetime_url(datetime_url):
+  response = None
+  max_retry = 0
+  while max_retry <= 10:
+    try:
+      print(f"Requesting datetime from {datetime_url}. Try number {max_retry}")
+      response = urequests.get(datetime_url)
+    except:
+      print("Datetime request failed. Retry after 5 sec")
+    if response and response.status_code == 200:
+      print(f"Datetime request succesfull.")
+      break
+    time.sleep(5)
+    max_retry += 1
+  if response.status_code == 200:
+    log(response.text)
+    parsed = response.json()
+    datetime_str = str(parsed["datetime"])
+    year = int(datetime_str[0:4])
+    month = int(datetime_str[5:7])
+    day = int(datetime_str[8:10])
+    hour = int(datetime_str[11:13])
+    minute = int(datetime_str[14:16])
+    second = int(datetime_str[17:19])
+
+    # update internal RTC
+    rtc.datetime((year, month, day, 0, hour, minute, second, 0))
+    log(f"RTC updated. Current datetime is: {rtc.datetime()}")
+  else:
+    log("RTC update failed")
 
 def room_change(last_msg):
   """
@@ -143,6 +177,7 @@ def put_to_deep_sleep():
 while True:
   try:
     connect_to_wifi()
+    get_datetime_url(rtc_update_url)
     client = connect_mqtt()
     client.check_msg()
     temp, pres, hum = read_bme_sensor()
