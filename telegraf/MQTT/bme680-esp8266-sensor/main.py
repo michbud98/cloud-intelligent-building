@@ -39,7 +39,8 @@ def get_datetime_url(datetime_url):
       break
     time.sleep(5)
     max_retry += 1
-  if response.status_code == 200:
+  
+  if response and response.status_code == 200:
     log(response.text)
     parsed = response.json()
     datetime_str = str(parsed["datetime"])
