@@ -1,8 +1,11 @@
 # cloud-intelligent-building
 Collection of programs running inside intelligent building
 
-InfluxDB 2.0 Cloud database url:
+Uses InfluxDB 2.0 Cloud database url:
 https://eu-central-1-1.aws.cloud2.influxdata.com/
+
+## Branch telegraf_legacy
+This branch stores old scripts which used telegraf and MQTT. This branch is no longer maintained.
 
 ## Initial setup of TIG on RPI4:
 1. Create .env file next to docker-compose file
