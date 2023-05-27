@@ -29,12 +29,12 @@ _BME680_SAMPLERATES = (0, 1, 2, 4, 8, 16)
 _BME680_FILTERSIZES = (0, 1, 3, 7, 15, 31, 63, 127)
 _BME680_RUNGAS = const(0x10)
 _LOOKUP_TABLE_1 = (2147483647.0, 2147483647.0, 2147483647.0, 2147483647.0, 2147483647.0,
-  2126008810.0, 2147483647.0, 2130303777.0, 2147483647.0, 2147483647.0,
-  2143188679.0, 2136746228.0, 2147483647.0, 2126008810.0, 2147483647.0,
-  2147483647.0)
+                   2126008810.0, 2147483647.0, 2130303777.0, 2147483647.0, 2147483647.0,
+                   2143188679.0, 2136746228.0, 2147483647.0, 2126008810.0, 2147483647.0,
+                   2147483647.0)
 _LOOKUP_TABLE_2 = (4096000000.0, 2048000000.0, 1024000000.0, 512000000.0, 255744255.0, 127110228.0,
-  64000000.0, 32258064.0, 16016016.0, 8000000.0, 4000000.0, 2000000.0, 1000000.0,
-  500000.0, 250000.0, 125000.0)
+                   64000000.0, 32258064.0, 16016016.0, 8000000.0, 4000000.0, 2000000.0, 1000000.0,
+                   500000.0, 250000.0, 125000.0)
 def _read24(arr):
   ret = 0.0
   for b in arr:
@@ -84,7 +84,7 @@ class Adafruit_BME680:
       raise RuntimeError("Invalid")
   @property
   def temperature_oversample(self):
-      return _BME680_SAMPLERATES[self._temp_oversample]
+    return _BME680_SAMPLERATES[self._temp_oversample]
   @temperature_oversample.setter
   def temperature_oversample(self, sample_rate):
     if sample_rate in _BME680_SAMPLERATES:
@@ -114,8 +114,8 @@ class Adafruit_BME680:
     var2 = var2 + (var1 * self._pressure_calibration[4] * 2)
     var2 = (var2 / 4) + (self._pressure_calibration[3] * 65536)
     var1 = (((((var1 / 4) * (var1 / 4)) / 8192) *
-      (self._pressure_calibration[2] * 32) / 8) +
-      ((self._pressure_calibration[1] * var1) / 2))
+             (self._pressure_calibration[2] * 32) / 8) +
+            ((self._pressure_calibration[1] * var1) / 2))
     var1 = var1 / 262144
     var1 = ((32768 + var1) * self._pressure_calibration[0]) / 32768
     calc_pres = 1048576 - self._adc_pres
@@ -131,11 +131,11 @@ class Adafruit_BME680:
     self._perform_reading()
     temp_scaled = ((self._t_fine * 5) + 128) / 256
     var1 = ((self._adc_hum - (self._humidity_calibration[0] * 16)) -
-      ((temp_scaled * self._humidity_calibration[2]) / 200))
+            ((temp_scaled * self._humidity_calibration[2]) / 200))
     var2 = (self._humidity_calibration[1] *
-      (((temp_scaled * self._humidity_calibration[3]) / 100) +
-       (((temp_scaled * ((temp_scaled * self._humidity_calibration[4]) / 100)) /
-         64) / 100) + 16384)) / 1024
+            (((temp_scaled * self._humidity_calibration[3]) / 100) +
+             (((temp_scaled * ((temp_scaled * self._humidity_calibration[4]) / 100)) /
+               64) / 100) + 16384)) / 1024
     var3 = var1 * var2
     var4 = self._humidity_calibration[5] * 128
     var4 = (var4 + ((temp_scaled * self._humidity_calibration[6]) / 100)) / 16
@@ -162,11 +162,11 @@ class Adafruit_BME680:
     return int(calc_gas_res)
   def _perform_reading(self):
     if (time.ticks_diff(self._last_reading, time.ticks_ms()) * time.ticks_diff(0, 1)
-        < self._min_refresh_time):
+            < self._min_refresh_time):
       return
     self._write(_BME680_REG_CONFIG, [self._filter << 2])
     self._write(_BME680_REG_CTRL_MEAS,
-      [(self._temp_oversample << 5)|(self._pressure_oversample << 2)])
+                [(self._temp_oversample << 5)|(self._pressure_oversample << 2)])
     self._write(_BME680_REG_CTRL_HUM, [self._humidity_oversample])
     self._write(_BME680_REG_CTRL_GAS, [_BME680_RUNGAS])
     ctrl = self._read_byte(_BME680_REG_CTRL_MEAS)
