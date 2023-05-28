@@ -1,164 +1,93 @@
 [
     {
-        "id": "98df4c30829c6402",
+        "id": "c79bf8c6e74ae101",
         "type": "subflow",
-        "name": "Get all sensor_ids",
-        "info": "Gets all sensor_id values from InfluxDB",
+        "name": "Save in influx DBs",
+        "info": "",
         "category": "",
         "in": [
             {
-                "x": 50,
-                "y": 30,
+                "x": 320,
+                "y": 240,
                 "wires": [
                     {
-                        "id": "14bb6ad5b90437d6"
+                        "id": "7548a14f7396a80f"
+                    },
+                    {
+                        "id": "67cfaa3960459847"
                     }
                 ]
             }
         ],
-        "out": [
-            {
-                "x": 360,
-                "y": 320,
-                "wires": [
-                    {
-                        "id": "0acfe7da4899a86a",
-                        "port": 0
-                    }
-                ]
-            }
-        ],
+        "out": [],
         "env": [],
         "meta": {},
         "color": "#DDAA99"
     },
     {
-        "id": "14bb6ad5b90437d6",
-        "type": "influxdb in",
-        "z": "98df4c30829c6402",
+        "id": "7548a14f7396a80f",
+        "type": "influxdb out",
+        "z": "c79bf8c6e74ae101",
         "influxdb": "f64d2d329f647e71",
-        "name": "Query",
-        "query": "import \"influxdata/influxdb/v1\"\nv1.tagValues(\n    bucket: \"Sensor_data\",\n    tag: \"sensor_id\",\n    predicate: (r) => r.comm_protocol != \"Scrap\" and r.room != \"water_boiler_room\",\n    start: -1d\n)",
-        "rawOutput": false,
+        "name": "InfluxDB RPI4 ",
+        "measurement": "sensor_data",
         "precision": "",
         "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
         "org": "swiftblade1982@gmail.com",
-        "x": 190,
-        "y": 160,
-        "wires": [
-            [
-                "b979f2c4032b3704"
-            ]
-        ]
-    },
-    {
-        "id": "b979f2c4032b3704",
-        "type": "split",
-        "z": "98df4c30829c6402",
-        "name": "Split values",
-        "splt": "\\n",
-        "spltType": "str",
-        "arraySplt": 1,
-        "arraySpltType": "len",
-        "stream": false,
-        "addname": "payload",
-        "x": 170,
-        "y": 200,
-        "wires": [
-            [
-                "04c3fbb9e8fdb252"
-            ]
-        ]
-    },
-    {
-        "id": "04c3fbb9e8fdb252",
-        "type": "change",
-        "z": "98df4c30829c6402",
-        "name": "Get sensor_id",
-        "rules": [
-            {
-                "t": "move",
-                "p": "payload._value",
-                "pt": "msg",
-                "to": "payload",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 180,
+        "bucket": "Sensor_data",
+        "x": 520,
         "y": 240,
-        "wires": [
-            [
-                "63c954b73f480d60"
-            ]
-        ]
-    },
-    {
-        "id": "63c954b73f480d60",
-        "type": "join",
-        "z": "98df4c30829c6402",
-        "name": "Join in array",
-        "mode": "auto",
-        "build": "array",
-        "property": "payload",
-        "propertyType": "msg",
-        "key": "topic",
-        "joiner": "\\n",
-        "joinerType": "str",
-        "accumulate": false,
-        "timeout": "",
-        "count": "",
-        "reduceRight": false,
-        "reduceExp": "",
-        "reduceInit": "",
-        "reduceInitType": "num",
-        "reduceFixup": "",
-        "x": 190,
-        "y": 280,
-        "wires": [
-            [
-                "0acfe7da4899a86a"
-            ]
-        ]
-    },
-    {
-        "id": "0acfe7da4899a86a",
-        "type": "change",
-        "z": "98df4c30829c6402",
-        "name": "Pass to msg.options",
-        "rules": [
-            {
-                "t": "move",
-                "p": "payload",
-                "pt": "msg",
-                "to": "options",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 200,
-        "y": 320,
-        "wires": [
-            []
-        ]
-    },
-    {
-        "id": "01a62efd963d73c9",
-        "type": "comment",
-        "z": "98df4c30829c6402",
-        "name": "Gets all sensor_id values from InfluxDB",
-        "info": "",
-        "x": 370,
-        "y": 60,
         "wires": []
+    },
+    {
+        "id": "67cfaa3960459847",
+        "type": "influxdb out",
+        "z": "c79bf8c6e74ae101",
+        "influxdb": "1ac4dbb8c993bf9d",
+        "name": "InfludDB Cloud",
+        "measurement": "sensor_data",
+        "precision": "",
+        "retentionPolicy": "",
+        "database": "database",
+        "precisionV18FluxV20": "ms",
+        "retentionPolicyV18Flux": "",
+        "org": "swiftblade1982@gmail.com",
+        "bucket": "Sensor_data",
+        "x": 520,
+        "y": 300,
+        "wires": []
+    },
+    {
+        "id": "1ac4dbb8c993bf9d",
+        "type": "influxdb",
+        "z": "c79bf8c6e74ae101",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "InfluxDB Cloud",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "https://eu-central-1-1.aws.cloud2.influxdata.com",
+        "rejectUnauthorized": true
+    },
+    {
+        "id": "f64d2d329f647e71",
+        "type": "influxdb",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "database",
+        "name": "InfluxDB RPI4",
+        "usetls": false,
+        "tls": "",
+        "influxdbVersion": "2.0",
+        "url": "http://influxdb:8086",
+        "rejectUnauthorized": true
     },
     {
         "id": "c4e5c2ecfe2a7d7c",
@@ -296,16 +225,92 @@
     {
         "id": "6f295efb41de0f64",
         "type": "tab",
-        "label": "NIG cluster sensors",
+        "label": "NIG indoors sensors",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
+        "id": "f3de19ae627756a8",
+        "type": "group",
+        "z": "6f295efb41de0f64",
+        "g": "0133d31ab77b464c",
+        "name": "Boiler sensor",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "8c3e16ee22c93023",
+            "20b49a20a02f99d1",
+            "613f7b6db7a9d2df",
+            "50746b1e44afbbb9",
+            "c62166d70d8a7cd2",
+            "27a506d0afda7f4d",
+            "0d50e7b83a890505",
+            "ea1233fb894542e9",
+            "de190bf3beea1c2a",
+            "bfa7608c7ddf8882"
+        ],
+        "x": 54,
+        "y": 579,
+        "w": 1312,
+        "h": 202
+    },
+    {
+        "id": "46ae6eaea7b98a6c",
+        "type": "group",
+        "z": "6f295efb41de0f64",
+        "g": "0133d31ab77b464c",
+        "name": "Outdoors pocasidoma",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "84a1512053cd5f10",
+            "e9bc1d8d864cd01a",
+            "7f209b6dc426abd4",
+            "81bb3521bf046ed9",
+            "2c84747edf168680",
+            "cb627522db08c527",
+            "26ac583d4bd98514"
+        ],
+        "x": 54,
+        "y": 1059,
+        "w": 1132,
+        "h": 182
+    },
+    {
+        "id": "91fb6c2e6d03d44f",
+        "type": "group",
+        "z": "6f295efb41de0f64",
+        "g": "0133d31ab77b464c",
+        "name": "Outdoors sensor",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "0533be7df303af06",
+            "259bf77f1b32d532",
+            "0961c32405383a51",
+            "1e4fd941529df255",
+            "b1769eb6983f968e",
+            "fb9a65ca01590cc7",
+            "542022559f8d3c89",
+            "6d06af34243d112a",
+            "04fd40f832bf6316",
+            "76ddb98570ad7c15"
+        ],
+        "x": 54,
+        "y": 799,
+        "w": 1352,
+        "h": 222
+    },
+    {
         "id": "c2e3c67e8b32942e",
         "type": "group",
         "z": "6f295efb41de0f64",
-        "name": "Sensors REST API",
+        "g": "0133d31ab77b464c",
+        "name": "Indoors sensors",
         "style": {
             "label": true
         },
@@ -324,72 +329,37 @@
             "b61e240e36ac6d7e",
             "213a26f8f0e4420a",
             "50c8b9014b1bf57c",
-            "87a70204a1945bc1",
             "d4ad7e1ca3716e2a",
             "8c679348d041b700",
             "a9c50bae42883c2e",
             "a5224bf7b48d60d3",
             "11b12c8f2978b551",
-            "78936ed5134682cd"
+            "78936ed5134682cd",
+            "16a06d934d6b60c5"
         ],
         "x": 54,
         "y": 39,
-        "w": 1092,
+        "w": 1082,
         "h": 502
     },
     {
-        "id": "2ea865067ea82e10",
+        "id": "0133d31ab77b464c",
         "type": "group",
         "z": "6f295efb41de0f64",
-        "name": "Room selection UI",
+        "name": "Sensors API",
         "style": {
             "label": true
         },
         "nodes": [
-            "3cf2ddb2d049a0b3",
-            "c5dc653808fe5778",
-            "ca7c81d03b0407bf",
-            "e250e872bb569915",
-            "b6fba50961fa06bb",
-            "6189a271221595d0",
-            "b006d3fef169f565",
-            "c66106090c9d5c0f",
-            "b206f46388be3911",
-            "924cc8d0bcd319cc",
-            "a9b14b385aefc2bc",
-            "0704747d1da8393e",
-            "32636855bbd4a4fc",
-            "2dcc8a659844b949",
-            "b45cb15dc6960154",
-            "d79e436c22edc0b5",
-            "fc9bf0a09982f8ed",
-            "6fd83a886d66d701",
-            "069131aa5c579c54",
-            "731f77ad8cf0d41f",
-            "570484cba4938cfa",
-            "e91dde7da391a467",
-            "c0e24c660bd8d17b",
-            "48b6fabaa1a9d905",
-            "de2fcceb18ec4cbc",
-            "5029c718dea4974a",
-            "ca4618b88a20b939",
-            "015586d3e5d880f5",
-            "8f2cfb5fe7c076fd",
-            "70c5237e9e03b433",
-            "af537a8542d28da4",
-            "ac8a6418e5e55886",
-            "a18f80fb4e64cbae",
-            "f4a80e58d3e3d616",
-            "7f7139102346d13d",
-            "557ea7be4964987a",
-            "1f2a8c9e3402d5b9",
-            "afbf1aa292fefd3c",
-            "d77e5ea1f14ec8e9"
+            "f3de19ae627756a8",
+            "46ae6eaea7b98a6c",
+            "91fb6c2e6d03d44f",
+            "c2e3c67e8b32942e"
         ],
-        "x": 54,
-        "y": 579,
-        "w": 1372,
-        "h": 602
+        "x": 28,
+        "y": 13,
+        "w": 1404,
+        "h": 1254
     },
     {
         "id": "07d6b639cb962ff6",
@@ -665,25 +635,6 @@
         "wires": []
     },
     {
-        "id": "87a70204a1945bc1",
-        "type": "influxdb out",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "influxdb": "f64d2d329f647e71",
-        "name": "",
-        "measurement": "sensor_data",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "database",
-        "precisionV18FluxV20": "ms",
-        "retentionPolicyV18Flux": "",
-        "org": "swiftblade1982@gmail.com",
-        "bucket": "Sensor_data",
-        "x": 990,
-        "y": 500,
-        "wires": []
-    },
-    {
         "id": "d4ad7e1ca3716e2a",
         "type": "function",
         "z": "6f295efb41de0f64",
@@ -700,7 +651,7 @@
         "wires": [
             [
                 "8c679348d041b700",
-                "87a70204a1945bc1"
+                "16a06d934d6b60c5"
             ]
         ]
     },
@@ -787,381 +738,115 @@
         "wires": []
     },
     {
-        "id": "3cf2ddb2d049a0b3",
-        "type": "ui_dropdown",
+        "id": "8c3e16ee22c93023",
+        "type": "http in",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Choose sensor_id",
-        "label": "",
-        "tooltip": "",
-        "place": "Select a sensor_id",
-        "group": "d8aece7e220cdf0e",
-        "order": 1,
-        "width": 0,
-        "height": 0,
-        "passthru": true,
-        "multiple": false,
-        "options": [],
-        "payload": "",
-        "topic": "payload",
-        "topicType": "msg",
-        "className": "",
-        "x": 650,
-        "y": 660,
+        "g": "f3de19ae627756a8",
+        "name": "Get values from boiler sensor",
+        "url": "/postBoiler",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 200,
+        "y": 680,
         "wires": [
             [
-                "731f77ad8cf0d41f",
-                "ca4618b88a20b939"
+                "613f7b6db7a9d2df",
+                "50746b1e44afbbb9"
             ]
         ]
     },
     {
-        "id": "c5dc653808fe5778",
-        "type": "subflow:98df4c30829c6402",
+        "id": "20b49a20a02f99d1",
+        "type": "http response",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "",
-        "env": [],
-        "x": 410,
-        "y": 660,
-        "wires": [
-            [
-                "3cf2ddb2d049a0b3",
-                "ca7c81d03b0407bf"
-            ]
-        ]
+        "g": "f3de19ae627756a8",
+        "name": "HTTP Response on Error",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 740,
+        "wires": []
     },
     {
-        "id": "ca7c81d03b0407bf",
+        "id": "613f7b6db7a9d2df",
         "type": "debug",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Sensor_ids",
+        "g": "f3de19ae627756a8",
+        "name": "Data from sensor",
         "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "options",
+        "complete": "payload",
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 610,
+        "x": 450,
         "y": 620,
         "wires": []
     },
     {
-        "id": "e250e872bb569915",
-        "type": "ui_ui_control",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Reset web UI",
-        "events": "connect",
-        "x": 180,
-        "y": 720,
-        "wires": [
-            [
-                "c5dc653808fe5778",
-                "48b6fabaa1a9d905",
-                "d77e5ea1f14ec8e9"
-            ]
-        ]
-    },
-    {
-        "id": "b6fba50961fa06bb",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Print new room",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 800,
-        "y": 940,
-        "wires": []
-    },
-    {
-        "id": "6189a271221595d0",
-        "type": "ui_text",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "group": "d8aece7e220cdf0e",
-        "order": 2,
-        "width": 0,
-        "height": 0,
-        "name": "Show current room",
-        "label": "Current room of sensor:",
-        "format": "{{msg.payload}}",
-        "layout": "row-spread",
-        "className": "",
-        "x": 1110,
-        "y": 960,
-        "wires": []
-    },
-    {
-        "id": "b006d3fef169f565",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Print room",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1090,
-        "y": 620,
-        "wires": []
-    },
-    {
-        "id": "c66106090c9d5c0f",
-        "type": "link in",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "",
-        "links": [
-            "0704747d1da8393e"
-        ],
-        "x": 95,
-        "y": 960,
-        "wires": [
-            [
-                "924cc8d0bcd319cc",
-                "015586d3e5d880f5",
-                "8f2cfb5fe7c076fd"
-            ]
-        ]
-    },
-    {
-        "id": "b206f46388be3911",
-        "type": "ui_form",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Update room",
-        "label": "",
-        "group": "d8aece7e220cdf0e",
-        "order": 3,
-        "width": 0,
-        "height": 0,
-        "options": [
-            {
-                "label": "Room",
-                "value": "room",
-                "type": "text",
-                "required": true,
-                "rows": null
-            }
-        ],
-        "formValue": {
-            "room": ""
-        },
-        "payload": "",
-        "submit": "Save",
-        "cancel": "cancel",
-        "topic": "topic",
-        "topicType": "msg",
-        "splitLayout": false,
-        "className": "",
-        "x": 570,
-        "y": 900,
-        "wires": [
-            [
-                "b6fba50961fa06bb",
-                "fc9bf0a09982f8ed",
-                "d79e436c22edc0b5"
-            ]
-        ]
-    },
-    {
-        "id": "924cc8d0bcd319cc",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Print sensor_id and room",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 270,
-        "y": 840,
-        "wires": []
-    },
-    {
-        "id": "a9b14b385aefc2bc",
-        "type": "change",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Move sensor_id val to flow",
-        "rules": [
-            {
-                "t": "set",
-                "p": "sensor_id",
-                "pt": "flow",
-                "to": "payload.sensor_id",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1100,
-        "y": 660,
-        "wires": [
-            [
-                "0704747d1da8393e"
-            ]
-        ]
-    },
-    {
-        "id": "0704747d1da8393e",
-        "type": "link out",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Output room val",
-        "mode": "link",
-        "links": [
-            "c66106090c9d5c0f"
-        ],
-        "x": 1305,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "32636855bbd4a4fc",
-        "type": "change",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Reset room val",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "None",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 900,
-        "y": 1020,
-        "wires": [
-            [
-                "6189a271221595d0"
-            ]
-        ]
-    },
-    {
-        "id": "2dcc8a659844b949",
-        "type": "link out",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "RESET INPUT",
-        "mode": "link",
-        "links": [
-            "b45cb15dc6960154",
-            "e91dde7da391a467"
-        ],
-        "x": 585,
-        "y": 760,
-        "wires": []
-    },
-    {
-        "id": "b45cb15dc6960154",
-        "type": "link in",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Reset link 2",
-        "links": [
-            "2dcc8a659844b949"
-        ],
-        "x": 745,
-        "y": 1020,
-        "wires": [
-            [
-                "32636855bbd4a4fc"
-            ]
-        ]
-    },
-    {
-        "id": "d79e436c22edc0b5",
+        "id": "50746b1e44afbbb9",
         "type": "function",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Update room label",
-        "func": "msg.payload = msg.payload.room\nreturn msg;",
+        "g": "f3de19ae627756a8",
+        "name": "JSON test",
+        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\nelse if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"tmp_in\" in msg.payload && \"tmp_out\" in msg.payload && \"dhw_tmp\" in msg.payload && \"dhw_coil_temp\" in msg.payload )){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't contain neccesary values.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 810,
-        "y": 880,
+        "x": 430,
+        "y": 680,
         "wires": [
             [
-                "6189a271221595d0",
-                "de2fcceb18ec4cbc"
+                "c62166d70d8a7cd2",
+                "27a506d0afda7f4d"
             ]
         ]
     },
     {
-        "id": "fc9bf0a09982f8ed",
-        "type": "function",
+        "id": "c62166d70d8a7cd2",
+        "type": "switch",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Handle DB room update",
-        "func": "\n\nsensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    \n    msg.payload = {\n        sensor_id: sensor_id,\n        room: room\n    }\n    msg.topic=\"INSERT INTO sensors (`sensor_id`, `room`) VALUES (:sensor_id, :room) ON DUPLICATE KEY UPDATE `sensor_id`=:sensor_id, `room`=:room;\"\n    return msg;\n}\nelse{\n    return null;\n}",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 820,
-        "y": 820,
+        "g": "f3de19ae627756a8",
+        "name": "HTTP response switch",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 660,
+        "y": 680,
         "wires": [
             [
-                "6fd83a886d66d701"
+                "0d50e7b83a890505",
+                "ea1233fb894542e9"
+            ],
+            [
+                "20b49a20a02f99d1"
             ]
         ]
     },
     {
-        "id": "6fd83a886d66d701",
-        "type": "mysql",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "mydb": "77baa11c77157752",
-        "name": "",
-        "x": 1070,
-        "y": 820,
-        "wires": [
-            [
-                "069131aa5c579c54"
-            ]
-        ]
-    },
-    {
-        "id": "069131aa5c579c54",
+        "id": "27a506d0afda7f4d",
         "type": "debug",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "",
-        "active": true,
+        "g": "f3de19ae627756a8",
+        "name": "Print response",
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1169,261 +854,140 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1240,
-        "y": 820,
-        "wires": []
-    },
-    {
-        "id": "731f77ad8cf0d41f",
-        "type": "subflow:c4e5c2ecfe2a7d7c",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "",
-        "x": 840,
-        "y": 660,
-        "wires": [
-            [
-                "a9b14b385aefc2bc",
-                "b006d3fef169f565"
-            ]
-        ]
-    },
-    {
-        "id": "570484cba4938cfa",
-        "type": "ui_text",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "group": "d8aece7e220cdf0e",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "name": "Output label",
-        "label": "",
-        "format": "{{msg.payload}}",
-        "layout": "col-center",
-        "className": "",
-        "x": 1330,
-        "y": 880,
-        "wires": []
-    },
-    {
-        "id": "e91dde7da391a467",
-        "type": "link in",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "",
-        "links": [
-            "2dcc8a659844b949",
-            "ac78c5f7cdf22fbe",
-            "7f7139102346d13d"
-        ],
-        "x": 1015,
-        "y": 920,
-        "wires": [
-            [
-                "570484cba4938cfa"
-            ]
-        ]
-    },
-    {
-        "id": "c0e24c660bd8d17b",
-        "type": "ui_button",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Reset button",
-        "group": "d8aece7e220cdf0e",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Reload_sensor_ids",
-        "tooltip": "",
-        "color": "white",
-        "bgcolor": "red",
-        "className": "",
-        "icon": "",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 170,
-        "y": 660,
-        "wires": [
-            [
-                "c5dc653808fe5778",
-                "48b6fabaa1a9d905",
-                "d77e5ea1f14ec8e9"
-            ]
-        ]
-    },
-    {
-        "id": "48b6fabaa1a9d905",
-        "type": "change",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Update output label",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "UI Reset complete",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 420,
-        "y": 760,
-        "wires": [
-            [
-                "2dcc8a659844b949"
-            ]
-        ]
-    },
-    {
-        "id": "de2fcceb18ec4cbc",
-        "type": "change",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Update output label",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Room updated",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1060,
-        "y": 880,
-        "wires": [
-            [
-                "570484cba4938cfa"
-            ]
-        ]
-    },
-    {
-        "id": "5029c718dea4974a",
-        "type": "ui_button",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Unset room button",
-        "group": "d8aece7e220cdf0e",
-        "order": 5,
-        "width": 0,
-        "height": 0,
-        "passthru": false,
-        "label": "Unset room from sensor",
-        "tooltip": "",
-        "color": "white",
-        "bgcolor": "red",
-        "className": "",
-        "icon": "",
-        "payload": "",
-        "payloadType": "str",
-        "topic": "topic",
-        "topicType": "msg",
-        "x": 570,
-        "y": 1080,
-        "wires": [
-            [
-                "a18f80fb4e64cbae",
-                "af537a8542d28da4"
-            ]
-        ]
-    },
-    {
-        "id": "ca4618b88a20b939",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Print sensor_id",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 860,
+        "x": 720,
         "y": 620,
         "wires": []
     },
     {
-        "id": "015586d3e5d880f5",
-        "type": "change",
+        "id": "0d50e7b83a890505",
+        "type": "http response",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Send room to update button",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "payload.room",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 300,
-        "y": 960,
+        "g": "f3de19ae627756a8",
+        "name": "HTTP Response OK",
+        "statusCode": "",
+        "headers": {},
+        "x": 940,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "ea1233fb894542e9",
+        "type": "function",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
+        "name": "Parse to InfluxDB data format",
+        "func": "boiler_data = msg.payload;\n\n\nmsg.payload = [\n//Fields - (Measured values from sensor)\n{\n    tmp_in: boiler_data.tmp_in,\n    tmp_out: boiler_data.tmp_out,\n    dhw_tmp: boiler_data.dhw_tmp,\n    dhw_coil_temp: boiler_data.dhw_coil_temp\n},\n\n//Tags - (Information to distinct one sensor from another)\n{\n    sensor_id: boiler_data.sensor_id,\n    board_type: boiler_data.board_type,\n    sensor_type: boiler_data.sensor_type,\n    room: \"water_boiler_room\"\n}];\n\nreturn msg;\n",
+        "outputs": 1,
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 950,
+        "y": 680,
         "wires": [
             [
-                "b206f46388be3911",
-                "70c5237e9e03b433",
-                "6189a271221595d0"
+                "de190bf3beea1c2a",
+                "bfa7608c7ddf8882"
             ]
         ]
     },
     {
-        "id": "8f2cfb5fe7c076fd",
-        "type": "change",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Send sensor_id to unset button",
-        "rules": [
-            {
-                "t": "set",
-                "p": "topic",
-                "pt": "msg",
-                "to": "payload.sensor_id",
-                "tot": "msg"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 310,
-        "y": 1080,
-        "wires": [
-            [
-                "5029c718dea4974a"
-            ]
-        ]
-    },
-    {
-        "id": "70c5237e9e03b433",
+        "id": "de190bf3beea1c2a",
         "type": "debug",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Print room",
+        "g": "f3de19ae627756a8",
+        "name": "Boiler InfluxDB data",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1220,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "84a1512053cd5f10",
+        "type": "http request",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "HTTP Req to pocasidoma",
+        "method": "GET",
+        "ret": "txt",
+        "paytoqs": "ignore",
+        "url": "http://www.pocasidoma.cz/?ajax=getDetailMarker&idstation=360",
+        "tls": "",
+        "persist": false,
+        "proxy": "",
+        "insecureHTTPParser": false,
+        "authType": "",
+        "senderr": false,
+        "headers": [],
+        "x": 430,
+        "y": 1100,
+        "wires": [
+            [
+                "7f209b6dc426abd4"
+            ]
+        ]
+    },
+    {
+        "id": "e9bc1d8d864cd01a",
+        "type": "inject",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "60",
+        "crontab": "",
+        "once": true,
+        "onceDelay": "1",
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 170,
+        "y": 1100,
+        "wires": [
+            [
+                "84a1512053cd5f10"
+            ]
+        ]
+    },
+    {
+        "id": "7f209b6dc426abd4",
+        "type": "json",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "",
+        "property": "payload",
+        "action": "",
+        "pretty": false,
+        "x": 630,
+        "y": 1100,
+        "wires": [
+            [
+                "81bb3521bf046ed9",
+                "2c84747edf168680"
+            ]
+        ]
+    },
+    {
+        "id": "81bb3521bf046ed9",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "Parsed JSON",
         "active": false,
         "tosidebar": true,
         "console": false,
@@ -1432,70 +996,37 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 550,
-        "y": 840,
+        "x": 840,
+        "y": 1100,
         "wires": []
     },
     {
-        "id": "af537a8542d28da4",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Print Sensor_id",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "topic",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 800,
-        "y": 1140,
-        "wires": []
-    },
-    {
-        "id": "ac8a6418e5e55886",
-        "type": "mysql",
-        "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "mydb": "77baa11c77157752",
-        "name": "",
-        "x": 1080,
-        "y": 1080,
-        "wires": [
-            [
-                "f4a80e58d3e3d616"
-            ]
-        ]
-    },
-    {
-        "id": "a18f80fb4e64cbae",
+        "id": "2c84747edf168680",
         "type": "function",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Unset room from sensor_id",
-        "func": "\nif (msg.topic != null){\n    msg.payload = msg.topic;\n    msg.topic=`DELETE FROM sensors where sensor_id = \"${msg.payload}\";`\n\n    return msg;   \n    \n}\nelse{\n    return null;\n}",
+        "g": "46ae6eaea7b98a6c",
+        "name": "Parse values from JSON",
+        "func": "web_scrape_data = msg.payload.Data;\nvalue_names = [\"Vítr směr\", \"Tlak relat.\", \"Vlhkost ven.\", \"Teplota ven.\", \"Intenzita srážek\", \"Déšť\"];\nextracted_values = {};\n\nweb_scrape_data.allMeasures.forEach((value) => {\n    if (value_names.includes(value.Name)){\n        extracted_values[value.Name] = value.Value;\n    }\n    \n})\n\nmsg.payload = [\n//Fields - (Measured values from sensor)\n{\n    temperature: extracted_values[\"Teplota ven.\"],\n    pressure: extracted_values[\"Tlak relat.\"],\n    humidity: extracted_values[\"Vlhkost ven.\"]\n},\n\n//Tags - (Information to distinct one sensor from another)\n{\n    sensor_id: `pocasidoma-${web_scrape_data.id}`,\n    sensor_type: \"Davis Vantage PRO2\",\n    room: \"Outdoors\"\n}];\n\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 840,
-        "y": 1080,
+        "x": 690,
+        "y": 1200,
         "wires": [
             [
-                "ac8a6418e5e55886",
-                "557ea7be4964987a"
+                "cb627522db08c527",
+                "26ac583d4bd98514"
             ]
         ]
     },
     {
-        "id": "f4a80e58d3e3d616",
+        "id": "cb627522db08c527",
         "type": "debug",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Print Sensor_id",
+        "g": "46ae6eaea7b98a6c",
+        "name": "Print pocasidoma InfluxDB data",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1504,94 +1035,221 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1280,
-        "y": 1080,
+        "x": 1010,
+        "y": 1160,
         "wires": []
     },
     {
-        "id": "7f7139102346d13d",
-        "type": "link out",
+        "id": "0533be7df303af06",
+        "type": "http in",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
+        "g": "91fb6c2e6d03d44f",
         "name": "",
-        "mode": "link",
-        "links": [
-            "e91dde7da391a467"
-        ],
-        "x": 1295,
-        "y": 1140,
+        "url": "/luftdatenSensor",
+        "method": "post",
+        "upload": false,
+        "swaggerDoc": "",
+        "x": 180,
+        "y": 900,
+        "wires": [
+            [
+                "259bf77f1b32d532",
+                "1e4fd941529df255"
+            ]
+        ]
+    },
+    {
+        "id": "259bf77f1b32d532",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "Data from sensor",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 430,
+        "y": 840,
         "wires": []
     },
     {
-        "id": "557ea7be4964987a",
+        "id": "0961c32405383a51",
+        "type": "http response",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "OK Response",
+        "statusCode": "",
+        "headers": {},
+        "x": 900,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "1e4fd941529df255",
         "type": "function",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Update output label",
-        "func": "msg.payload = `Unset room from ID ${msg.payload}`\nreturn msg;",
+        "g": "91fb6c2e6d03d44f",
+        "name": "JSON test",
+        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
-        "y": 1140,
+        "x": 410,
+        "y": 900,
         "wires": [
             [
-                "7f7139102346d13d"
+                "b1769eb6983f968e",
+                "fb9a65ca01590cc7"
             ]
         ]
     },
     {
-        "id": "1f2a8c9e3402d5b9",
-        "type": "link in",
+        "id": "b1769eb6983f968e",
+        "type": "switch",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "",
-        "links": [
-            "afbf1aa292fefd3c"
+        "g": "91fb6c2e6d03d44f",
+        "name": "HTTP response switch",
+        "property": "statusCode",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "200",
+                "vt": "str"
+            },
+            {
+                "t": "else"
+            }
         ],
-        "x": 405,
-        "y": 1140,
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 640,
+        "y": 900,
         "wires": [
             [
-                "5029c718dea4974a"
+                "0961c32405383a51",
+                "542022559f8d3c89"
+            ],
+            [
+                "6d06af34243d112a"
             ]
         ]
     },
     {
-        "id": "afbf1aa292fefd3c",
-        "type": "link out",
+        "id": "fb9a65ca01590cc7",
+        "type": "debug",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "",
-        "mode": "link",
-        "links": [
-            "1f2a8c9e3402d5b9"
-        ],
-        "x": 585,
-        "y": 720,
+        "g": "91fb6c2e6d03d44f",
+        "name": "Print response",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 620,
+        "y": 980,
         "wires": []
     },
     {
-        "id": "d77e5ea1f14ec8e9",
+        "id": "542022559f8d3c89",
         "type": "function",
         "z": "6f295efb41de0f64",
-        "g": "2ea865067ea82e10",
-        "name": "Reset values",
-        "func": "msg = null;\nreturn msg;",
+        "g": "91fb6c2e6d03d44f",
+        "name": "Parse to InfluxDB data format",
+        "func": "sensor_data = msg.payload;\nvalue_names = [\"BME280_temperature\",\"BME280_pressure\", \"BME280_humidity\"];\nextracted_values ={};\n\nsensor_data.sensordatavalues.forEach((value) => {\n    if (value_names.includes(value.value_type)){\n        extracted_values[value.value_type] = value.value;\n    }\n    \n})\n\nmsg.payload = [\n//Fields - (Measured values from sensor)\n{\n   temperature: parseInt(extracted_values[\"BME280_temperature\"]),\n   pressure: parseInt(extracted_values[\"BME280_temperature\"]),\n   humidity: parseInt(extracted_values[\"BME280_humidity\"])\n},\n\n//Tags - (Information to distinct one sensor from another)\n{\n    sensor_id: `luftdaten-${sensor_data.esp8266id}`,\n    board_type: \"esp8266\",\n    sensor_type: \"bme280\",\n    room: \"Outdoors\"\n}];\n\nreturn msg;\n\n\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 390,
-        "y": 720,
+        "x": 950,
+        "y": 900,
         "wires": [
             [
-                "afbf1aa292fefd3c"
+                "04fd40f832bf6316",
+                "76ddb98570ad7c15"
             ]
         ]
+    },
+    {
+        "id": "6d06af34243d112a",
+        "type": "http response",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "HTTP Response on Error",
+        "statusCode": "",
+        "headers": {},
+        "x": 930,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "04fd40f832bf6316",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "Print luftdaten InfluxDB data",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1240,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "16a06d934d6b60c5",
+        "type": "subflow:c79bf8c6e74ae101",
+        "z": "6f295efb41de0f64",
+        "g": "c2e3c67e8b32942e",
+        "name": "",
+        "x": 950,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "bfa7608c7ddf8882",
+        "type": "subflow:c79bf8c6e74ae101",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
+        "name": "",
+        "x": 1230,
+        "y": 680,
+        "wires": []
+    },
+    {
+        "id": "76ddb98570ad7c15",
+        "type": "subflow:c79bf8c6e74ae101",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "",
+        "x": 1230,
+        "y": 900,
+        "wires": []
+    },
+    {
+        "id": "26ac583d4bd98514",
+        "type": "subflow:c79bf8c6e74ae101",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "",
+        "x": 970,
+        "y": 1200,
+        "wires": []
     },
     {
         "id": "77baa11c77157752",
@@ -1602,39 +1260,5 @@
         "db": "sensor",
         "tz": "",
         "charset": "UTF8"
-    },
-    {
-        "id": "f64d2d329f647e71",
-        "type": "influxdb",
-        "hostname": "127.0.0.1",
-        "port": "8086",
-        "protocol": "http",
-        "database": "database",
-        "name": "RPI4 Influxdb",
-        "usetls": false,
-        "tls": "",
-        "influxdbVersion": "2.0",
-        "url": "http://influxdb:8086",
-        "rejectUnauthorized": true
-    },
-    {
-        "id": "d8aece7e220cdf0e",
-        "type": "ui_group",
-        "name": "Room",
-        "tab": "d1f25c62d446af39",
-        "order": 1,
-        "disp": true,
-        "width": "6",
-        "collapse": false,
-        "className": ""
-    },
-    {
-        "id": "d1f25c62d446af39",
-        "type": "ui_tab",
-        "name": "Sensor tab",
-        "icon": "dashboard",
-        "order": 1,
-        "disabled": false,
-        "hidden": false
     }
 ]
