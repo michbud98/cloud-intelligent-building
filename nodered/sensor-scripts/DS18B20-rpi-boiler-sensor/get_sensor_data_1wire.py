@@ -13,7 +13,7 @@ sensor_id = board_type + "-" + get_serial_number()
 sensor_type = "1wire"
 room_arg = "water_boiler_room"
 
-nodered_server = 'FILL WITH NODERED SERVER IP'
+nodered_server = '192.168.88.107'
 nodered_influxdb_url = f"http://{nodered_server}:1880/postBoiler"
 
 message_interval = 60
