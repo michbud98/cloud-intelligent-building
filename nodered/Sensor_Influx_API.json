@@ -231,6 +231,25 @@
         "env": []
     },
     {
+        "id": "0133d31ab77b464c",
+        "type": "group",
+        "z": "6f295efb41de0f64",
+        "name": "Sensors API",
+        "style": {
+            "label": true
+        },
+        "nodes": [
+            "f3de19ae627756a8",
+            "46ae6eaea7b98a6c",
+            "91fb6c2e6d03d44f",
+            "c2e3c67e8b32942e"
+        ],
+        "x": 28,
+        "y": 13,
+        "w": 1404,
+        "h": 1254
+    },
+    {
         "id": "f3de19ae627756a8",
         "type": "group",
         "z": "6f295efb41de0f64",
@@ -341,25 +360,6 @@
         "y": 39,
         "w": 1082,
         "h": 502
-    },
-    {
-        "id": "0133d31ab77b464c",
-        "type": "group",
-        "z": "6f295efb41de0f64",
-        "name": "Sensors API",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "f3de19ae627756a8",
-            "46ae6eaea7b98a6c",
-            "91fb6c2e6d03d44f",
-            "c2e3c67e8b32942e"
-        ],
-        "x": 28,
-        "y": 13,
-        "w": 1404,
-        "h": 1254
     },
     {
         "id": "07d6b639cb962ff6",
@@ -556,7 +556,7 @@
         "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "JSON test",
-        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\nelse if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"temperature\" in msg.payload && \"pressure\" in msg.payload && \"humidity\" in msg.payload)){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't contain neccesary values.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
+        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\nelse if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"temperature\" in msg.payload && \"pressure\" in msg.payload && \"humidity\" in msg.payload)){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't have right format.\\r\\nJSON should have fields: sensor_id, board_type, sensor_type, temperature, pressure, humidity.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -583,7 +583,7 @@
             {
                 "t": "eq",
                 "v": "200",
-                "vt": "str"
+                "vt": "num"
             },
             {
                 "t": "else"
@@ -792,7 +792,7 @@
         "z": "6f295efb41de0f64",
         "g": "f3de19ae627756a8",
         "name": "JSON test",
-        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\nelse if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"tmp_in\" in msg.payload && \"tmp_out\" in msg.payload && \"dhw_tmp\" in msg.payload && \"dhw_coil_temp\" in msg.payload )){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't contain neccesary values.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
+        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\nelse if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"tmp_in\" in msg.payload && \"tmp_out\" in msg.payload && \"dhw_tmp\" in msg.payload && \"dhw_coil_tmp\" in msg.payload )){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't have right format.\\r\\nJSON should have fields: sensor_id, board_type, sensor_type, tmp_in, tmp_out, dhw_tmp, dhw_coil_tmp.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -819,7 +819,7 @@
             {
                 "t": "eq",
                 "v": "200",
-                "vt": "str"
+                "vt": "num"
             },
             {
                 "t": "else"
@@ -876,7 +876,7 @@
         "z": "6f295efb41de0f64",
         "g": "f3de19ae627756a8",
         "name": "Parse to InfluxDB data format",
-        "func": "boiler_data = msg.payload;\n\n\nmsg.payload = [\n//Fields - (Measured values from sensor)\n{\n    tmp_in: boiler_data.tmp_in,\n    tmp_out: boiler_data.tmp_out,\n    dhw_tmp: boiler_data.dhw_tmp,\n    dhw_coil_temp: boiler_data.dhw_coil_temp\n},\n\n//Tags - (Information to distinct one sensor from another)\n{\n    sensor_id: boiler_data.sensor_id,\n    board_type: boiler_data.board_type,\n    sensor_type: boiler_data.sensor_type,\n    room: \"water_boiler_room\"\n}];\n\nreturn msg;\n",
+        "func": "boiler_data = msg.payload;\n\n\nmsg.payload = [\n//Fields - (Measured values from sensor)\n{\n    tmp_in: boiler_data.tmp_in,\n    tmp_out: boiler_data.tmp_out,\n    dhw_tmp: boiler_data.dhw_tmp,\n    dhw_coil_tmp: boiler_data.dhw_coil_tmp\n},\n\n//Tags - (Information to distinct one sensor from another)\n{\n    sensor_id: boiler_data.sensor_id,\n    board_type: boiler_data.board_type,\n    sensor_type: boiler_data.sensor_type,\n    room: \"water_boiler_room\"\n}];\n\nreturn msg;\n",
         "outputs": 1,
         "noerr": 0,
         "initialize": "",
@@ -1121,7 +1121,7 @@
             {
                 "t": "eq",
                 "v": "200",
-                "vt": "str"
+                "vt": "num"
             },
             {
                 "t": "else"
