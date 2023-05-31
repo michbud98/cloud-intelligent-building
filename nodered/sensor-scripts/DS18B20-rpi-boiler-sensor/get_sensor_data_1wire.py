@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 
 import subprocess, requests, time, json
+import gc
 
 def get_serial_number():
     with open('/proc/cpuinfo', 'r') as f:
@@ -18,7 +19,7 @@ nodered_influxdb_url = f"http://{nodered_server}:1880/postBoiler"
 
 message_interval = 60
 
-def send_to_nodered(nodered_influxdb_url, tmp_in, tmp_out, dhw_tmp, dhw_coil_temp):
+def send_to_nodered(nodered_influxdb_url, tmp_in, tmp_out, dhw_tmp, dhw_coil_tmp):
     response = None
     data = {
         "sensor_id": sensor_id,
@@ -27,7 +28,7 @@ def send_to_nodered(nodered_influxdb_url, tmp_in, tmp_out, dhw_tmp, dhw_coil_tem
         "tmp_in": tmp_in,
         "tmp_out": tmp_out,
         "dhw_tmp": dhw_tmp,
-        "dhw_coil_temp": dhw_coil_temp
+        "dhw_coil_tmp": dhw_coil_tmp
     }
     json_data = json.dumps(data);
     print(f"Encoded json data: {json_data}");
@@ -42,9 +43,18 @@ def send_to_nodered(nodered_influxdb_url, tmp_in, tmp_out, dhw_tmp, dhw_coil_tem
             print(e)
             print("Sending data to nodered failed. Retry after 5 sec")
 
-        if response and response.status_code == 200:
+        if response is not None and response.status_code >= 200 and response.status_code < 300:
             print(f"Sending data to Nodered successful.")
+            response.close()
+            gc.collect()
             break
+
+        elif response is not None and response.status_code >= 400 and response.status_code < 500:
+            print(f"Error status code {response.status_code}: {response.text} \r\nRestarting sensor");
+            response.close()
+            gc.collect()
+            break
+
         time.sleep(5)
         max_retry += 1
 
@@ -61,13 +71,11 @@ def main():
         dhw_tmp = float(subprocess.check_output(
             ['owread', '/28.F6775F070000/temperature']).decode().strip())
         # vstupní teplota vody do radiátorů
-        dhw_coil_temp = float(subprocess.check_output(
+        dhw_coil_tmp = float(subprocess.check_output(
             ['owread', '/28.4618C1070000/temperature']).decode().strip())
 
 
-        send_to_nodered(nodered_influxdb_url, tmp_in, tmp_out, dhw_tmp,dhw_coil_temp)
-        print("sensor_data,sensor_id={0},board_type={1},sensor_type={2},room={3} tmp_in={4:.2f},tmp_out={5:.2f},dhw_tmp={6:.2f},dhw_coil_tmp={7:.2f}".format(
-            sensor_id, board_type, sensor_type, room_arg, tmp_in, tmp_out, dhw_tmp, dhw_coil_temp))
+        send_to_nodered(nodered_influxdb_url, tmp_in, tmp_out, dhw_tmp,dhw_coil_tmp)
 
         print(f"Putting sensor to sleep for {message_interval}.")
         time.sleep(message_interval)

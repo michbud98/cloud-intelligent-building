@@ -29,6 +29,8 @@ sensor_type = "BME680"
 
 # Message interval in milliseconds needs at least 10000 milliseconds
 message_interval_ms = 60000
+
+# 0 ENABLED | 1 DISABLED
 DEBUG_FILE = 1
 
 station = network.WLAN(network.STA_IF)

@@ -89,7 +89,7 @@ def get_datetime_url(datetime_url):
         utime.sleep(5)
         max_retry += 1
 
-    if response and response.status_code == 200:
+    if response is not None and response.status_code >= 200 and response.status_code < 300:
         log(response.text)
         parsed = response.json()
         datetime_str = str(parsed["datetime"])
@@ -103,6 +103,9 @@ def get_datetime_url(datetime_url):
         # update internal RTC
         rtc.datetime((year, month, day, 0, hour, minute, second, 0))
         log(f"RTC updated. Current datetime is: {rtc.datetime()}")
+
+        response.close()
+        gc.collect()
     else:
         log("RTC update failed")
 
@@ -161,14 +164,24 @@ def send_to_nodered(nodered_influxdb_url, temp_arg, pres_arg, hum_arg):
         try:
             log(f"Sending sensor data to Nodered on {nodered_influxdb_url}. Try number {max_retry}")
             response = urequests.post(nodered_influxdb_url, headers={'content-type': 'application/json'},
-                                      data=json_data)
+                                      data=json_data);
+
         except Exception as e:
             log_exception(e, "log.txt")
             log("Sending data to nodered failed. Retry after 5 sec")
 
-        if response and response.status_code == 200:
+        if response is not None and response.status_code >= 200 and response.status_code < 300:
             log(f"Sending data to Nodered successful.")
+            response.close();
+            gc.collect();
             break
+
+        elif response is not None and response.status_code >= 400 and response.status_code < 500:
+            log(f"Error status code {response.status_code}: {response.text} \r\nRestarting sensor.", 0);
+            response.close()
+            gc.collect()
+            break
+
         time.sleep(5)
         max_retry += 1
 
@@ -226,7 +239,6 @@ while True:
         get_datetime_url(rtc_update_url)
         temp, pres, hum = read_bme_sensor()
         send_to_nodered(nodered_influxdb_url, temp, pres, hum)
-        utime.sleep(5)
         disconnect_from_wifi()
         put_to_light_sleep()
     except OSError as e:
