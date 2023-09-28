@@ -171,7 +171,7 @@
         "z": "98df4c30829c6402",
         "influxdb": "f64d2d329f647e71",
         "name": "Query",
-        "query": "import \"influxdata/influxdb/v1\"\nv1.tagValues(\n    bucket: \"Sensor_data\",\n    tag: \"sensor_id\",\n    predicate: (r) => r.comm_protocol != \"Scrap\" and r.room != \"water_boiler_room\",\n    start: -1d\n)",
+        "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(\n    bucket: \"Sensor_data\",\n    tag: \"sensor_id\",\n    predicate: (r) => r.room != \"water_boiler_room\",\n    start: -1d\n)",
         "rawOutput": false,
         "precision": "",
         "retentionPolicy": "",
