@@ -31,7 +31,7 @@ sensor_type = "BME680"
 message_interval_ms = 60000
 
 # 0 ENABLED | 1 DISABLED
-DEBUG_FILE = 1
+DEBUG_FILE = False
 
 station = network.WLAN(network.STA_IF)
 # Disable ESP8266 Access point interface

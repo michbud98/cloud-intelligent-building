@@ -5,12 +5,12 @@ i2c = I2C(scl=Pin(5), sda=Pin(4))
 bme = BME680_I2C(i2c=i2c)
 
 
-def log(input_string, debug_file_override=1):
+def log(input_string, debug_file_override=False):
     # (year, month, day, weekday, hours, minutes, seconds, subseconds)
     datetime = rtc.datetime()
     datetime_str = f"{datetime[2]}.{datetime[1]}.{datetime[0]}|-|{datetime[4]}-{datetime[5]}-{datetime[6]}"
     log_text = f"{datetime_str}: {input_string}"
-    if DEBUG_FILE == 0 or debug_file_override == 0:
+    if DEBUG_FILE == 0 or debug_file_override == True:
         file = open("log.txt", "a")
         file.write(f"{log_text}\r\n")
         print(log_text)
@@ -187,10 +187,14 @@ while True:
         put_to_deep_sleep()
     except OSError as e:
         log_exception(e, "log.txt")
-        log(f'Failed to read data from sensor. Attempting restart.', 0)
+        log(f'Failed to read data from sensor. Attempting restart.', True)
+        restart_and_reconnect()
+    except RuntimeError as e:
+        log_exception(e, "log.txt")
+        log(f"Failed to connect to network on address: {nodered_server}. Attempting to restart and reconnect.", True)
         restart_and_reconnect()
     except Exception as e:
         log_exception(e, "log.txt")
-        log(f'Unknown exception {type(e).__name__}. Attempting to reconnect.', 0)
+        log(f'Unknown exception {type(e).__name__}. Attempting to reconnect.', True)
         restart_and_reconnect()
 

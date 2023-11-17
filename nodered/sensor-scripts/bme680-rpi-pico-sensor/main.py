@@ -42,23 +42,23 @@ bme = BME680_I2C(i2c=i2c)
 led = Pin("LED", Pin.OUT)
 
 # 0 ENABLED | 1 DISABLED
-DEBUG_FILE = 1
-DEBUG_LED = 1
+DEBUG_FILE = False
+DEBUG_LED = False
 
 
 def flash_led():
-    if DEBUG_LED == 0:
+    if DEBUG_LED == True:
         led.toggle()
         utime.sleep_ms(500)
         led.toggle()
 
 
-def log(input_string, debug_file_override=1):
+def log(input_string, debug_file_override=False):
     # (year, month, day, weekday, hours, minutes, seconds, sub-seconds)
     datetime = rtc.datetime()
     datetime_str = f"{datetime[2]}.{datetime[1]}.{datetime[0]}|-|{datetime[4]}-{datetime[5]}-{datetime[6]}"
     log_text = f"{datetime_str}: {input_string}"
-    if DEBUG_FILE == 0 or debug_file_override == 0:
+    if DEBUG_FILE == True or debug_file_override == True:
         file = open("log.txt", "a")
         file.write(f"{log_text}\r\n")
         print(log_text)
@@ -219,10 +219,15 @@ def disconnect_from_wifi():
         log(f"Wifi connection {station.isconnected()} Successfully disconnected")
 
 
-def restart_and_reconnect():
-    utime.sleep(10)
-    log("Restarting sensor.")
-    machine.soft_reset()
+def restart_and_reconnect(hard_reset=False):
+    if hard_reset == False:
+        log("Restarting sensor using soft reset.")
+        utime.sleep(10)
+        machine.soft_reset()
+    if hard_reset == True:
+        log("Restarting sensor using hard reset.")
+        utime.sleep(10)
+        machine.reset()
 
 
 def put_to_light_sleep():
@@ -241,15 +246,16 @@ while True:
         send_to_nodered(nodered_influxdb_url, temp, pres, hum)
         disconnect_from_wifi()
         put_to_light_sleep()
+        
     except OSError as e:
         log_exception(e, "log.txt")
-        log(f"Failed to read data from sensor. Attempting restart.", 0)
+        log(f"Failed to read data from sensor. Attempting restart.", True)
         restart_and_reconnect()
     except RuntimeError as e:
         log_exception(e, "log.txt")
-        log(f"Failed to connect to network on address: {nodered_server}. Attempting to restart and reconnect.", 0)
+        log(f"Failed to connect to network on address: {nodered_server}. Attempting to restart and reconnect.", True)
         restart_and_reconnect()
     except Exception as e:
         log_exception(e, "log.txt")
-        log(f"Unknown exception {type(e).__name__}. Attempting to reconnect.", 0)
-        restart_and_reconnect()
+        log(f"Unknown exception {type(e).__name__}. Attempting to reconnect.", True)
+        restart_and_reconnect(True)
