@@ -169,16 +169,18 @@ def send_to_nodered(nodered_influxdb_url, temp_arg, pres_arg, hum_arg):
         except Exception as e:
             log_exception(e, "log.txt")
             log("Sending data to nodered failed. Retry after 5 sec")
+        
+        finally:
+            log("Closing response object.")
+            response.close()
 
         if response is not None and response.status_code >= 200 and response.status_code < 300:
             log(f"Sending data to Nodered successful.")
-            response.close();
             gc.collect();
             break
 
         elif response is not None and response.status_code >= 400 and response.status_code < 500:
             log(f"Error status code {response.status_code}: {response.text} \r\nRestarting sensor.", 0);
-            response.close()
             gc.collect()
             break
 
@@ -247,6 +249,7 @@ while True:
         disconnect_from_wifi()
         put_to_light_sleep()
         
+        
     except OSError as e:
         log_exception(e, "log.txt")
         log(f"Failed to read data from sensor. Attempting restart.", True)
@@ -259,3 +262,4 @@ while True:
         log_exception(e, "log.txt")
         log(f"Unknown exception {type(e).__name__}. Attempting to reconnect.", True)
         restart_and_reconnect(True)
+
