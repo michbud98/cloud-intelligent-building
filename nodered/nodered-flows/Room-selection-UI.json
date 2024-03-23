@@ -257,7 +257,7 @@
         "type": "postgresql",
         "z": "98df4c30829c6402",
         "name": "",
-        "query": "SELECT DISTINCT sensor_id FROM sensor_measurements WHERE room != 'Outdoors';",
+        "query": "SELECT DISTINCT sensor_id FROM sensor_measurements \nWHERE room != 'Outdoors' OR room IS NULL;",
         "postgreSQLConfig": "b6d5c0074129b3d4",
         "split": false,
         "rowsPerMsg": 1,
@@ -590,18 +590,20 @@
         "type": "function",
         "z": "abcbbe81376760db",
         "name": "Update room label",
-        "func": "msg.payload = msg.payload.room\nreturn msg;",
+        "func": "room = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    \n    return msg;\n}\nelse if(room.includes(\"-\")){\n    msg.payload = \"Room name cant include -\"\n    return msg;\n}\nelse{\n    return null;\n}",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 780,
+        "x": 790,
         "y": 600,
         "wires": [
             [
                 "5bfd86873d4e1b17",
-                "46a34c461997b473"
+                "77e6620d5b1454a8",
+                "a2fb98afc6c338b7"
             ]
         ]
     },
@@ -610,7 +612,7 @@
         "type": "function",
         "z": "abcbbe81376760db",
         "name": "Handle DB room update",
-        "func": "sensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room != \"Room not yet set\") {\n    msg.queryParameters = { \n        sensor_id: sensor_id,\n        room: room\n    }\n    \n    msg.query = `INSERT INTO sensors (sensor_id, room) \n    VALUES ($sensor_id, $room);`\n    \n    return msg;\n}\nelse{\n    msg.payload = \"failed\"\n    return msg;\n}\n\n\n    ",
+        "func": "sensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    msg.queryParameters = { \n        sensor_id: sensor_id,\n        room: room\n    }\n    \n    msg.query = `INSERT INTO sensors (sensor_id, room) \n    VALUES ($sensor_id, $room);`\n    \n    return msg;\n}\nelse{\n    msg.payload = \"failed\"\n    return msg;\n}\n\n\n    ",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -684,7 +686,7 @@
             "ac78c5f7cdf22fbe",
             "85b54c58614f8b94"
         ],
-        "x": 1115,
+        "x": 1185,
         "y": 640,
         "wires": [
             [
@@ -746,33 +748,6 @@
         "wires": [
             [
                 "23b3b3b4f7d6613d"
-            ]
-        ]
-    },
-    {
-        "id": "46a34c461997b473",
-        "type": "change",
-        "z": "abcbbe81376760db",
-        "name": "Update output label",
-        "rules": [
-            {
-                "t": "set",
-                "p": "payload",
-                "pt": "msg",
-                "to": "Room updated",
-                "tot": "str"
-            }
-        ],
-        "action": "",
-        "property": "",
-        "from": "",
-        "to": "",
-        "reg": false,
-        "x": 1030,
-        "y": 600,
-        "wires": [
-            [
-                "a2fb98afc6c338b7"
             ]
         ]
     },
@@ -1277,6 +1252,23 @@
                 "23b3b3b4f7d6613d"
             ]
         ]
+    },
+    {
+        "id": "77e6620d5b1454a8",
+        "type": "debug",
+        "z": "abcbbe81376760db",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1010,
+        "y": 640,
+        "wires": []
     },
     {
         "id": "d8aece7e220cdf0e",
