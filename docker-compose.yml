@@ -15,7 +15,6 @@ services:
       - ./volumes/grafana/data:/var/lib/grafana
       - ./volumes/grafana/log:/var/log/grafana
     links:
-      - influxdb
       - timescaledb
     
   timescaledb:
