@@ -1,95 +1,5 @@
 [
     {
-        "id": "c79bf8c6e74ae101",
-        "type": "subflow",
-        "name": "Save in influx DBs",
-        "info": "",
-        "category": "",
-        "in": [
-            {
-                "x": 320,
-                "y": 240,
-                "wires": [
-                    {
-                        "id": "7548a14f7396a80f"
-                    },
-                    {
-                        "id": "67cfaa3960459847"
-                    }
-                ]
-            }
-        ],
-        "out": [],
-        "env": [],
-        "meta": {},
-        "color": "#DDAA99"
-    },
-    {
-        "id": "7548a14f7396a80f",
-        "type": "influxdb out",
-        "z": "c79bf8c6e74ae101",
-        "influxdb": "f64d2d329f647e71",
-        "name": "InfluxDB RPI4 ",
-        "measurement": "sensor_data",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "database",
-        "precisionV18FluxV20": "ms",
-        "retentionPolicyV18Flux": "",
-        "org": "swiftblade1982@gmail.com",
-        "bucket": "Sensor_data",
-        "x": 520,
-        "y": 240,
-        "wires": []
-    },
-    {
-        "id": "67cfaa3960459847",
-        "type": "influxdb out",
-        "z": "c79bf8c6e74ae101",
-        "influxdb": "1ac4dbb8c993bf9d",
-        "name": "InfludDB Cloud",
-        "measurement": "sensor_data",
-        "precision": "",
-        "retentionPolicy": "",
-        "database": "database",
-        "precisionV18FluxV20": "ms",
-        "retentionPolicyV18Flux": "",
-        "org": "swiftblade1982@gmail.com",
-        "bucket": "Sensor_data",
-        "x": 520,
-        "y": 300,
-        "wires": []
-    },
-    {
-        "id": "1ac4dbb8c993bf9d",
-        "type": "influxdb",
-        "z": "c79bf8c6e74ae101",
-        "hostname": "127.0.0.1",
-        "port": "8086",
-        "protocol": "http",
-        "database": "database",
-        "name": "InfluxDB Cloud",
-        "usetls": false,
-        "tls": "",
-        "influxdbVersion": "2.0",
-        "url": "https://eu-central-1-1.aws.cloud2.influxdata.com",
-        "rejectUnauthorized": true
-    },
-    {
-        "id": "f64d2d329f647e71",
-        "type": "influxdb",
-        "hostname": "127.0.0.1",
-        "port": "8086",
-        "protocol": "http",
-        "database": "database",
-        "name": "InfluxDB RPI4",
-        "usetls": false,
-        "tls": "",
-        "influxdbVersion": "2.0",
-        "url": "http://influxdb:8086",
-        "rejectUnauthorized": true
-    },
-    {
         "id": "c4e5c2ecfe2a7d7c",
         "type": "subflow",
         "name": "Get Room",
@@ -127,26 +37,13 @@
         "color": "#DDAA99"
     },
     {
-        "id": "edb7f5ee4bb17e78",
-        "type": "mysql",
-        "z": "c4e5c2ecfe2a7d7c",
-        "mydb": "77baa11c77157752",
-        "name": "",
-        "x": 480,
-        "y": 200,
-        "wires": [
-            [
-                "b50f2f9f75d72f28"
-            ]
-        ]
-    },
-    {
         "id": "2f90ac2e6758dcb9",
         "type": "function",
         "z": "c4e5c2ecfe2a7d7c",
         "name": "Create query",
-        "func": "\nmsg.sensor_id = msg.payload;\nmsg.topic=`select sensor_id, room from sensors where sensor_id = \"${msg.payload}\";`\n\nreturn msg;",
+        "func": "msg.queryParameters = { \n    sensor_id: msg.payload\n}\n\nmsg.query = \"SELECT * FROM sensors WHERE sensor_id = $sensor_id \"\n\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -155,7 +52,7 @@
         "y": 200,
         "wires": [
             [
-                "edb7f5ee4bb17e78"
+                "42501e96d518dccc"
             ]
         ]
     },
@@ -223,37 +120,60 @@
         ]
     },
     {
+        "id": "42501e96d518dccc",
+        "type": "postgresql",
+        "z": "c4e5c2ecfe2a7d7c",
+        "name": "",
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 470,
+        "y": 200,
+        "wires": [
+            [
+                "b50f2f9f75d72f28"
+            ]
+        ]
+    },
+    {
+        "id": "b6d5c0074129b3d4",
+        "type": "postgreSQLConfig",
+        "name": "",
+        "host": "timescaledb",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "postgres",
+        "databaseFieldType": "str",
+        "ssl": "false",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "postgres",
+        "userFieldType": "str",
+        "password": "example",
+        "passwordFieldType": "str"
+    },
+    {
         "id": "6f295efb41de0f64",
         "type": "tab",
-        "label": "NIG indoors sensors",
+        "label": "Sensors API",
         "disabled": false,
         "info": "",
         "env": []
     },
     {
-        "id": "0133d31ab77b464c",
-        "type": "group",
-        "z": "6f295efb41de0f64",
-        "name": "Sensors API",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "f3de19ae627756a8",
-            "46ae6eaea7b98a6c",
-            "91fb6c2e6d03d44f",
-            "c2e3c67e8b32942e"
-        ],
-        "x": 28,
-        "y": 13,
-        "w": 1404,
-        "h": 1254
-    },
-    {
         "id": "f3de19ae627756a8",
         "type": "group",
         "z": "6f295efb41de0f64",
-        "g": "0133d31ab77b464c",
         "name": "Boiler sensor",
         "style": {
             "label": true
@@ -266,20 +186,19 @@
             "c62166d70d8a7cd2",
             "27a506d0afda7f4d",
             "0d50e7b83a890505",
-            "ea1233fb894542e9",
-            "de190bf3beea1c2a",
-            "bfa7608c7ddf8882"
+            "391fe0dd47fdfea7",
+            "44e1c880e5af92ab",
+            "3a6ebff3b3ba3aff"
         ],
         "x": 54,
-        "y": 579,
-        "w": 1312,
+        "y": 459,
+        "w": 1472,
         "h": 202
     },
     {
         "id": "46ae6eaea7b98a6c",
         "type": "group",
         "z": "6f295efb41de0f64",
-        "g": "0133d31ab77b464c",
         "name": "Outdoors pocasidoma",
         "style": {
             "label": true
@@ -289,20 +208,19 @@
             "e9bc1d8d864cd01a",
             "7f209b6dc426abd4",
             "81bb3521bf046ed9",
-            "2c84747edf168680",
-            "cb627522db08c527",
-            "26ac583d4bd98514"
+            "cd4fd42d5ff75102",
+            "703bd536e69dc5da",
+            "597446dc812fa59d"
         ],
         "x": 54,
-        "y": 1059,
-        "w": 1132,
-        "h": 182
+        "y": 999,
+        "w": 1392,
+        "h": 142
     },
     {
         "id": "91fb6c2e6d03d44f",
         "type": "group",
         "z": "6f295efb41de0f64",
-        "g": "0133d31ab77b464c",
         "name": "Outdoors sensor",
         "style": {
             "label": true
@@ -314,21 +232,20 @@
             "1e4fd941529df255",
             "b1769eb6983f968e",
             "fb9a65ca01590cc7",
-            "542022559f8d3c89",
             "6d06af34243d112a",
-            "04fd40f832bf6316",
-            "76ddb98570ad7c15"
+            "3cc01fcea2cef0bb",
+            "7c2978126c2f444c",
+            "994eb5b6fbb61d47"
         ],
         "x": 54,
-        "y": 799,
-        "w": 1352,
+        "y": 719,
+        "w": 1452,
         "h": 222
     },
     {
         "id": "c2e3c67e8b32942e",
         "type": "group",
         "z": "6f295efb41de0f64",
-        "g": "0133d31ab77b464c",
         "name": "Indoors sensors",
         "style": {
             "label": true
@@ -336,11 +253,6 @@
         "nodes": [
             "07d6b639cb962ff6",
             "94204058074f2134",
-            "717ec79f238636a8",
-            "d6826ebc99181372",
-            "0c900ab0327e2dee",
-            "f40b9c614b45b718",
-            "7bc472545809e322",
             "d5f993d33f4508a3",
             "d2d9175cc521443a",
             "d84deab32d24b48f",
@@ -348,18 +260,18 @@
             "b61e240e36ac6d7e",
             "213a26f8f0e4420a",
             "50c8b9014b1bf57c",
-            "d4ad7e1ca3716e2a",
-            "8c679348d041b700",
             "a9c50bae42883c2e",
             "a5224bf7b48d60d3",
             "11b12c8f2978b551",
             "78936ed5134682cd",
-            "16a06d934d6b60c5"
+            "8e4db32e74c6260d",
+            "d051ac3741bf5474",
+            "f551cc72b4d1a714"
         ],
         "x": 54,
-        "y": 39,
-        "w": 1082,
-        "h": 502
+        "y": 59,
+        "w": 1152,
+        "h": 342
     },
     {
         "id": "07d6b639cb962ff6",
@@ -372,7 +284,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 180,
-        "y": 300,
+        "y": 160,
         "wires": [
             [
                 "d2d9175cc521443a",
@@ -389,101 +301,7 @@
         "statusCode": "",
         "headers": {},
         "x": 930,
-        "y": 360,
-        "wires": []
-    },
-    {
-        "id": "717ec79f238636a8",
-        "type": "function",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "name": "Rooms query",
-        "func": "msg.topic=\"SELECT * FROM sensors;\"\n\n//msg.topic=`DELETE FROM sensors where sensor_id=\"postman-1\";`\nreturn msg;\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 360,
-        "y": 120,
-        "wires": [
-            [
-                "0c900ab0327e2dee"
-            ]
-        ]
-    },
-    {
-        "id": "d6826ebc99181372",
-        "type": "inject",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "name": "",
-        "props": [
-            {
-                "p": "payload"
-            },
-            {
-                "p": "topic",
-                "vt": "str"
-            }
-        ],
-        "repeat": "",
-        "crontab": "",
-        "once": false,
-        "onceDelay": 0.1,
-        "topic": "",
-        "payload": "",
-        "payloadType": "date",
-        "x": 180,
-        "y": 120,
-        "wires": [
-            [
-                "717ec79f238636a8"
-            ]
-        ]
-    },
-    {
-        "id": "0c900ab0327e2dee",
-        "type": "mysql",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "mydb": "77baa11c77157752",
-        "name": "",
-        "x": 560,
-        "y": 120,
-        "wires": [
-            [
-                "7bc472545809e322"
-            ]
-        ]
-    },
-    {
-        "id": "f40b9c614b45b718",
-        "type": "comment",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "name": "Debug select for all rooms in DB",
-        "info": "",
-        "x": 410,
-        "y": 80,
-        "wires": []
-    },
-    {
-        "id": "7bc472545809e322",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "name": "Print rooms",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 750,
-        "y": 120,
+        "y": 220,
         "wires": []
     },
     {
@@ -494,7 +312,7 @@
         "name": "Get data from sensor and insert into InfluxDB",
         "info": "",
         "x": 530,
-        "y": 380,
+        "y": 240,
         "wires": []
     },
     {
@@ -512,7 +330,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 430,
-        "y": 240,
+        "y": 100,
         "wires": []
     },
     {
@@ -543,7 +361,7 @@
         "to": "",
         "reg": false,
         "x": 930,
-        "y": 300,
+        "y": 160,
         "wires": [
             [
                 "78936ed5134682cd"
@@ -563,7 +381,7 @@
         "finalize": "",
         "libs": [],
         "x": 410,
-        "y": 300,
+        "y": 160,
         "wires": [
             [
                 "b61e240e36ac6d7e",
@@ -593,7 +411,7 @@
         "repair": false,
         "outputs": 2,
         "x": 640,
-        "y": 300,
+        "y": 160,
         "wires": [
             [
                 "d84deab32d24b48f",
@@ -619,7 +437,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 670,
-        "y": 240,
+        "y": 100,
         "wires": []
     },
     {
@@ -631,46 +449,7 @@
         "statusCode": "",
         "headers": {},
         "x": 920,
-        "y": 260,
-        "wires": []
-    },
-    {
-        "id": "d4ad7e1ca3716e2a",
-        "type": "function",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "name": "Parse to InfluxDB data format",
-        "func": "sensor_data = flow.get(\"sensor_data\");\nroom = msg.payload.room;\n\nif(room != \"Not specified\"){\n    msg.payload = [\n    //Fields - (Measured values from sensor)\n    {\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity\n    },\n    \n    //Tags - (Information to distinct one sensor from another)\n    {\n        sensor_id: sensor_data.sensor_id,\n        board_type: sensor_data.board_type,\n        sensor_type: sensor_data.sensor_type,\n        room: room\n    }];\n\n    return msg;\n}\n// If room is not set saves values from sensor without room\nelse {\n     msg.payload = [\n    //Fields - (Measured values from sensor)\n    {\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity\n    },\n    \n    //Tags - (Information to distinct one sensor from another)\n    {\n        sensor_id: sensor_data.sensor_id,\n        board_type: sensor_data.board_type,\n        sensor_type: sensor_data.sensor_type\n    }];\n\n    return msg;\n}\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 650,
-        "y": 500,
-        "wires": [
-            [
-                "8c679348d041b700",
-                "16a06d934d6b60c5"
-            ]
-        ]
-    },
-    {
-        "id": "8c679348d041b700",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "name": "Parsed Influxdb",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 940,
-        "y": 440,
+        "y": 120,
         "wires": []
     },
     {
@@ -688,7 +467,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 600,
-        "y": 440,
+        "y": 300,
         "wires": []
     },
     {
@@ -698,11 +477,11 @@
         "g": "c2e3c67e8b32942e",
         "name": "",
         "x": 400,
-        "y": 500,
+        "y": 360,
         "wires": [
             [
-                "d4ad7e1ca3716e2a",
-                "a9c50bae42883c2e"
+                "a9c50bae42883c2e",
+                "8e4db32e74c6260d"
             ]
         ]
     },
@@ -716,7 +495,7 @@
             "78936ed5134682cd"
         ],
         "x": 265,
-        "y": 500,
+        "y": 360,
         "wires": [
             [
                 "a5224bf7b48d60d3"
@@ -734,7 +513,7 @@
             "11b12c8f2978b551"
         ],
         "x": 1095,
-        "y": 300,
+        "y": 160,
         "wires": []
     },
     {
@@ -748,7 +527,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 200,
-        "y": 680,
+        "y": 560,
         "wires": [
             [
                 "613f7b6db7a9d2df",
@@ -764,8 +543,8 @@
         "name": "HTTP Response on Error",
         "statusCode": "",
         "headers": {},
-        "x": 930,
-        "y": 740,
+        "x": 950,
+        "y": 620,
         "wires": []
     },
     {
@@ -783,7 +562,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 450,
-        "y": 620,
+        "y": 500,
         "wires": []
     },
     {
@@ -799,7 +578,7 @@
         "finalize": "",
         "libs": [],
         "x": 430,
-        "y": 680,
+        "y": 560,
         "wires": [
             [
                 "c62166d70d8a7cd2",
@@ -829,11 +608,11 @@
         "repair": false,
         "outputs": 2,
         "x": 660,
-        "y": 680,
+        "y": 560,
         "wires": [
             [
                 "0d50e7b83a890505",
-                "ea1233fb894542e9"
+                "3a6ebff3b3ba3aff"
             ],
             [
                 "20b49a20a02f99d1"
@@ -855,7 +634,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 720,
-        "y": 620,
+        "y": 500,
         "wires": []
     },
     {
@@ -867,46 +646,7 @@
         "statusCode": "",
         "headers": {},
         "x": 940,
-        "y": 640,
-        "wires": []
-    },
-    {
-        "id": "ea1233fb894542e9",
-        "type": "function",
-        "z": "6f295efb41de0f64",
-        "g": "f3de19ae627756a8",
-        "name": "Parse to InfluxDB data format",
-        "func": "boiler_data = msg.payload;\n\n\nmsg.payload = [\n//Fields - (Measured values from sensor)\n{\n    tmp_in: boiler_data.tmp_in,\n    tmp_out: boiler_data.tmp_out,\n    dhw_tmp: boiler_data.dhw_tmp,\n    dhw_coil_tmp: boiler_data.dhw_coil_tmp\n},\n\n//Tags - (Information to distinct one sensor from another)\n{\n    sensor_id: boiler_data.sensor_id,\n    board_type: boiler_data.board_type,\n    sensor_type: boiler_data.sensor_type,\n    room: \"water_boiler_room\"\n}];\n\nreturn msg;\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 950,
-        "y": 680,
-        "wires": [
-            [
-                "de190bf3beea1c2a",
-                "bfa7608c7ddf8882"
-            ]
-        ]
-    },
-    {
-        "id": "de190bf3beea1c2a",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "f3de19ae627756a8",
-        "name": "Boiler InfluxDB data",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1220,
-        "y": 620,
+        "y": 520,
         "wires": []
     },
     {
@@ -927,7 +667,7 @@
         "senderr": false,
         "headers": [],
         "x": 430,
-        "y": 1100,
+        "y": 1040,
         "wires": [
             [
                 "7f209b6dc426abd4"
@@ -957,7 +697,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 170,
-        "y": 1100,
+        "y": 1040,
         "wires": [
             [
                 "84a1512053cd5f10"
@@ -974,11 +714,11 @@
         "action": "",
         "pretty": false,
         "x": 630,
-        "y": 1100,
+        "y": 1040,
         "wires": [
             [
                 "81bb3521bf046ed9",
-                "2c84747edf168680"
+                "cd4fd42d5ff75102"
             ]
         ]
     },
@@ -997,46 +737,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 840,
-        "y": 1100,
-        "wires": []
-    },
-    {
-        "id": "2c84747edf168680",
-        "type": "function",
-        "z": "6f295efb41de0f64",
-        "g": "46ae6eaea7b98a6c",
-        "name": "Parse values from JSON",
-        "func": "web_scrape_data = msg.payload.Data;\nvalue_names = [\"Vítr směr\", \"Tlak relat.\", \"Vlhkost ven.\", \"Teplota ven.\", \"Intenzita srážek\", \"Déšť\"];\nextracted_values = {};\n\nweb_scrape_data.allMeasures.forEach((value) => {\n    if (value_names.includes(value.Name)){\n        extracted_values[value.Name] = value.Value;\n    }\n    \n})\n\nmsg.payload = [\n//Fields - (Measured values from sensor)\n{\n    temperature: extracted_values[\"Teplota ven.\"],\n    pressure: extracted_values[\"Tlak relat.\"],\n    humidity: extracted_values[\"Vlhkost ven.\"]\n},\n\n//Tags - (Information to distinct one sensor from another)\n{\n    sensor_id: `pocasidoma-${web_scrape_data.id}`,\n    sensor_type: \"Davis Vantage PRO2\",\n    room: \"Outdoors\"\n}];\n\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 690,
-        "y": 1200,
-        "wires": [
-            [
-                "cb627522db08c527",
-                "26ac583d4bd98514"
-            ]
-        ]
-    },
-    {
-        "id": "cb627522db08c527",
-        "type": "debug",
-        "z": "6f295efb41de0f64",
-        "g": "46ae6eaea7b98a6c",
-        "name": "Print pocasidoma InfluxDB data",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1010,
-        "y": 1160,
+        "y": 1040,
         "wires": []
     },
     {
@@ -1050,7 +751,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 180,
-        "y": 900,
+        "y": 820,
         "wires": [
             [
                 "259bf77f1b32d532",
@@ -1073,7 +774,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 430,
-        "y": 840,
+        "y": 760,
         "wires": []
     },
     {
@@ -1085,7 +786,7 @@
         "statusCode": "",
         "headers": {},
         "x": 900,
-        "y": 840,
+        "y": 760,
         "wires": []
     },
     {
@@ -1101,7 +802,7 @@
         "finalize": "",
         "libs": [],
         "x": 410,
-        "y": 900,
+        "y": 820,
         "wires": [
             [
                 "b1769eb6983f968e",
@@ -1131,11 +832,11 @@
         "repair": false,
         "outputs": 2,
         "x": 640,
-        "y": 900,
+        "y": 820,
         "wires": [
             [
                 "0961c32405383a51",
-                "542022559f8d3c89"
+                "3cc01fcea2cef0bb"
             ],
             [
                 "6d06af34243d112a"
@@ -1157,29 +858,8 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 620,
-        "y": 980,
-        "wires": []
-    },
-    {
-        "id": "542022559f8d3c89",
-        "type": "function",
-        "z": "6f295efb41de0f64",
-        "g": "91fb6c2e6d03d44f",
-        "name": "Parse to InfluxDB data format",
-        "func": "sensor_data = msg.payload;\nvalue_names = [\"BME280_temperature\",\"BME280_pressure\", \"BME280_humidity\"];\nextracted_values ={};\n\nsensor_data.sensordatavalues.forEach((value) => {\n    if (value_names.includes(value.value_type)){\n        extracted_values[value.value_type] = value.value;\n    }\n    \n})\n\nmsg.payload = [\n//Fields - (Measured values from sensor)\n{\n   temperature: parseInt(extracted_values[\"BME280_temperature\"]),\n   pressure: parseInt(extracted_values[\"BME280_temperature\"]),\n   humidity: parseInt(extracted_values[\"BME280_humidity\"])\n},\n\n//Tags - (Information to distinct one sensor from another)\n{\n    sensor_id: `luftdaten-${sensor_data.esp8266id}`,\n    board_type: \"esp8266\",\n    sensor_type: \"bme280\",\n    room: \"Outdoors\"\n}];\n\nreturn msg;\n\n\n",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 950,
         "y": 900,
-        "wires": [
-            [
-                "04fd40f832bf6316",
-                "76ddb98570ad7c15"
-            ]
-        ]
+        "wires": []
     },
     {
         "id": "6d06af34243d112a",
@@ -1190,75 +870,239 @@
         "statusCode": "",
         "headers": {},
         "x": 930,
-        "y": 960,
+        "y": 860,
         "wires": []
     },
     {
-        "id": "04fd40f832bf6316",
+        "id": "8e4db32e74c6260d",
+        "type": "function",
+        "z": "6f295efb41de0f64",
+        "g": "c2e3c67e8b32942e",
+        "name": "Prepare Timescaledb insert query",
+        "func": "sensor_data = flow.get(\"sensor_data\");\nroom = msg.payload.room;\n\nif(room != \"Not specified\"){\n    msg.queryParameters = { \n        sensor_id: sensor_data.sensor_id,\n        board_type: sensor_data.board_type,\n        sensor_type: sensor_data.sensor_type,\n        room: room,\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity\n    }\n    \n    msg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, room, sensor_type, temperature, pressure, humidity) \n    VALUES (NOW(), $sensor_id, $board_type, $room, $sensor_type, $temperature, $pressure, $humidity);`\n    \n    return msg;\n}\n// If room is not set saves values from sensor without room\nelse {\n    msg.queryParameters = {\n        sensor_id: sensor_data.sensor_id,\n        board_type: sensor_data.board_type,\n        sensor_type: sensor_data.sensor_type,\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity\n        \n    };\n    \n    msg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, temperature, pressure, humidity) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $temperature, $pressure, $humidity);`\n    return msg;\n}\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 660,
+        "y": 360,
+        "wires": [
+            [
+                "d051ac3741bf5474"
+            ]
+        ]
+    },
+    {
+        "id": "d051ac3741bf5474",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "c2e3c67e8b32942e",
+        "name": "",
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 910,
+        "y": 360,
+        "wires": [
+            [
+                "f551cc72b4d1a714"
+            ]
+        ]
+    },
+    {
+        "id": "f551cc72b4d1a714",
         "type": "debug",
         "z": "6f295efb41de0f64",
-        "g": "91fb6c2e6d03d44f",
-        "name": "Print luftdaten InfluxDB data",
+        "g": "c2e3c67e8b32942e",
+        "name": "Print response",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1240,
-        "y": 840,
+        "x": 1080,
+        "y": 360,
         "wires": []
     },
     {
-        "id": "16a06d934d6b60c5",
-        "type": "subflow:c79bf8c6e74ae101",
-        "z": "6f295efb41de0f64",
-        "g": "c2e3c67e8b32942e",
-        "name": "",
-        "x": 950,
-        "y": 500,
-        "wires": []
-    },
-    {
-        "id": "bfa7608c7ddf8882",
-        "type": "subflow:c79bf8c6e74ae101",
+        "id": "3a6ebff3b3ba3aff",
+        "type": "function",
         "z": "6f295efb41de0f64",
         "g": "f3de19ae627756a8",
-        "name": "",
-        "x": 1230,
-        "y": 680,
-        "wires": []
+        "name": "Prepare Timescaledb insert query",
+        "func": "boiler_data = msg.payload;\n\nmsg.queryParameters = { \n    sensor_id: boiler_data.sensor_id,\n    board_type: boiler_data.board_type,\n    sensor_type: boiler_data.sensor_type,\n    tmp_in: boiler_data.tmp_in,\n    tmp_out: boiler_data.tmp_out,\n    dhw_tmp: boiler_data.dhw_tmp,\n    dhw_coil_tmp: boiler_data.dhw_coil_tmp\n}\n\nmsg.query = `INSERT INTO boiler_measurements (time, sensor_id, board_type, sensor_type, tmp_in, tmp_out, dhw_tmp, dhw_coil_tmp) \nVALUES (NOW(), $sensor_id, $board_type, $sensor_type, $tmp_in, $tmp_out, $dhw_tmp, $dhw_coil_tmp);`\n\nreturn msg;\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 980,
+        "y": 560,
+        "wires": [
+            [
+                "391fe0dd47fdfea7"
+            ]
+        ]
     },
     {
-        "id": "76ddb98570ad7c15",
-        "type": "subflow:c79bf8c6e74ae101",
+        "id": "3cc01fcea2cef0bb",
+        "type": "function",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "Prepare Timescaledb insert query",
+        "func": "sensor_data = msg.payload;\nvalue_names = [\"BME280_temperature\",\"BME280_pressure\", \"BME280_humidity\"];\nextracted_values ={};\n\n// Extracts data from JSON sent by luftdaten sensor\nsensor_data.sensordatavalues.forEach((value) => {\n    if (value_names.includes(value.value_type)){\n        extracted_values[value.value_type] = value.value;\n    }\n    \n})\n\nmsg.queryParameters = { \n    sensor_id: `luftdaten-${sensor_data.esp8266id}`,\n    board_type: \"esp8266\",\n    sensor_type: \"bme280\",\n    room: \"Outdoors\",\n    temperature: parseInt(extracted_values[\"BME280_temperature\"]),\n    pressure: parseInt(extracted_values[\"BME280_pressure\"]) / 100,\n    humidity: parseInt(extracted_values[\"BME280_humidity\"])\n}\n\nmsg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, room, sensor_type, temperature, pressure, humidity) \nVALUES (NOW(), $sensor_id, $board_type, $room, $sensor_type, $temperature, $pressure, $humidity);`\n\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 960,
+        "y": 800,
+        "wires": [
+            [
+                "7c2978126c2f444c"
+            ]
+        ]
+    },
+    {
+        "id": "7c2978126c2f444c",
+        "type": "postgresql",
         "z": "6f295efb41de0f64",
         "g": "91fb6c2e6d03d44f",
         "name": "",
-        "x": 1230,
-        "y": 900,
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1210,
+        "y": 800,
+        "wires": [
+            [
+                "994eb5b6fbb61d47"
+            ]
+        ]
+    },
+    {
+        "id": "994eb5b6fbb61d47",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "Print response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1380,
+        "y": 800,
         "wires": []
     },
     {
-        "id": "26ac583d4bd98514",
-        "type": "subflow:c79bf8c6e74ae101",
+        "id": "cd4fd42d5ff75102",
+        "type": "function",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "Prepare Timescaledb insert query",
+        "func": "web_scrape_data = msg.payload.Data;\nvalue_names = [\"Vítr směr\", \"Tlak relat.\", \"Vlhkost ven.\", \"Teplota ven.\", \"Intenzita srážek\", \"Déšť\"];\nextracted_values = {};\n\nweb_scrape_data.allMeasures.forEach((value) => {\n    if (value_names.includes(value.Name)){\n        extracted_values[value.Name] = value.Value;\n    }\n    \n})\n\nmsg.queryParameters = { \n    sensor_id: `pocasidoma-${web_scrape_data.id}`,\n    sensor_type: \"Davis Vantage PRO2\",\n    room: \"Outdoors\",\n    temperature: extracted_values[\"Teplota ven.\"],\n    pressure: extracted_values[\"Tlak relat.\"],\n    humidity: extracted_values[\"Vlhkost ven.\"]\n}\n\nmsg.query = `INSERT INTO sensor_measurements (time, sensor_id, room, sensor_type, temperature, pressure, humidity) \nVALUES (NOW(), $sensor_id, $room, $sensor_type, $temperature, $pressure, $humidity);`\n\nreturn msg;\n\n\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 900,
+        "y": 1100,
+        "wires": [
+            [
+                "703bd536e69dc5da"
+            ]
+        ]
+    },
+    {
+        "id": "703bd536e69dc5da",
+        "type": "postgresql",
         "z": "6f295efb41de0f64",
         "g": "46ae6eaea7b98a6c",
         "name": "",
-        "x": 970,
-        "y": 1200,
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1150,
+        "y": 1100,
+        "wires": [
+            [
+                "597446dc812fa59d"
+            ]
+        ]
+    },
+    {
+        "id": "597446dc812fa59d",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "Print response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1320,
+        "y": 1100,
         "wires": []
     },
     {
-        "id": "77baa11c77157752",
-        "type": "MySQLdatabase",
-        "name": "RPI4_MariaDB",
-        "host": "mariadb",
-        "port": "3306",
-        "db": "sensor",
-        "tz": "",
-        "charset": "UTF8"
+        "id": "391fe0dd47fdfea7",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
+        "name": "",
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1230,
+        "y": 560,
+        "wires": [
+            [
+                "44e1c880e5af92ab"
+            ]
+        ]
+    },
+    {
+        "id": "44e1c880e5af92ab",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
+        "name": "Print response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1400,
+        "y": 560,
+        "wires": []
     }
 ]

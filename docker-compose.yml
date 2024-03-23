@@ -16,21 +16,20 @@ services:
       - ./volumes/grafana/log:/var/log/grafana
     links:
       - influxdb
-
-  influxdb:
+      - timescaledb
+    
+  timescaledb:
     restart: always
-    image: influxdb:latest
-    container_name: influxdb
+    build: 
+      context: ./timescaledb
+      dockerfile: Dockerfile
+    image: michbud98/timescaledb
+    container_name: timescaledb
     ports:
-      - 8086:8086
-    environment:
-      - TZ=Etc/UTC
-      - INFLUXDB_HTTP_FLUX_ENABLED=true
-      - INFLUXDB_REPORTING_DISABLED=false
-      - INFLUXDB_HTTP_AUTH_ENABLED=false
-      - INFLUXDB_MONITOR_STORE_ENABLED=FALSE
+      - 5432:5432
+    env_file: .env
     volumes:
-      - ./volumes/influxdb/data:/var/lib/influxdb2
+      - ./volumes/timescale/data:/var/lib/postgresql/data
 
   nodered:
     restart: always
@@ -44,15 +43,6 @@ services:
       - ./volumes/nodered/data:/data/
     ports:
       - "1880:1880"
-
-  mariadb:
-    restart: always
-    image: mariadb
-    container_name: mariadb
-    env_file: .env
-    command: --default-authentication-plugin=mysql_native_password
-    volumes:
-     - ./volumes/mariadb/data:/var/lib/mysql
     
 
 networks:

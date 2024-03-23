@@ -61,31 +61,11 @@ def get_datetime_url(datetime_url):
         log("RTC update failed")
 
 
-def create_data_str(temp_arg, pres_arg, hum_arg, room_arg):
-    """
-    Creates data string in Influxdb data format.
-
-    :param temp_arg Float with Temperature measured by BME680 Sensor
-    :param pres_arg Float with Pressure measured by BME680 Sensor
-    :param hum_arg Float with Humidity measured by BME680 Sensor
-    :param room_arg String with Room in which sensor is located, removed from data if empty
-    :return String in Influxdb format in order with all sensor values
-    """
-    if room_arg:
-        MQTT_sensor_data = "sensor_data,sensor_id={0},board_type={1},sensor_type={2},room={3},comm_protocol=MQTT temperature={4:.2f},pressure={5:.2f},humidity={6:.2f}".format(
-            sensor_id, board_type, sensor_type, room_arg, temp_arg, pres_arg, hum_arg)
-    elif not room_arg:
-        MQTT_sensor_data = "sensor_data,sensor_id={0},board_type={1},sensor_type={2},comm_protocol=MQTT temperature={3:.2f},pressure={4:.2f},humidity={5:.2f}".format(
-            sensor_id, board_type, sensor_type, temp_arg, pres_arg, hum_arg)
-    log(f"Created Influx data: {MQTT_sensor_data}")
-    return MQTT_sensor_data
-
-
 def read_bme_sensor():
     """
     Pulls data from BME680 sensor
 
-    :return Tuple with measurements in order (Temp:Float, pres:Float, hum:Float)
+    :return Tuple with measurements in order (Temp:Float in °C, pres:Float in hPa, hum:Float in %)
     """
     temp = bme.temperature
     pres = bme.pressure

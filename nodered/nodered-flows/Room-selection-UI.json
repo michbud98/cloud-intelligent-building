@@ -37,26 +37,13 @@
         "color": "#DDAA99"
     },
     {
-        "id": "edb7f5ee4bb17e78",
-        "type": "mysql",
-        "z": "c4e5c2ecfe2a7d7c",
-        "mydb": "77baa11c77157752",
-        "name": "",
-        "x": 480,
-        "y": 200,
-        "wires": [
-            [
-                "b50f2f9f75d72f28"
-            ]
-        ]
-    },
-    {
         "id": "2f90ac2e6758dcb9",
         "type": "function",
         "z": "c4e5c2ecfe2a7d7c",
         "name": "Create query",
-        "func": "\nmsg.sensor_id = msg.payload;\nmsg.topic=`select sensor_id, room from sensors where sensor_id = \"${msg.payload}\";`\n\nreturn msg;",
+        "func": "msg.queryParameters = { \n    sensor_id: msg.payload\n}\n\nmsg.query = \"SELECT * FROM sensors WHERE sensor_id = $sensor_id \"\n\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -65,7 +52,7 @@
         "y": 200,
         "wires": [
             [
-                "edb7f5ee4bb17e78"
+                "42501e96d518dccc"
             ]
         ]
     },
@@ -133,6 +120,24 @@
         ]
     },
     {
+        "id": "42501e96d518dccc",
+        "type": "postgresql",
+        "z": "c4e5c2ecfe2a7d7c",
+        "name": "",
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 470,
+        "y": 200,
+        "wires": [
+            [
+                "b50f2f9f75d72f28"
+            ]
+        ]
+    },
+    {
         "id": "98df4c30829c6402",
         "type": "subflow",
         "name": "Get all sensor_ids",
@@ -144,7 +149,7 @@
                 "y": 30,
                 "wires": [
                     {
-                        "id": "14bb6ad5b90437d6"
+                        "id": "55da7c31a0954239"
                     }
                 ]
             }
@@ -164,25 +169,6 @@
         "env": [],
         "meta": {},
         "color": "#DDAA99"
-    },
-    {
-        "id": "14bb6ad5b90437d6",
-        "type": "influxdb in",
-        "z": "98df4c30829c6402",
-        "influxdb": "f64d2d329f647e71",
-        "name": "Query",
-        "query": "import \"influxdata/influxdb/schema\"\nschema.tagValues(\n    bucket: \"Sensor_data\",\n    tag: \"sensor_id\",\n    predicate: (r) => r.room != \"water_boiler_room\",\n    start: -1d\n)",
-        "rawOutput": false,
-        "precision": "",
-        "retentionPolicy": "",
-        "org": "swiftblade1982@gmail.com",
-        "x": 190,
-        "y": 160,
-        "wires": [
-            [
-                "b979f2c4032b3704"
-            ]
-        ]
     },
     {
         "id": "b979f2c4032b3704",
@@ -211,7 +197,7 @@
         "rules": [
             {
                 "t": "move",
-                "p": "payload._value",
+                "p": "payload.sensor_id",
                 "pt": "msg",
                 "to": "payload",
                 "tot": "msg"
@@ -267,18 +253,47 @@
         "wires": []
     },
     {
-        "id": "f64d2d329f647e71",
-        "type": "influxdb",
-        "hostname": "127.0.0.1",
-        "port": "8086",
-        "protocol": "http",
-        "database": "database",
-        "name": "InfluxDB RPI4",
-        "usetls": false,
-        "tls": "",
-        "influxdbVersion": "2.0",
-        "url": "http://influxdb:8086",
-        "rejectUnauthorized": true
+        "id": "55da7c31a0954239",
+        "type": "postgresql",
+        "z": "98df4c30829c6402",
+        "name": "",
+        "query": "SELECT DISTINCT sensor_id FROM sensor_measurements WHERE room != 'Outdoors';",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 170,
+        "y": 160,
+        "wires": [
+            [
+                "b979f2c4032b3704"
+            ]
+        ]
+    },
+    {
+        "id": "b6d5c0074129b3d4",
+        "type": "postgreSQLConfig",
+        "name": "",
+        "host": "timescaledb",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "postgres",
+        "databaseFieldType": "str",
+        "ssl": "false",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "postgres",
+        "userFieldType": "str",
+        "password": "example",
+        "passwordFieldType": "str"
     },
     {
         "id": "abcbbe81376760db",
@@ -289,65 +304,9 @@
         "env": []
     },
     {
-        "id": "4a4fc256d38b2418",
-        "type": "group",
-        "z": "abcbbe81376760db",
-        "name": "Indoors sensor room selection UI",
-        "style": {
-            "label": true
-        },
-        "nodes": [
-            "6d21a86ecb38f6c0",
-            "4c70d5405294bd49",
-            "a2d0f585d960bf09",
-            "fbbe2da644ed9939",
-            "311c13a3c6df72e3",
-            "5bfd86873d4e1b17",
-            "5680a189a68fb36c",
-            "b0db298bdc56c80c",
-            "40005c2dfeb4d635",
-            "33b2f583cc7274df",
-            "5e85f38e385f6511",
-            "a986ee886b8cdeb3",
-            "d2bb9f0b9a3dedb1",
-            "23b3b3b4f7d6613d",
-            "798686e05470ab84",
-            "9627fd9365e8311b",
-            "adbbc86fe33c1ae9",
-            "40f208c35ea7dbe1",
-            "7c51acc01546c98e",
-            "c9aafd3f212e8e2a",
-            "a2fb98afc6c338b7",
-            "2cc695e8368b3ec8",
-            "0ef91984d65b4640",
-            "92d5f099273b2155",
-            "46a34c461997b473",
-            "2c85d54f4f8098c8",
-            "b1847f677738ea9c",
-            "90e782b358cbc58a",
-            "6596de9d82e63d9d",
-            "c39a69a032d82237",
-            "78b2ca3aaea436d4",
-            "12e17689c4c1bac4",
-            "10721ef50652b960",
-            "8ff6fac16d9a9463",
-            "85b54c58614f8b94",
-            "e0d835eccc458c4c",
-            "54375fe57fa89d66",
-            "782b28977b67670b",
-            "957cd4579c8a4e95",
-            "eb1b895e6a4e47b4"
-        ],
-        "x": 54,
-        "y": 59,
-        "w": 1472,
-        "h": 602
-    },
-    {
         "id": "6d21a86ecb38f6c0",
         "type": "ui_dropdown",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Choose sensor_id",
         "label": "",
         "tooltip": "",
@@ -363,8 +322,8 @@
         "topic": "payload",
         "topicType": "msg",
         "className": "",
-        "x": 830,
-        "y": 140,
+        "x": 810,
+        "y": 240,
         "wires": [
             [
                 "c9aafd3f212e8e2a",
@@ -376,16 +335,14 @@
         "id": "4c70d5405294bd49",
         "type": "subflow:98df4c30829c6402",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "",
         "env": [],
-        "x": 390,
-        "y": 140,
+        "x": 370,
+        "y": 240,
         "wires": [
             [
-                "6d21a86ecb38f6c0",
-                "a2d0f585d960bf09",
-                "eb1b895e6a4e47b4"
+                "eb1b895e6a4e47b4",
+                "a2d0f585d960bf09"
             ]
         ]
     },
@@ -393,29 +350,27 @@
         "id": "a2d0f585d960bf09",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
-        "name": "Sensor_ids",
+        "name": "msg",
         "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 610,
-        "y": 100,
+        "x": 570,
+        "y": 200,
         "wires": []
     },
     {
         "id": "fbbe2da644ed9939",
         "type": "ui_ui_control",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Reset web UI",
         "events": "connect",
-        "x": 180,
-        "y": 200,
+        "x": 120,
+        "y": 340,
         "wires": [
             [
                 "4c70d5405294bd49",
@@ -425,28 +380,9 @@
         ]
     },
     {
-        "id": "311c13a3c6df72e3",
-        "type": "debug",
-        "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
-        "name": "Print new room",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 800,
-        "y": 420,
-        "wires": []
-    },
-    {
         "id": "5bfd86873d4e1b17",
         "type": "ui_text",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "group": "d8aece7e220cdf0e",
         "order": 2,
         "width": 0,
@@ -456,44 +392,43 @@
         "format": "{{msg.payload}}",
         "layout": "row-spread",
         "className": "",
-        "x": 1110,
-        "y": 440,
+        "x": 1080,
+        "y": 680,
         "wires": []
     },
     {
         "id": "5680a189a68fb36c",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
-        "name": "Print room",
+        "name": "msg",
         "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1090,
-        "y": 100,
+        "x": 1170,
+        "y": 200,
         "wires": []
     },
     {
         "id": "b0db298bdc56c80c",
         "type": "link in",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "",
         "links": [
             "a986ee886b8cdeb3"
         ],
-        "x": 95,
-        "y": 440,
+        "x": 65,
+        "y": 680,
         "wires": [
             [
                 "33b2f583cc7274df",
                 "90e782b358cbc58a",
-                "6596de9d82e63d9d"
+                "6596de9d82e63d9d",
+                "be3caf10bde2f1d8"
             ]
         ]
     },
@@ -501,7 +436,6 @@
         "id": "40005c2dfeb4d635",
         "type": "ui_form",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Update room",
         "label": "",
         "group": "d8aece7e220cdf0e",
@@ -527,13 +461,13 @@
         "topicType": "msg",
         "splitLayout": false,
         "className": "",
-        "x": 570,
-        "y": 380,
+        "x": 540,
+        "y": 620,
         "wires": [
             [
-                "311c13a3c6df72e3",
                 "adbbc86fe33c1ae9",
-                "9627fd9365e8311b"
+                "9627fd9365e8311b",
+                "fed7b519eda96c93"
             ]
         ]
     },
@@ -541,9 +475,8 @@
         "id": "33b2f583cc7274df",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Print sensor_id and room",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -551,22 +484,21 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 270,
-        "y": 320,
+        "x": 260,
+        "y": 560,
         "wires": []
     },
     {
         "id": "5e85f38e385f6511",
         "type": "change",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Move sensor_id val to flow",
         "rules": [
             {
                 "t": "set",
                 "p": "sensor_id",
                 "pt": "flow",
-                "to": "payload.sensor_id",
+                "to": "queryParameters.sensor_id",
                 "tot": "msg"
             }
         ],
@@ -575,8 +507,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1280,
-        "y": 140,
+        "x": 1260,
+        "y": 240,
         "wires": [
             [
                 "a986ee886b8cdeb3"
@@ -587,21 +519,19 @@
         "id": "a986ee886b8cdeb3",
         "type": "link out",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Output room val",
         "mode": "link",
         "links": [
             "b0db298bdc56c80c"
         ],
-        "x": 1485,
-        "y": 140,
+        "x": 1465,
+        "y": 240,
         "wires": []
     },
     {
         "id": "d2bb9f0b9a3dedb1",
         "type": "change",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Reset room val",
         "rules": [
             {
@@ -617,8 +547,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 900,
-        "y": 500,
+        "x": 870,
+        "y": 740,
         "wires": [
             [
                 "5bfd86873d4e1b17"
@@ -629,28 +559,26 @@
         "id": "23b3b3b4f7d6613d",
         "type": "link out",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "RESET INPUT",
         "mode": "link",
         "links": [
             "798686e05470ab84",
             "2cc695e8368b3ec8"
         ],
-        "x": 585,
-        "y": 240,
+        "x": 565,
+        "y": 420,
         "wires": []
     },
     {
         "id": "798686e05470ab84",
         "type": "link in",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Reset link 2",
         "links": [
             "23b3b3b4f7d6613d"
         ],
-        "x": 745,
-        "y": 500,
+        "x": 715,
+        "y": 740,
         "wires": [
             [
                 "d2bb9f0b9a3dedb1"
@@ -661,7 +589,6 @@
         "id": "9627fd9365e8311b",
         "type": "function",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Update room label",
         "func": "msg.payload = msg.payload.room\nreturn msg;",
         "outputs": 1,
@@ -669,8 +596,8 @@
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 810,
-        "y": 360,
+        "x": 780,
+        "y": 600,
         "wires": [
             [
                 "5bfd86873d4e1b17",
@@ -682,34 +609,20 @@
         "id": "adbbc86fe33c1ae9",
         "type": "function",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Handle DB room update",
-        "func": "\n\nsensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    \n    msg.payload = {\n        sensor_id: sensor_id,\n        room: room\n    }\n    msg.topic=\"INSERT INTO sensors (`sensor_id`, `room`) VALUES (:sensor_id, :room) ON DUPLICATE KEY UPDATE `sensor_id`=:sensor_id, `room`=:room;\"\n    return msg;\n}\nelse{\n    return null;\n}",
+        "func": "sensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room != \"Room not yet set\") {\n    msg.queryParameters = { \n        sensor_id: sensor_id,\n        room: room\n    }\n    \n    msg.query = `INSERT INTO sensors (sensor_id, room) \n    VALUES ($sensor_id, $room);`\n    \n    return msg;\n}\nelse{\n    msg.payload = \"failed\"\n    return msg;\n}\n\n\n    ",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 820,
-        "y": 300,
+        "x": 790,
+        "y": 540,
         "wires": [
             [
-                "40f208c35ea7dbe1"
-            ]
-        ]
-    },
-    {
-        "id": "40f208c35ea7dbe1",
-        "type": "mysql",
-        "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
-        "mydb": "77baa11c77157752",
-        "name": "",
-        "x": 1070,
-        "y": 300,
-        "wires": [
-            [
-                "7c51acc01546c98e"
+                "aa9c932034100adb",
+                "98daa093b08c8f89"
             ]
         ]
     },
@@ -717,9 +630,8 @@
         "id": "7c51acc01546c98e",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -727,18 +639,17 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1240,
-        "y": 300,
+        "x": 1210,
+        "y": 540,
         "wires": []
     },
     {
         "id": "c9aafd3f212e8e2a",
         "type": "subflow:c4e5c2ecfe2a7d7c",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "",
-        "x": 1020,
-        "y": 140,
+        "x": 1000,
+        "y": 240,
         "wires": [
             [
                 "5e85f38e385f6511",
@@ -750,7 +661,6 @@
         "id": "a2fb98afc6c338b7",
         "type": "ui_text",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "group": "d8aece7e220cdf0e",
         "order": 4,
         "width": 0,
@@ -760,23 +670,22 @@
         "format": "{{msg.payload}}",
         "layout": "col-center",
         "className": "",
-        "x": 1330,
-        "y": 360,
+        "x": 1300,
+        "y": 600,
         "wires": []
     },
     {
         "id": "2cc695e8368b3ec8",
         "type": "link in",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "",
         "links": [
             "23b3b3b4f7d6613d",
             "ac78c5f7cdf22fbe",
             "85b54c58614f8b94"
         ],
-        "x": 1015,
-        "y": 400,
+        "x": 1115,
+        "y": 640,
         "wires": [
             [
                 "a2fb98afc6c338b7"
@@ -787,7 +696,6 @@
         "id": "0ef91984d65b4640",
         "type": "ui_button",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Reset button",
         "group": "d8aece7e220cdf0e",
         "order": 5,
@@ -804,8 +712,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 170,
-        "y": 140,
+        "x": 110,
+        "y": 240,
         "wires": [
             [
                 "4c70d5405294bd49",
@@ -818,7 +726,6 @@
         "id": "92d5f099273b2155",
         "type": "change",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Update output label",
         "rules": [
             {
@@ -834,8 +741,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 420,
-        "y": 240,
+        "x": 400,
+        "y": 360,
         "wires": [
             [
                 "23b3b3b4f7d6613d"
@@ -846,7 +753,6 @@
         "id": "46a34c461997b473",
         "type": "change",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Update output label",
         "rules": [
             {
@@ -862,8 +768,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1060,
-        "y": 360,
+        "x": 1030,
+        "y": 600,
         "wires": [
             [
                 "a2fb98afc6c338b7"
@@ -874,7 +780,6 @@
         "id": "2c85d54f4f8098c8",
         "type": "ui_button",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Unset room button",
         "group": "d8aece7e220cdf0e",
         "order": 5,
@@ -891,8 +796,8 @@
         "payloadType": "str",
         "topic": "topic",
         "topicType": "msg",
-        "x": 570,
-        "y": 560,
+        "x": 540,
+        "y": 800,
         "wires": [
             [
                 "10721ef50652b960",
@@ -904,25 +809,23 @@
         "id": "b1847f677738ea9c",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
-        "name": "Print sensor_id",
+        "name": "msg",
         "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 860,
-        "y": 100,
+        "x": 990,
+        "y": 200,
         "wires": []
     },
     {
         "id": "90e782b358cbc58a",
         "type": "change",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Send room to update button",
         "rules": [
             {
@@ -938,8 +841,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 300,
-        "y": 440,
+        "x": 270,
+        "y": 680,
         "wires": [
             [
                 "40005c2dfeb4d635",
@@ -952,7 +855,6 @@
         "id": "6596de9d82e63d9d",
         "type": "change",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Send sensor_id to unset button",
         "rules": [
             {
@@ -968,8 +870,8 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 310,
-        "y": 560,
+        "x": 280,
+        "y": 800,
         "wires": [
             [
                 "2c85d54f4f8098c8"
@@ -980,7 +882,6 @@
         "id": "c39a69a032d82237",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Print room",
         "active": false,
         "tosidebar": true,
@@ -990,61 +891,46 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 550,
-        "y": 320,
+        "x": 520,
+        "y": 560,
         "wires": []
     },
     {
         "id": "78b2ca3aaea436d4",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
-        "name": "Print Sensor_id",
+        "name": "msg",
         "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
-        "complete": "topic",
-        "targetType": "msg",
+        "complete": "true",
+        "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 800,
-        "y": 620,
+        "x": 740,
+        "y": 860,
         "wires": []
-    },
-    {
-        "id": "12e17689c4c1bac4",
-        "type": "mysql",
-        "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
-        "mydb": "77baa11c77157752",
-        "name": "",
-        "x": 1080,
-        "y": 560,
-        "wires": [
-            [
-                "8ff6fac16d9a9463"
-            ]
-        ]
     },
     {
         "id": "10721ef50652b960",
         "type": "function",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Unset room from sensor_id",
-        "func": "\nif (msg.topic != null){\n    msg.payload = msg.topic;\n    msg.topic=`DELETE FROM sensors where sensor_id = \"${msg.payload}\";`\n\n    return msg;   \n    \n}\nelse{\n    return null;\n}",
+        "func": "\nif (msg.topic != null){\n    \n    msg.queryParameters = { \n        sensor_id: msg.topic\n    }\n    \n    msg.query = \"DELETE FROM sensors WHERE sensor_id = $sensor_id;\"\n\n    return msg;   \n    \n}\nelse{\n    return null;\n}",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 840,
-        "y": 560,
+        "x": 810,
+        "y": 800,
         "wires": [
             [
-                "12e17689c4c1bac4",
-                "e0d835eccc458c4c"
+                "e0d835eccc458c4c",
+                "d010587c21512e8e",
+                "0d19a90fd1023b0b"
             ]
         ]
     },
@@ -1052,9 +938,8 @@
         "id": "8ff6fac16d9a9463",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Print Sensor_id",
-        "active": true,
+        "active": false,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1062,38 +947,38 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1280,
-        "y": 560,
+        "x": 1250,
+        "y": 800,
         "wires": []
     },
     {
         "id": "85b54c58614f8b94",
         "type": "link out",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "",
         "mode": "link",
         "links": [
-            "2cc695e8368b3ec8"
+            "2cc695e8368b3ec8",
+            "998fd6d68816438c"
         ],
-        "x": 1295,
-        "y": 620,
+        "x": 1265,
+        "y": 860,
         "wires": []
     },
     {
         "id": "e0d835eccc458c4c",
         "type": "function",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Update output label",
-        "func": "msg.payload = `Unset room from ID ${msg.payload}`\nreturn msg;",
+        "func": "msg.payload = `Unset room from ID ${msg.queryParameters.sensor_id}`\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 1100,
-        "y": 620,
+        "x": 1070,
+        "y": 860,
         "wires": [
             [
                 "85b54c58614f8b94"
@@ -1104,13 +989,12 @@
         "id": "54375fe57fa89d66",
         "type": "link in",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "",
         "links": [
             "782b28977b67670b"
         ],
-        "x": 405,
-        "y": 620,
+        "x": 375,
+        "y": 860,
         "wires": [
             [
                 "2c85d54f4f8098c8"
@@ -1121,30 +1005,29 @@
         "id": "782b28977b67670b",
         "type": "link out",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "",
         "mode": "link",
         "links": [
             "54375fe57fa89d66"
         ],
-        "x": 585,
-        "y": 200,
+        "x": 605,
+        "y": 300,
         "wires": []
     },
     {
         "id": "957cd4579c8a4e95",
         "type": "function",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
-        "name": "Reset values",
+        "name": "Reset UI values",
         "func": "msg = null;\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
         "libs": [],
-        "x": 390,
-        "y": 200,
+        "x": 380,
+        "y": 300,
         "wires": [
             [
                 "782b28977b67670b"
@@ -1155,7 +1038,6 @@
         "id": "eb1b895e6a4e47b4",
         "type": "change",
         "z": "abcbbe81376760db",
-        "g": "4a4fc256d38b2418",
         "name": "Pass to msg.options",
         "rules": [
             {
@@ -1171,11 +1053,228 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 620,
-        "y": 140,
+        "x": 600,
+        "y": 240,
         "wires": [
             [
                 "6d21a86ecb38f6c0"
+            ]
+        ]
+    },
+    {
+        "id": "e46758cf77ce259b",
+        "type": "debug",
+        "z": "abcbbe81376760db",
+        "name": "Print rooms",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 730,
+        "y": 100,
+        "wires": []
+    },
+    {
+        "id": "56dc7e81c32fc641",
+        "type": "function",
+        "z": "abcbbe81376760db",
+        "name": "Rooms query",
+        "func": "msg.query = \"SELECT * FROM sensors;\"\n//msg.topic=`DELETE FROM sensors where sensor_id=\"postman-1\";`\nreturn msg;\n",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 340,
+        "y": 100,
+        "wires": [
+            [
+                "68718625666dcb05"
+            ]
+        ]
+    },
+    {
+        "id": "03a752480ff880c7",
+        "type": "inject",
+        "z": "abcbbe81376760db",
+        "name": "",
+        "props": [
+            {
+                "p": "payload"
+            },
+            {
+                "p": "topic",
+                "vt": "str"
+            }
+        ],
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "topic": "",
+        "payload": "",
+        "payloadType": "date",
+        "x": 160,
+        "y": 100,
+        "wires": [
+            [
+                "56dc7e81c32fc641"
+            ]
+        ]
+    },
+    {
+        "id": "04630c6cbb953a4b",
+        "type": "comment",
+        "z": "abcbbe81376760db",
+        "name": "Debug select for all rooms in DB",
+        "info": "",
+        "x": 390,
+        "y": 60,
+        "wires": []
+    },
+    {
+        "id": "68718625666dcb05",
+        "type": "postgresql",
+        "z": "abcbbe81376760db",
+        "name": "",
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 530,
+        "y": 100,
+        "wires": [
+            [
+                "e46758cf77ce259b"
+            ]
+        ]
+    },
+    {
+        "id": "aa9c932034100adb",
+        "type": "postgresql",
+        "z": "abcbbe81376760db",
+        "name": "",
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1020,
+        "y": 540,
+        "wires": [
+            [
+                "7c51acc01546c98e"
+            ]
+        ]
+    },
+    {
+        "id": "d010587c21512e8e",
+        "type": "postgresql",
+        "z": "abcbbe81376760db",
+        "name": "",
+        "query": "",
+        "postgreSQLConfig": "b6d5c0074129b3d4",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1039,
+        "y": 800,
+        "wires": [
+            [
+                "8ff6fac16d9a9463"
+            ]
+        ]
+    },
+    {
+        "id": "98daa093b08c8f89",
+        "type": "debug",
+        "z": "abcbbe81376760db",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1000,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "0d19a90fd1023b0b",
+        "type": "debug",
+        "z": "abcbbe81376760db",
+        "name": "msg",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1020,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "be3caf10bde2f1d8",
+        "type": "debug",
+        "z": "abcbbe81376760db",
+        "name": "msg",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 200,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "fed7b519eda96c93",
+        "type": "debug",
+        "z": "abcbbe81376760db",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 740,
+        "y": 640,
+        "wires": []
+    },
+    {
+        "id": "998fd6d68816438c",
+        "type": "link in",
+        "z": "abcbbe81376760db",
+        "name": "",
+        "links": [
+            "ac78c5f7cdf22fbe",
+            "59cbff11d4dd6b53",
+            "85b54c58614f8b94"
+        ],
+        "x": 175,
+        "y": 420,
+        "wires": [
+            [
+                "957cd4579c8a4e95",
+                "23b3b3b4f7d6613d"
             ]
         ]
     },
@@ -1189,16 +1288,6 @@
         "width": "6",
         "collapse": false,
         "className": ""
-    },
-    {
-        "id": "77baa11c77157752",
-        "type": "MySQLdatabase",
-        "name": "RPI4_MariaDB",
-        "host": "mariadb",
-        "port": "3306",
-        "db": "sensor",
-        "tz": "",
-        "charset": "UTF8"
     },
     {
         "id": "d1f25c62d446af39",

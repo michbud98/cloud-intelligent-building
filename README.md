@@ -6,10 +6,9 @@ https://eu-central-1-1.aws.cloud2.influxdata.com/
 
 ## Initial setup of TIG on RPI4:
 1. Create .env file next to docker-compose file
-    - Fill it with Mariadb root password and default database name:
+    - Fill it with password for TimescaleDB user (same as in Postgresql):
     ```
-    MYSQL_ROOT_PASSWORD=<example>
-    MARIADB_DATABASE=<example>
+    POSTGRES_PASSWORD=example
     ```
 2. Run influxdb and grafana containers with:
 ```
