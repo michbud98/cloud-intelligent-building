@@ -93,31 +93,11 @@
         ]
     },
     {
-        "id": "01d76788eddb7676",
-        "type": "function",
-        "z": "07ac8830d610a027",
-        "name": "Add outdoors and boiler",
-        "func": "\n//msg.payload = msg.payload.concat([{room: \"Outdoors\"}, {room: \"water_boiler_room\"}])\nmsg.payload = msg.payload.concat([{room: \"Outdoors\"}])\nreturn msg;",
-        "outputs": 1,
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 790,
-        "y": 360,
-        "wires": [
-            [
-                "6851fc4e1d98013d",
-                "993f8d2d28a00c5a"
-            ]
-        ]
-    },
-    {
         "id": "f88830bc51caac2a",
         "type": "function",
         "z": "07ac8830d610a027",
         "name": "For each room check if data is send",
-        "func": "msg.queryParameters = { \n    room: msg.payload\n}\n\nmsg.query = \"SELECT * FROM sensors WHERE room = $room\"\n\n\nreturn msg;",
+        "func": "msg.queryParameters = { \n    room: msg.payload\n}\n\nmsg.query = \"SELECT * FROM sensor_measurements WHERE room = $room\"\n\n\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -377,8 +357,8 @@
         "y": 360,
         "wires": [
             [
-                "01d76788eddb7676",
-                "ab972221879db998"
+                "ab972221879db998",
+                "01d76788eddb7676"
             ]
         ]
     },
@@ -468,6 +448,27 @@
         "x": 1440,
         "y": 460,
         "wires": []
+    },
+    {
+        "id": "01d76788eddb7676",
+        "type": "function",
+        "z": "07ac8830d610a027",
+        "name": "Add outdoors",
+        "func": "\n//msg.payload = msg.payload.concat([{room: \"Outdoors\"}, {room: \"water_boiler_room\"}])\nmsg.payload = msg.payload.concat([{room: \"Outdoors\"}])\nreturn msg;",
+        "outputs": 1,
+        "timeout": "",
+        "noerr": 0,
+        "initialize": "",
+        "finalize": "",
+        "libs": [],
+        "x": 760,
+        "y": 360,
+        "wires": [
+            [
+                "6851fc4e1d98013d",
+                "993f8d2d28a00c5a"
+            ]
+        ]
     },
     {
         "id": "b6d5c0074129b3d4",
