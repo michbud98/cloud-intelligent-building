@@ -427,8 +427,8 @@
             [
                 "33b2f583cc7274df",
                 "90e782b358cbc58a",
-                "6596de9d82e63d9d",
-                "be3caf10bde2f1d8"
+                "be3caf10bde2f1d8",
+                "6596de9d82e63d9d"
             ]
         ]
     },
@@ -590,7 +590,7 @@
         "type": "function",
         "z": "abcbbe81376760db",
         "name": "Update room label",
-        "func": "room = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    \n    return msg;\n}\nelse if(room.includes(\"-\")){\n    msg.payload = \"Room name cant include -\"\n    return msg;\n}\nelse{\n    return null;\n}",
+        "func": "room = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    msg.payload = `Sensor set to ${msg.payload.room}`\n    return msg\n}\nelse if(room.includes(\"-\")){\n    msg.payload = \"Room name cant include -\"\n    return msg;\n}\nelse{\n    return null;\n}",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -601,9 +601,9 @@
         "y": 600,
         "wires": [
             [
-                "5bfd86873d4e1b17",
                 "77e6620d5b1454a8",
-                "a2fb98afc6c338b7"
+                "a2fb98afc6c338b7",
+                "5bfd86873d4e1b17"
             ]
         ]
     },
@@ -612,7 +612,7 @@
         "type": "function",
         "z": "abcbbe81376760db",
         "name": "Handle DB room update",
-        "func": "sensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    msg.queryParameters = { \n        sensor_id: sensor_id,\n        room: room\n    }\n    \n    msg.query = `INSERT INTO sensors (sensor_id, room) \n    VALUES ($sensor_id, $room);`\n    \n    return msg;\n}\nelse{\n    msg.payload = \"failed\"\n    return msg;\n}\n\n\n    ",
+        "func": "sensor_id = flow.get('sensor_id')\nroom = msg.payload.room\nif (room != \"Room not yet set\" && !room.includes(\"-\")) {\n    msg.queryParameters = { \n        sensor_id: sensor_id,\n        room: room\n    }\n    \n    msg.query = `INSERT INTO sensors (sensor_id, room) \n    VALUES ($sensor_id, $room) ON CONFLICT (sensor_id)\n    DO UPDATE SET room = $room;`\n    \n    return msg;\n}\nelse{\n    msg.payload = \"failed\"\n    return msg;\n}\n\n\n    ",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -658,23 +658,6 @@
                 "5680a189a68fb36c"
             ]
         ]
-    },
-    {
-        "id": "a2fb98afc6c338b7",
-        "type": "ui_text",
-        "z": "abcbbe81376760db",
-        "group": "d8aece7e220cdf0e",
-        "order": 4,
-        "width": 0,
-        "height": 0,
-        "name": "Output label",
-        "label": "",
-        "format": "{{msg.payload}}",
-        "layout": "col-center",
-        "className": "",
-        "x": 1300,
-        "y": 600,
-        "wires": []
     },
     {
         "id": "2cc695e8368b3ec8",
@@ -1268,6 +1251,27 @@
         "statusType": "auto",
         "x": 1010,
         "y": 640,
+        "wires": []
+    },
+    {
+        "id": "a2fb98afc6c338b7",
+        "type": "ui_text",
+        "z": "abcbbe81376760db",
+        "group": "d8aece7e220cdf0e",
+        "order": 4,
+        "width": 0,
+        "height": 0,
+        "name": "Output label",
+        "label": "",
+        "format": "{{msg.payload}}",
+        "layout": "col-center",
+        "className": "",
+        "style": false,
+        "font": "",
+        "fontSize": "",
+        "color": "#000000",
+        "x": 1300,
+        "y": 600,
         "wires": []
     },
     {

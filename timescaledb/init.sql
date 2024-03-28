@@ -25,6 +25,6 @@ CREATE TABLE IF NOT EXISTS boiler_measurements (
 SELECT create_hypertable('boiler_measurements', by_range('time'), if_not_exists => TRUE);
 
 CREATE TABLE IF NOT EXISTS sensors (
-    sensor_id TEXT NOT NULL,
+    sensor_id TEXT UNIQUE NOT NULL,
     room TEXT
 );
