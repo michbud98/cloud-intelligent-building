@@ -5,5 +5,4 @@ USER node-red
 
 WORKDIR /usr/src/node-red
 
-RUN npm install --save  node-red-dashboard node-red-contrib-influxdb node-red-node-mysql node-red-contrib-postgresql \
-node-red-contrib-boolean-logic node-red-configurable-ping @node-red-contrib-themes/theme-collection@v2.2
+RUN npm install --save node-red-dashboard node-red-contrib-postgresql node-red-contrib-boolean-logic node-red-configurable-ping @node-red-contrib-themes/theme-collection@v2.2
