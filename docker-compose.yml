@@ -49,6 +49,5 @@ networks:
       
 volumes:
   grafana_data:
-  grafana_log:
   timescale_data:
   nodered_data:
