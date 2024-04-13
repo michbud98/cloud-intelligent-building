@@ -5,17 +5,12 @@ services:
     restart: always
     image: grafana/grafana:latest
     container_name: grafana
-    user: "0" # Root user id, without it we cant use mounts
     ports:
       - 3000:3000
     environment:
       - GF_PATHS_DATA=/var/lib/grafana
-      - GF_PATHS_LOGS=/var/log/grafana
     volumes:
-      - ./volumes/grafana/data:/var/lib/grafana
-      - ./volumes/grafana/log:/var/log/grafana
-    links:
-      - timescaledb
+      - grafana_data:/var/lib/grafana
     
   timescaledb:
     restart: always
@@ -28,18 +23,18 @@ services:
       - 5432:5432
     env_file: .env
     volumes:
-      - ./volumes/timescale/data:/var/lib/postgresql/data
+      - timescale_data:/var/lib/postgresql/data
 
   nodered:
     restart: always
     build: 
       context: ./nodered
       dockerfile: Dockerfile
-    image: michbud98/node-red
+    image: michbud98/node-red:latest-pg16
     container_name: nodered
     user: "0" # Root user id, without it we cant use mounts
     volumes:
-      - ./volumes/nodered/data:/data/
+      - nodered_data:/data/
     ports:
       - "1880:1880"
     
@@ -52,3 +47,8 @@ networks:
     name: TIG
 
       
+volumes:
+  grafana_data:
+  grafana_log:
+  timescale_data:
+  nodered_data:

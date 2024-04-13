@@ -61,8 +61,9 @@
         "type": "function",
         "z": "c4e5c2ecfe2a7d7c",
         "name": "Get object from array",
-        "func": "msg.payload = msg.payload[0];\n\nreturn msg;",
+        "func": "msg.topic = \"room_value\"\nmsg.payload = msg.payload[0];\n\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -107,8 +108,9 @@
         "type": "function",
         "z": "c4e5c2ecfe2a7d7c",
         "name": "Create empty object",
-        "func": "\nmsg.payload = {\n    sensor_id: msg.sensor_id,\n    room: \"Not specified\"\n}\nreturn msg;",
+        "func": "msg.topic = \"Room-value\"\nmsg.payload = {\n    sensor_id: msg.sensor_id,\n    room: \"Not specified\"\n}\nreturn msg;",
         "outputs": 1,
+        "timeout": "",
         "noerr": 0,
         "initialize": "",
         "finalize": "",
@@ -350,8 +352,8 @@
         "id": "a2d0f585d960bf09",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "name": "msg",
-        "active": false,
+        "name": "Print sensor IDs",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -359,7 +361,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 570,
+        "x": 580,
         "y": 200,
         "wires": []
     },
@@ -400,8 +402,8 @@
         "id": "5680a189a68fb36c",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "name": "msg",
-        "active": false,
+        "name": "Print ound room for sensor_id",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -409,8 +411,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1170,
-        "y": 200,
+        "x": 1270,
+        "y": 280,
         "wires": []
     },
     {
@@ -425,7 +427,6 @@
         "y": 680,
         "wires": [
             [
-                "33b2f583cc7274df",
                 "90e782b358cbc58a",
                 "be3caf10bde2f1d8",
                 "6596de9d82e63d9d"
@@ -470,23 +471,6 @@
                 "fed7b519eda96c93"
             ]
         ]
-    },
-    {
-        "id": "33b2f583cc7274df",
-        "type": "debug",
-        "z": "abcbbe81376760db",
-        "name": "Print sensor_id and room",
-        "active": false,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "payload",
-        "targetType": "msg",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 260,
-        "y": 560,
-        "wires": []
     },
     {
         "id": "5e85f38e385f6511",
@@ -758,8 +742,7 @@
         "y": 800,
         "wires": [
             [
-                "10721ef50652b960",
-                "78b2ca3aaea436d4"
+                "10721ef50652b960"
             ]
         ]
     },
@@ -767,8 +750,8 @@
         "id": "b1847f677738ea9c",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "name": "msg",
-        "active": false,
+        "name": "Print chosen sensor ID from UI",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -776,7 +759,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 990,
+        "x": 1070,
         "y": 200,
         "wires": []
     },
@@ -841,7 +824,7 @@
         "type": "debug",
         "z": "abcbbe81376760db",
         "name": "Print room",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -851,23 +834,6 @@
         "statusType": "auto",
         "x": 520,
         "y": 560,
-        "wires": []
-    },
-    {
-        "id": "78b2ca3aaea436d4",
-        "type": "debug",
-        "z": "abcbbe81376760db",
-        "name": "msg",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 740,
-        "y": 860,
         "wires": []
     },
     {
@@ -897,7 +863,7 @@
         "type": "debug",
         "z": "abcbbe81376760db",
         "name": "Print Sensor_id",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1170,8 +1136,8 @@
         "id": "0d19a90fd1023b0b",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "name": "msg",
-        "active": false,
+        "name": "Print unset room",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1179,7 +1145,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1020,
+        "x": 1060,
         "y": 920,
         "wires": []
     },
@@ -1187,8 +1153,8 @@
         "id": "be3caf10bde2f1d8",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "name": "msg",
-        "active": false,
+        "name": "Print sensor_id and room",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1196,7 +1162,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 200,
+        "x": 260,
         "y": 620,
         "wires": []
     },
@@ -1204,8 +1170,8 @@
         "id": "fed7b519eda96c93",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "name": "",
-        "active": false,
+        "name": "Print new room",
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
@@ -1213,7 +1179,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 740,
+        "x": 770,
         "y": 640,
         "wires": []
     },
@@ -1240,7 +1206,7 @@
         "id": "77e6620d5b1454a8",
         "type": "debug",
         "z": "abcbbe81376760db",
-        "name": "",
+        "name": "Print output label text",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1249,7 +1215,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1010,
+        "x": 1040,
         "y": 640,
         "wires": []
     },

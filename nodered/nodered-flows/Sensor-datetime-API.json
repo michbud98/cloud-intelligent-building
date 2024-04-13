@@ -52,7 +52,7 @@
         "type": "debug",
         "z": "9968b49e9c0c6894",
         "name": "Datetime",
-        "active": false,
+        "active": true,
         "tosidebar": true,
         "console": false,
         "tostatus": false,
