@@ -10,7 +10,7 @@ def log(input_string, debug_file_override=False):
     datetime = rtc.datetime()
     datetime_str = f"{datetime[2]}.{datetime[1]}.{datetime[0]}|-|{datetime[4]}-{datetime[5]}-{datetime[6]}"
     log_text = f"{datetime_str}: {input_string}"
-    if DEBUG_FILE == 0 or debug_file_override == True:
+    if DEBUG_FILE == True or debug_file_override == True:
         file = open("log.txt", "a")
         file.write(f"{log_text}\r\n")
         print(log_text)
@@ -106,7 +106,7 @@ def send_to_nodered(nodered_influxdb_url, temp_arg, pres_arg, hum_arg):
             break
 
         elif response is not None and response.status_code >= 400 and response.status_code < 500:
-            log(f"Error status code {response.status_code}: {response.text} \r\nRestarting sensor.", 0);
+            log(f"Error status code {response.status_code}: {response.text} \r\nRestarting sensor.", True);
             response.close()
             gc.collect()
             break

@@ -9,8 +9,6 @@ from bme680 import *
 
 import gc
 
-gc.collect()
-
 ssid = 'SET WIFI NAME'
 password = 'SET PASSWORD'
 mqtt_server = 'SET NODERED SERVER IP'
@@ -242,4 +240,6 @@ while True:
         log_exception(e, "log.txt")
         log(f"Unknown exception {type(e).__name__}. Attempting to reconnect.", True)
         restart_and_reconnect(True)
+    finally:
+        gc.collect()
 
