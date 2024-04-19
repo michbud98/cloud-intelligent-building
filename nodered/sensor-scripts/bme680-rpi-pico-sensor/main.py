@@ -39,7 +39,7 @@ bme = BME680_I2C(i2c=i2c)
 
 led = Pin("LED", Pin.OUT)
 
-# 0 ENABLED | 1 DISABLED
+# True ENABLED | False DISABLED
 DEBUG_FILE = False
 DEBUG_LED = False
 
