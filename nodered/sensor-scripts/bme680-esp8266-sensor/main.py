@@ -177,4 +177,6 @@ while True:
         log_exception(e, "log.txt")
         log(f'Unknown exception {type(e).__name__}. Attempting to reconnect.', True)
         restart_and_reconnect()
+    finally:
+        gc.collect()
 

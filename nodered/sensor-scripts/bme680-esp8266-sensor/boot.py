@@ -3,15 +3,14 @@ import ubinascii
 import machine
 from machine import Pin, I2C
 import sys
+import gc
 import micropython
 import network, urequests, ujson
 import esp
 from bme680 import *
 
 esp.osdebug(None)
-import gc
 
-gc.collect()
 
 ssid = 'SET WIFI NAME'
 password = 'SET PASSWORD'
