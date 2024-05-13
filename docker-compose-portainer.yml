@@ -17,7 +17,7 @@ services:
     build: 
       context: /home/pi/Docker-Projects/sensor-stack/timescaledb
       dockerfile: Dockerfile
-    image: michbud98/timescaledb
+    image: michbud98/timescaledb:latest-pg16
     container_name: timescaledb
     ports:
       - 5432:5432
@@ -33,7 +33,7 @@ services:
     build: 
       context: /home/pi/Docker-Projects/sensor-stack/nodered
       dockerfile: Dockerfile
-    image: michbud98/node-red:latest-pg16
+    image: michbud98/node-red
     container_name: nodered
     user: "0" # Root user id, without it we cant use mounts
     volumes:
