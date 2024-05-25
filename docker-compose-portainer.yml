@@ -15,7 +15,7 @@ services:
   timescaledb:
     restart: always
     build: 
-      context: /home/pi/Docker-Projects/sensor-stack/timescaledb
+      context: $HOME/Docker-Projects/sensor-stack/timescaledb
       dockerfile: Dockerfile
     image: michbud98/timescaledb:latest-pg16
     container_name: timescaledb
@@ -31,7 +31,7 @@ services:
   nodered:
     restart: always
     build: 
-      context: /home/pi/Docker-Projects/sensor-stack/nodered
+      context: $HOME/Docker-Projects/sensor-stack/timescaledb
       dockerfile: Dockerfile
     image: michbud98/node-red
     container_name: nodered
