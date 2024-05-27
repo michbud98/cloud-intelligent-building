@@ -9,7 +9,10 @@ CREATE TABLE IF NOT EXISTS sensor_measurements (
    humidity    DOUBLE PRECISION
 );
 
-SELECT create_hypertable('sensor_measurements', by_range('time'), if_not_exists => TRUE);
+SELECT create_hypertable('sensor_measurements', by_range('time', INTERVAL '1 month'), if_not_exists => TRUE);
+
+-- Add a retention policy to the hypertable --
+-- SELECT add_retention_policy('sensor_measurements', INTERVAL '3 months');
 
 CREATE TABLE IF NOT EXISTS boiler_measurements (
    time        TIMESTAMPTZ NOT NULL,
@@ -22,7 +25,10 @@ CREATE TABLE IF NOT EXISTS boiler_measurements (
    dhw_coil_tmp DOUBLE PRECISION
 );
 
-SELECT create_hypertable('boiler_measurements', by_range('time'), if_not_exists => TRUE);
+SELECT create_hypertable('boiler_measurements', by_range('time', INTERVAL '1 month'), if_not_exists => TRUE);
+
+-- Add a retention policy to the hypertable --
+-- SELECT add_retention_policy('boiler_measurements', INTERVAL '3 months');
 
 CREATE TABLE IF NOT EXISTS sensors (
     sensor_id TEXT UNIQUE NOT NULL,

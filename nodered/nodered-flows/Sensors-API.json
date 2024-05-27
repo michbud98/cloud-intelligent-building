@@ -166,18 +166,19 @@
             "391fe0dd47fdfea7",
             "44e1c880e5af92ab",
             "3a6ebff3b3ba3aff",
-            "d1a778494bc55ec6"
+            "61ee42fb9395228f",
+            "0e913d3d6c71f6e9"
         ],
         "x": 54,
-        "y": 459,
-        "w": 1512,
+        "y": 499,
+        "w": 1632,
         "h": 202
     },
     {
         "id": "46ae6eaea7b98a6c",
         "type": "group",
         "z": "6f295efb41de0f64",
-        "name": "Outdoors pocasidoma",
+        "name": "Outdoors pocasidoma API",
         "style": {
             "label": true
         },
@@ -189,12 +190,13 @@
             "cd4fd42d5ff75102",
             "703bd536e69dc5da",
             "597446dc812fa59d",
-            "875cd03620bc228e"
+            "e9591cebc7738df1",
+            "7fcea0c611bd2f13"
         ],
         "x": 54,
-        "y": 999,
-        "w": 1452,
-        "h": 142
+        "y": 1099,
+        "w": 1652,
+        "h": 222
     },
     {
         "id": "91fb6c2e6d03d44f",
@@ -215,11 +217,12 @@
             "3cc01fcea2cef0bb",
             "7c2978126c2f444c",
             "994eb5b6fbb61d47",
-            "3d35b0b6290ff4c5"
+            "3c6110bd7760aa63",
+            "647c4abad8596dbd"
         ],
         "x": 54,
-        "y": 719,
-        "w": 1512,
+        "y": 799,
+        "w": 1632,
         "h": 222
     },
     {
@@ -233,6 +236,7 @@
         "nodes": [
             "07d6b639cb962ff6",
             "94204058074f2134",
+            "d5f993d33f4508a3",
             "d2d9175cc521443a",
             "d84deab32d24b48f",
             "c979f22f6171cbe6",
@@ -250,12 +254,14 @@
             "dcfb038379c4c512",
             "495f4728cc474793",
             "1caa23e3de09d65d",
-            "0aeaf07d09f146f9"
+            "0aeaf07d09f146f9",
+            "2c5ae880773d6551",
+            "70bbc90537829af7"
         ],
         "x": 54,
         "y": 59,
-        "w": 1592,
-        "h": 362
+        "w": 1752,
+        "h": 422
     },
     {
         "id": "8c3e16ee22c93023",
@@ -268,7 +274,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 200,
-        "y": 560,
+        "y": 600,
         "wires": [
             [
                 "613f7b6db7a9d2df",
@@ -285,7 +291,7 @@
         "statusCode": "",
         "headers": {},
         "x": 950,
-        "y": 620,
+        "y": 660,
         "wires": []
     },
     {
@@ -293,7 +299,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "f3de19ae627756a8",
-        "name": "Data from boiler sensor",
+        "name": "Data from sensor",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -302,8 +308,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 470,
-        "y": 620,
+        "x": 450,
+        "y": 540,
         "wires": []
     },
     {
@@ -319,7 +325,7 @@
         "finalize": "",
         "libs": [],
         "x": 430,
-        "y": 560,
+        "y": 600,
         "wires": [
             [
                 "c62166d70d8a7cd2",
@@ -349,7 +355,7 @@
         "repair": false,
         "outputs": 2,
         "x": 660,
-        "y": 560,
+        "y": 600,
         "wires": [
             [
                 "0d50e7b83a890505",
@@ -365,7 +371,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "f3de19ae627756a8",
-        "name": "Print boiler JSON",
+        "name": "Print response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -374,8 +380,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 710,
-        "y": 500,
+        "x": 720,
+        "y": 540,
         "wires": []
     },
     {
@@ -387,7 +393,7 @@
         "statusCode": "",
         "headers": {},
         "x": 940,
-        "y": 520,
+        "y": 560,
         "wires": []
     },
     {
@@ -408,7 +414,7 @@
         "senderr": false,
         "headers": [],
         "x": 430,
-        "y": 1040,
+        "y": 1140,
         "wires": [
             [
                 "7f209b6dc426abd4"
@@ -438,7 +444,7 @@
         "payload": "",
         "payloadType": "date",
         "x": 170,
-        "y": 1040,
+        "y": 1140,
         "wires": [
             [
                 "84a1512053cd5f10"
@@ -455,7 +461,7 @@
         "action": "",
         "pretty": false,
         "x": 630,
-        "y": 1040,
+        "y": 1140,
         "wires": [
             [
                 "81bb3521bf046ed9",
@@ -468,7 +474,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "46ae6eaea7b98a6c",
-        "name": "Print parsed scraped JSON",
+        "name": "Parsed JSON",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -477,8 +483,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 880,
-        "y": 1040,
+        "x": 840,
+        "y": 1140,
         "wires": []
     },
     {
@@ -492,7 +498,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 180,
-        "y": 820,
+        "y": 900,
         "wires": [
             [
                 "259bf77f1b32d532",
@@ -505,7 +511,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "91fb6c2e6d03d44f",
-        "name": "Data from outdoors sensor",
+        "name": "Data from sensor",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -514,8 +520,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 460,
-        "y": 760,
+        "x": 430,
+        "y": 840,
         "wires": []
     },
     {
@@ -527,7 +533,7 @@
         "statusCode": "",
         "headers": {},
         "x": 900,
-        "y": 760,
+        "y": 840,
         "wires": []
     },
     {
@@ -543,7 +549,7 @@
         "finalize": "",
         "libs": [],
         "x": 410,
-        "y": 820,
+        "y": 900,
         "wires": [
             [
                 "b1769eb6983f968e",
@@ -573,7 +579,7 @@
         "repair": false,
         "outputs": 2,
         "x": 640,
-        "y": 820,
+        "y": 900,
         "wires": [
             [
                 "0961c32405383a51",
@@ -589,7 +595,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "91fb6c2e6d03d44f",
-        "name": "Print outdoors JSON",
+        "name": "Print response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -598,8 +604,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 640,
-        "y": 900,
+        "x": 620,
+        "y": 980,
         "wires": []
     },
     {
@@ -611,7 +617,7 @@
         "statusCode": "",
         "headers": {},
         "x": 930,
-        "y": 860,
+        "y": 940,
         "wires": []
     },
     {
@@ -628,11 +634,11 @@
         "finalize": "",
         "libs": [],
         "x": 980,
-        "y": 560,
+        "y": 600,
         "wires": [
             [
                 "391fe0dd47fdfea7",
-                "d1a778494bc55ec6"
+                "61ee42fb9395228f"
             ]
         ]
     },
@@ -650,11 +656,11 @@
         "finalize": "",
         "libs": [],
         "x": 960,
-        "y": 800,
+        "y": 880,
         "wires": [
             [
                 "7c2978126c2f444c",
-                "3d35b0b6290ff4c5"
+                "3c6110bd7760aa63"
             ]
         ]
     },
@@ -663,14 +669,14 @@
         "type": "postgresql",
         "z": "6f295efb41de0f64",
         "g": "91fb6c2e6d03d44f",
-        "name": "",
+        "name": "Local PostgreSQL",
         "query": "",
         "postgreSQLConfig": "b6d5c0074129b3d4",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 1210,
-        "y": 800,
+        "x": 1230,
+        "y": 880,
         "wires": [
             [
                 "994eb5b6fbb61d47"
@@ -682,7 +688,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "91fb6c2e6d03d44f",
-        "name": "Print outdoors response",
+        "name": "Print DB outdoors response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -691,8 +697,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1410,
-        "y": 800,
+        "x": 1480,
+        "y": 880,
         "wires": []
     },
     {
@@ -709,11 +715,11 @@
         "finalize": "",
         "libs": [],
         "x": 900,
-        "y": 1100,
+        "y": 1200,
         "wires": [
             [
                 "703bd536e69dc5da",
-                "875cd03620bc228e"
+                "e9591cebc7738df1"
             ]
         ]
     },
@@ -722,14 +728,14 @@
         "type": "postgresql",
         "z": "6f295efb41de0f64",
         "g": "46ae6eaea7b98a6c",
-        "name": "",
+        "name": "Local PostgreSQL",
         "query": "",
         "postgreSQLConfig": "b6d5c0074129b3d4",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 1150,
-        "y": 1100,
+        "x": 1170,
+        "y": 1200,
         "wires": [
             [
                 "597446dc812fa59d"
@@ -741,7 +747,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "46ae6eaea7b98a6c",
-        "name": "Print scraped response",
+        "name": "Print DB pocasidoma API response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -750,8 +756,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1350,
-        "y": 1100,
+        "x": 1460,
+        "y": 1200,
         "wires": []
     },
     {
@@ -759,14 +765,14 @@
         "type": "postgresql",
         "z": "6f295efb41de0f64",
         "g": "f3de19ae627756a8",
-        "name": "",
+        "name": "Local PostgreSQL",
         "query": "",
         "postgreSQLConfig": "b6d5c0074129b3d4",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 1230,
-        "y": 560,
+        "x": 1250,
+        "y": 600,
         "wires": [
             [
                 "44e1c880e5af92ab"
@@ -778,7 +784,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "f3de19ae627756a8",
-        "name": "Print boiler response",
+        "name": "Print DB boiler response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -787,8 +793,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1420,
-        "y": 560,
+        "x": 1490,
+        "y": 600,
         "wires": []
     },
     {
@@ -823,11 +829,22 @@
         "wires": []
     },
     {
+        "id": "d5f993d33f4508a3",
+        "type": "comment",
+        "z": "6f295efb41de0f64",
+        "g": "c2e3c67e8b32942e",
+        "name": "Get data from sensor and insert into InfluxDB",
+        "info": "",
+        "x": 530,
+        "y": 220,
+        "wires": []
+    },
+    {
         "id": "d2d9175cc521443a",
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
-        "name": "Print data from indoors sensor",
+        "name": "Data from indoors sensor",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -836,8 +853,8 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 470,
-        "y": 200,
+        "x": 450,
+        "y": 100,
         "wires": []
     },
     {
@@ -944,7 +961,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 730,
+        "x": 710,
         "y": 100,
         "wires": []
     },
@@ -965,7 +982,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
-        "name": "Print results from Room query",
+        "name": "Indoors Room from DB",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -974,7 +991,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 510,
+        "x": 490,
         "y": 320,
         "wires": []
     },
@@ -1052,13 +1069,13 @@
         "type": "postgresql",
         "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
-        "name": "",
+        "name": "Local PostgreSQL",
         "query": "",
         "postgreSQLConfig": "b6d5c0074129b3d4",
         "split": false,
         "rowsPerMsg": 1,
         "outputs": 1,
-        "x": 1310,
+        "x": 1330,
         "y": 380,
         "wires": [
             [
@@ -1071,7 +1088,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
-        "name": "Print indoors response",
+        "name": "Print DB indoors response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1080,7 +1097,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1500,
+        "x": 1600,
         "y": 380,
         "wires": []
     },
@@ -1137,7 +1154,7 @@
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
-        "name": "Print prepared indoors Timescale query",
+        "name": "Print prepared Timescale query",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1146,7 +1163,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 860,
+        "x": 830,
         "y": 300,
         "wires": []
     },
@@ -1168,7 +1185,8 @@
         "wires": [
             [
                 "0aeaf07d09f146f9",
-                "d051ac3741bf5474"
+                "d051ac3741bf5474",
+                "70bbc90537829af7"
             ]
         ]
     },
@@ -1191,11 +1209,67 @@
         "wires": []
     },
     {
-        "id": "d1a778494bc55ec6",
+        "id": "2c5ae880773d6551",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "c2e3c67e8b32942e",
+        "name": "Print remote DB indoors response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1620,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "70bbc90537829af7",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "c2e3c67e8b32942e",
+        "name": "Remote PostgreSQL",
+        "query": "",
+        "postgreSQLConfig": "bde0a1a7699505c0",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1340,
+        "y": 440,
+        "wires": [
+            [
+                "2c5ae880773d6551"
+            ]
+        ]
+    },
+    {
+        "id": "61ee42fb9395228f",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
+        "name": "Remote PostgreSQL",
+        "query": "",
+        "postgreSQLConfig": "bde0a1a7699505c0",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1260,
+        "y": 660,
+        "wires": [
+            [
+                "0e913d3d6c71f6e9"
+            ]
+        ]
+    },
+    {
+        "id": "0e913d3d6c71f6e9",
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "f3de19ae627756a8",
-        "name": "Print prepared boiler Timescale query",
+        "name": "Print DB remote boiler response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1204,16 +1278,35 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1310,
-        "y": 520,
+        "x": 1510,
+        "y": 660,
         "wires": []
     },
     {
-        "id": "3d35b0b6290ff4c5",
+        "id": "3c6110bd7760aa63",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "Remote PostgreSQL",
+        "query": "",
+        "postgreSQLConfig": "bde0a1a7699505c0",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1240,
+        "y": 960,
+        "wires": [
+            [
+                "647c4abad8596dbd"
+            ]
+        ]
+    },
+    {
+        "id": "647c4abad8596dbd",
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "91fb6c2e6d03d44f",
-        "name": "Print prepared outdoors Timescale query",
+        "name": "Print DB remote outdoors response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1222,16 +1315,35 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1300,
-        "y": 760,
+        "x": 1500,
+        "y": 960,
         "wires": []
     },
     {
-        "id": "875cd03620bc228e",
+        "id": "e9591cebc7738df1",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "Remote PostgreSQL",
+        "query": "",
+        "postgreSQLConfig": "bde0a1a7699505c0",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1180,
+        "y": 1280,
+        "wires": [
+            [
+                "7fcea0c611bd2f13"
+            ]
+        ]
+    },
+    {
+        "id": "7fcea0c611bd2f13",
         "type": "debug",
         "z": "6f295efb41de0f64",
         "g": "46ae6eaea7b98a6c",
-        "name": "Print prepared scraped Timescale query",
+        "name": "Print remote DB pocasidoma API response",
         "active": true,
         "tosidebar": true,
         "console": false,
@@ -1240,8 +1352,8 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1240,
-        "y": 1060,
+        "x": 1490,
+        "y": 1280,
         "wires": []
     },
     {
@@ -1249,6 +1361,31 @@
         "type": "postgreSQLConfig",
         "name": "",
         "host": "timescaledb",
+        "hostFieldType": "str",
+        "port": "5432",
+        "portFieldType": "num",
+        "database": "postgres",
+        "databaseFieldType": "str",
+        "ssl": "false",
+        "sslFieldType": "bool",
+        "applicationName": "",
+        "applicationNameType": "str",
+        "max": "10",
+        "maxFieldType": "num",
+        "idle": "1000",
+        "idleFieldType": "num",
+        "connectionTimeout": "10000",
+        "connectionTimeoutFieldType": "num",
+        "user": "postgres",
+        "userFieldType": "str",
+        "password": "example",
+        "passwordFieldType": "str"
+    },
+    {
+        "id": "bde0a1a7699505c0",
+        "type": "postgreSQLConfig",
+        "name": "Remote PostgreSQL connection",
+        "host": "0.0.0.0",
         "hostFieldType": "str",
         "port": "5432",
         "portFieldType": "num",
