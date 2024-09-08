@@ -637,8 +637,7 @@
         "y": 600,
         "wires": [
             [
-                "391fe0dd47fdfea7",
-                "61ee42fb9395228f"
+                "391fe0dd47fdfea7"
             ]
         ]
     },
@@ -659,8 +658,7 @@
         "y": 880,
         "wires": [
             [
-                "7c2978126c2f444c",
-                "3c6110bd7760aa63"
+                "7c2978126c2f444c"
             ]
         ]
     },
@@ -718,8 +716,7 @@
         "y": 1200,
         "wires": [
             [
-                "703bd536e69dc5da",
-                "e9591cebc7738df1"
+                "703bd536e69dc5da"
             ]
         ]
     },
@@ -1048,7 +1045,7 @@
         "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Prepare Timescaledb insert query",
-        "func": "sensor_data = flow.get(\"sensor_data\");\nroom = msg.payload.room;\nmsg.topic = \"timescale_query\"\n\nif(room != \"Not specified\"){\n    msg.payload.queryParameters = {\n        sensor_id: sensor_data.sensor_id,\n        board_type: sensor_data.board_type,\n        sensor_type: sensor_data.sensor_type,\n        room: room,\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity\n    }\n    \n    msg.payload.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, room, sensor_type, temperature, pressure, humidity) \n    VALUES (NOW(), $sensor_id, $board_type, $room, $sensor_type, $temperature, $pressure, $humidity);`\n    \n    return msg;\n}\n// If room is not set saves values from sensor without room\nelse {\n    msg.payload.queryParameters = {\n        sensor_id: sensor_data.sensor_id,\n        board_type: sensor_data.board_type,\n        sensor_type: sensor_data.sensor_type,\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity\n        \n    };\n    \n    msg.payload.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, temperature, pressure, humidity) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $temperature, $pressure, $humidity);`\n    return msg;\n}\n\n",
+        "func": "sensor_data = flow.get(\"sensor_data\");\nroom = msg.payload.room;\nmsg.topic = \"timescale_query\"\n\nif(room != \"Not specified\"){\n    msg.payload.queryParameters = {\n        sensor_id: sensor_data.sensor_id,\n        board_type: sensor_data.board_type,\n        sensor_type: sensor_data.sensor_type,\n        room: room,\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity,\n        gas_resistance: sensor_data.gas_resistance,\n        iaq: sensor_data.iaq\n    }\n    \n    msg.payload.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, room, sensor_type, temperature, pressure, humidity, gas_resistance, iaq) \n    VALUES (NOW(), $sensor_id, $board_type, $room, $sensor_type, $temperature, $pressure, $humidity, $gas_resistance, $iaq);`\n    \n    return msg;\n}\n// If room is not set saves values from sensor without room\nelse {\n    msg.payload.queryParameters = {\n        sensor_id: sensor_data.sensor_id,\n        board_type: sensor_data.board_type,\n        sensor_type: sensor_data.sensor_type,\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity,\n        gas_resistance: sensor_data.gas_resistance,\n        iaq: sensor_data.iaq\n        \n    };\n    \n    msg.payload.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, temperature, pressure, humidity, gas_resistance, iaq) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $temperature, $pressure, $humidity, $gas_resistance, $iaq);`\n    return msg;\n}\n\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -1185,8 +1182,7 @@
         "wires": [
             [
                 "0aeaf07d09f146f9",
-                "d051ac3741bf5474",
-                "70bbc90537829af7"
+                "d051ac3741bf5474"
             ]
         ]
     },

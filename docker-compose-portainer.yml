@@ -39,6 +39,20 @@ services:
       - nodered_data:/data/
     ports:
       - "1880:1880"
+
+  esphome:
+    container_name: esphome
+    image: ghcr.io/esphome/esphome
+    volumes:
+      - esphome_data:/config
+      - /etc/localtime:/etc/localtime:ro
+    restart: unless-stopped
+    privileged: true
+    network_mode: host
+    env_file: stack.env # Environment variables file for Portainer
+    #environment:
+    #  - USERNAME=admin
+    #  - PASSWORD=test
     
 
 networks:
@@ -53,3 +67,4 @@ volumes:
   grafana_data:
   timescale_data:
   nodered_data:
+  esphome_data:
