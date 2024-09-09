@@ -31,8 +31,3 @@ SELECT create_hypertable('boiler_measurements', by_range('time', INTERVAL '1 mon
 
 -- Add a retention policy to the hypertable --
 -- SELECT add_retention_policy('boiler_measurements', INTERVAL '3 months');
-
-CREATE TABLE IF NOT EXISTS sensors (
-    sensor_id TEXT UNIQUE NOT NULL,
-    room TEXT
-);
