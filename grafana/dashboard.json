@@ -24,10 +24,354 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 6,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "edimgb9aqg1z4f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "celsius"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 0,
+        "y": 0
+      },
+      "id": 15,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "edimgb9aqg1z4f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Temperature",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "edimgb9aqg1z4f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "pressurehpa"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 6,
+        "y": 0
+      },
+      "id": 16,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "edimgb9aqg1z4f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Pressure",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "edimgb9aqg1z4f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              }
+            ]
+          },
+          "unit": "humidity"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 12,
+        "y": 0
+      },
+      "id": 17,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "edimgb9aqg1z4f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Humidity",
+      "type": "stat"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "edimgb9aqg1z4f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "thresholds"
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green",
+                "value": null
+              },
+              {
+                "color": "#EAB839",
+                "value": 51
+              },
+              {
+                "color": "dark-orange",
+                "value": 101
+              },
+              {
+                "color": "dark-red",
+                "value": 151
+              },
+              {
+                "color": "dark-purple",
+                "value": 201
+              },
+              {
+                "color": "#000019",
+                "value": 301
+              }
+            ]
+          },
+          "unit": "none"
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 4,
+        "w": 6,
+        "x": 18,
+        "y": 0
+      },
+      "id": 18,
+      "options": {
+        "colorMode": "value",
+        "graphMode": "area",
+        "justifyMode": "auto",
+        "orientation": "auto",
+        "reduceOptions": {
+          "calcs": [
+            "lastNotNull"
+          ],
+          "fields": "",
+          "values": false
+        },
+        "showPercentChange": false,
+        "textMode": "auto",
+        "wideLayout": true
+      },
+      "pluginVersion": "10.4.2",
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "edimgb9aqg1z4f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Indoor Air Quality",
+      "type": "stat"
+    },
     {
       "collapsed": false,
       "datasource": {
@@ -38,7 +382,7 @@
         "h": 1,
         "w": 24,
         "x": 0,
-        "y": 0
+        "y": 4
       },
       "id": 13,
       "panels": [],
@@ -57,7 +401,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "cdgk8twssofeob"
+        "uid": "edimgb9aqg1z4f"
       },
       "fieldConfig": {
         "defaults": {
@@ -130,7 +474,7 @@
         "h": 9,
         "w": 24,
         "x": 0,
-        "y": 1
+        "y": 5
       },
       "id": 2,
       "options": {
@@ -155,7 +499,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements WHERE room = '$room' ORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -182,7 +526,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "cdgk8twssofeob"
+        "uid": "edimgb9aqg1z4f"
       },
       "fieldConfig": {
         "defaults": {
@@ -228,10 +572,6 @@
               {
                 "color": "green",
                 "value": null
-              },
-              {
-                "color": "red",
-                "value": 80
               }
             ]
           },
@@ -259,7 +599,7 @@
         "h": 8,
         "w": 12,
         "x": 0,
-        "y": 10
+        "y": 14
       },
       "id": 4,
       "options": {
@@ -284,7 +624,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements WHERE room = '$room' ORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -311,7 +651,7 @@
     {
       "datasource": {
         "type": "grafana-postgresql-datasource",
-        "uid": "cdgk8twssofeob"
+        "uid": "edimgb9aqg1z4f"
       },
       "fieldConfig": {
         "defaults": {
@@ -368,7 +708,7 @@
         "h": 8,
         "w": 12,
         "x": 12,
-        "y": 10
+        "y": 14
       },
       "id": 5,
       "options": {
@@ -393,7 +733,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements WHERE room = '$room' ORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -416,6 +756,112 @@
       ],
       "title": "Humidity",
       "type": "timeseries"
+    },
+    {
+      "datasource": {
+        "type": "grafana-postgresql-datasource",
+        "uid": "edimgb9aqg1z4f"
+      },
+      "fieldConfig": {
+        "defaults": {
+          "color": {
+            "mode": "palette-classic"
+          },
+          "custom": {
+            "axisBorderShow": false,
+            "axisCenteredZero": false,
+            "axisColorMode": "text",
+            "axisLabel": "",
+            "axisPlacement": "auto",
+            "barAlignment": 0,
+            "drawStyle": "line",
+            "fillOpacity": 0,
+            "gradientMode": "none",
+            "hideFrom": {
+              "legend": false,
+              "tooltip": false,
+              "viz": false
+            },
+            "insertNulls": false,
+            "lineInterpolation": "linear",
+            "lineWidth": 1,
+            "pointSize": 5,
+            "scaleDistribution": {
+              "type": "linear"
+            },
+            "showPoints": "auto",
+            "spanNulls": false,
+            "stacking": {
+              "group": "A",
+              "mode": "none"
+            },
+            "thresholdsStyle": {
+              "mode": "off"
+            }
+          },
+          "mappings": [],
+          "thresholds": {
+            "mode": "absolute",
+            "steps": [
+              {
+                "color": "green"
+              }
+            ]
+          }
+        },
+        "overrides": []
+      },
+      "gridPos": {
+        "h": 8,
+        "w": 24,
+        "x": 0,
+        "y": 22
+      },
+      "id": 14,
+      "options": {
+        "legend": {
+          "calcs": [],
+          "displayMode": "list",
+          "placement": "bottom",
+          "showLegend": true
+        },
+        "tooltip": {
+          "mode": "single",
+          "sort": "none"
+        }
+      },
+      "targets": [
+        {
+          "datasource": {
+            "type": "grafana-postgresql-datasource",
+            "uid": "edimgb9aqg1z4f"
+          },
+          "editorMode": "code",
+          "format": "table",
+          "rawQuery": true,
+          "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
+          "refId": "A",
+          "sql": {
+            "columns": [
+              {
+                "parameters": [],
+                "type": "function"
+              }
+            ],
+            "groupBy": [
+              {
+                "property": {
+                  "type": "string"
+                },
+                "type": "groupBy"
+              }
+            ],
+            "limit": 50
+          }
+        }
+      ],
+      "title": "Inside Air Quality",
+      "type": "timeseries"
     }
   ],
   "refresh": "5m",
@@ -425,21 +871,21 @@
     "list": [
       {
         "current": {
-          "selected": true,
-          "text": "Michals_room",
-          "value": "Michals_room"
+          "selected": false,
+          "text": "michals-room",
+          "value": "michals-room"
         },
         "datasource": {
           "type": "grafana-postgresql-datasource",
-          "uid": "cdgk8twssofeob"
+          "uid": "edimgb9aqg1z4f"
         },
-        "definition": "SELECT room FROM sensor_measurements;",
+        "definition": "SELECT room FROM sensor_measurements GROUP BY room; ",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "room",
         "options": [],
-        "query": "SELECT room FROM sensor_measurements;",
+        "query": "SELECT room FROM sensor_measurements GROUP BY room; ",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -456,6 +902,6 @@
   "timezone": "",
   "title": "Sensor-stack",
   "uid": "ozNtCIsMz",
-  "version": 16,
+  "version": 2,
   "weekStart": ""
 }
