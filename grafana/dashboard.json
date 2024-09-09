@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 1,
+  "id": 3,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -85,7 +85,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements \nWHERE room = '$room'\nORDER BY time DESC LIMIT 1;",
+          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -166,7 +166,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements \nWHERE room = '$room'\nORDER BY time DESC LIMIT 1;",
+          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -247,7 +247,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements \nWHERE room = '$room'\nORDER BY time DESC LIMIT 1;",
+          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -348,7 +348,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements \nWHERE room = '$room'\nORDER BY time DESC LIMIT 1;",
+          "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -499,7 +499,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements WHERE room = '$room' ORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -624,7 +624,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements WHERE room = '$room' ORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -733,7 +733,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements WHERE room = '$room' ORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -804,8 +804,7 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green",
-                "value": null
+                "color": "green"
               }
             ]
           }
@@ -840,7 +839,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements WHERE room = '$room' ORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -880,13 +879,13 @@
           "type": "grafana-postgresql-datasource",
           "uid": "edimgb9aqg1z4f"
         },
-        "definition": "SELECT room FROM sensor_measurements;",
+        "definition": "SELECT room FROM sensor_measurements GROUP BY room; ",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "room",
         "options": [],
-        "query": "SELECT room FROM sensor_measurements;",
+        "query": "SELECT room FROM sensor_measurements GROUP BY room; ",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -903,6 +902,6 @@
   "timezone": "",
   "title": "Sensor-stack",
   "uid": "ozNtCIsMz",
-  "version": 10,
+  "version": 2,
   "weekStart": ""
 }
