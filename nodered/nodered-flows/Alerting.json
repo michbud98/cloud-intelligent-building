@@ -437,7 +437,7 @@
         "type": "function",
         "z": "07ac8830d610a027",
         "name": "Add outdoors",
-        "func": "\n//msg.payload = msg.payload.concat([{room: \"Outdoors\"}, {room: \"water_boiler_room\"}])\nmsg.payload = msg.payload.concat([{room: \"Outdoors\"}])\nreturn msg;",
+        "func": "\n//msg.payload = msg.payload.concat([{room: \"Outdoors\"}, {room: \"water_boiler_room\"}])\nmsg.payload = msg.payload.concat([{room: \"outdoors\"}])\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
