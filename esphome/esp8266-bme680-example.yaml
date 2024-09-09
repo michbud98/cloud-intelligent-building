@@ -105,7 +105,7 @@ http_request:
 # Http request interval
 interval:
   - interval: 60s
-    startup_delay: 20s
+    startup_delay: 60s
     then:
       - http_request.post:
           url: "http://rpi-server.home.lan:1880/postSensor"
