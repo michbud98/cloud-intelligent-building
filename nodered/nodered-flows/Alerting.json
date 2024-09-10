@@ -20,7 +20,7 @@
         "targetType": "msg",
         "statusVal": "",
         "statusType": "auto",
-        "x": 1350,
+        "x": 1110,
         "y": 300,
         "wires": []
     },
@@ -29,7 +29,7 @@
         "type": "function",
         "z": "07ac8830d610a027",
         "name": "Rooms query",
-        "func": "msg.query = \"SELECT DISTINCT room FROM sensors;\"\n//msg.topic=`DELETE FROM sensors where sensor_id=\"postman-1\";`\nreturn msg;\n",
+        "func": "msg.query = \"SELECT DISTINCT room FROM sensor_measurements where room != ''\"\n//msg.topic=`DELETE FROM sensors where sensor_id=\"postman-1\";`\nreturn msg;\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -56,7 +56,7 @@
         "arraySpltType": "len",
         "stream": false,
         "addname": "payload",
-        "x": 1010,
+        "x": 770,
         "y": 360,
         "wires": [
             [
@@ -83,7 +83,7 @@
         "from": "",
         "to": "",
         "reg": false,
-        "x": 1180,
+        "x": 940,
         "y": 360,
         "wires": [
             [
@@ -125,7 +125,7 @@
         "targetType": "full",
         "statusVal": "",
         "statusType": "auto",
-        "x": 790,
+        "x": 770,
         "y": 420,
         "wires": []
     },
@@ -144,7 +144,7 @@
         "checkall": "true",
         "repair": false,
         "outputs": 1,
-        "x": 820,
+        "x": 800,
         "y": 460,
         "wires": [
             [
@@ -221,7 +221,7 @@
         "links": [
             "31938c4d519cf419"
         ],
-        "x": 1325,
+        "x": 1085,
         "y": 360,
         "wires": []
     },
@@ -358,7 +358,7 @@
         "wires": [
             [
                 "ab972221879db998",
-                "01d76788eddb7676"
+                "6851fc4e1d98013d"
             ]
         ]
     },
@@ -433,26 +433,6 @@
         "wires": []
     },
     {
-        "id": "01d76788eddb7676",
-        "type": "function",
-        "z": "07ac8830d610a027",
-        "name": "Add outdoors",
-        "func": "\n//msg.payload = msg.payload.concat([{room: \"Outdoors\"}, {room: \"water_boiler_room\"}])\nmsg.payload = msg.payload.concat([{room: \"outdoors\"}])\nreturn msg;",
-        "outputs": 1,
-        "timeout": "",
-        "noerr": 0,
-        "initialize": "",
-        "finalize": "",
-        "libs": [],
-        "x": 760,
-        "y": 360,
-        "wires": [
-            [
-                "6851fc4e1d98013d"
-            ]
-        ]
-    },
-    {
         "id": "b6d5c0074129b3d4",
         "type": "postgreSQLConfig",
         "name": "",
@@ -474,7 +454,7 @@
         "connectionTimeoutFieldType": "num",
         "user": "postgres",
         "userFieldType": "str",
-        "password": "example",
+        "password": "bily-vrch",
         "passwordFieldType": "str"
     }
 ]
