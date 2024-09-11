@@ -775,7 +775,7 @@
             "axisPlacement": "auto",
             "barAlignment": 0,
             "drawStyle": "line",
-            "fillOpacity": 0,
+            "fillOpacity": 10,
             "gradientMode": "none",
             "hideFrom": {
               "legend": false,
@@ -790,7 +790,7 @@
               "type": "linear"
             },
             "showPoints": "auto",
-            "spanNulls": false,
+            "spanNulls": true,
             "stacking": {
               "group": "A",
               "mode": "none"
@@ -804,7 +804,8 @@
             "mode": "absolute",
             "steps": [
               {
-                "color": "green"
+                "color": "green",
+                "value": null
               }
             ]
           }
@@ -837,7 +838,7 @@
             "uid": "edimgb9aqg1z4f"
           },
           "editorMode": "code",
-          "format": "table",
+          "format": "time_series",
           "rawQuery": true,
           "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
           "refId": "A",
@@ -902,6 +903,6 @@
   "timezone": "",
   "title": "Sensor-stack",
   "uid": "ozNtCIsMz",
-  "version": 2,
+  "version": 3,
   "weekStart": ""
 }
