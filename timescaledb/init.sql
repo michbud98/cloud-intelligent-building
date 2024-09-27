@@ -8,7 +8,10 @@ CREATE TABLE IF NOT EXISTS sensor_measurements (
    pressure    DOUBLE PRECISION,
    humidity    DOUBLE PRECISION,
    gas_resistance    DOUBLE PRECISION,
-   iaq    DOUBLE PRECISION
+   iaq    DOUBLE PRECISION,
+   iaq_accuracy INTEGER,
+   co2_equivalent   DOUBLE PRECISION,
+   bvoc_equivalent DOUBLE PRECISION
 );
 
 SELECT create_hypertable('sensor_measurements', by_range('time', INTERVAL '1 month'), if_not_exists => TRUE);

@@ -43,12 +43,13 @@ i2c:
   sda: 4
   scl: 5
 
+bme680_bsec:
+
 sensor:
-  - platform: bme680
+  - platform: bme680_bsec
     temperature:
       id: "temperature"
       name: "BME680 Temperature"
-      oversampling: 16x
     pressure:
       id: "pressure"
       name: "BME680 Pressure"
@@ -58,17 +59,26 @@ sensor:
     gas_resistance:
       id: "gas_resistance"
       name: "BME680 Gas Resistance"
-
-  - platform: template
-    name: "BME680 Indoor Air Quality"
-    id: iaq
-    icon: "mdi:gauge"
-    # calculation: comp_gas = log(R_gas[ohm]) + 0.04 log(Ohm)/%rh * hum[%rh]
-    lambda: |-
-      return log(id(gas_resistance).state) + 0.04 *  id(humidity).state;
-    state_class: "measurement"
+    iaq:
+      id: "iaq"
+      name: "BME680 IAQ"
+    iaq_accuracy:
+      # IAQ accuracy as a numeric value of 0, 1, 2, 3
+      id: "iaq_accuracy"
+      name: "BME680 IAQ Accuracy"
+    co2_equivalent:
+      id: "co2_equivalent"
+      name: "BME680 CO2 Equivalent"
+    breath_voc_equivalent:
+      # Breath Volatile Organic Compounds (bVOC)
+      id: "bvoc_equivalent"
+      name: "BME680 Breath VOC Equivalent"
 
 text_sensor:
+  - platform: bme680_bsec
+    iaq_accuracy:
+      name: "BME680 IAQ Accuracy"
+
   - platform: template
     name: "BME680 IAQ Classification"
     icon: "mdi:checkbox-marked-circle-outline"
@@ -108,7 +118,7 @@ interval:
     startup_delay: 60s
     then:
       - http_request.post:
-          url: "http://rpi-server.home.lan:1880/postSensor"
+          url: "http://rpi-test.home.lan:1880/postSensor"
           headers:
             Content-Type: "application/json"
           json:
@@ -121,3 +131,7 @@ interval:
             humidity: !lambda 'return std::to_string(id(humidity).state);'
             gas_resistance: !lambda 'return std::to_string(id(gas_resistance).state);'
             iaq: !lambda 'return std::to_string(id(iaq).state);'
+            iaq_accuracy: !lambda 'return std::to_string(id(iaq_accuracy).state);'
+            co2_equivalent: !lambda 'return std::to_string(id(co2_equivalent).state);'
+            bvoc_equivalent: !lambda 'return std::to_string(id(bvoc_equivalent).state);'
+
