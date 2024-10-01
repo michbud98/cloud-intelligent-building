@@ -120,7 +120,6 @@ interval:
             pressure: !lambda 'return std::to_string(id(pressure).state);'
             humidity: !lambda 'return std::to_string(id(humidity).state);'
             gas_resistance: !lambda 'return std::to_string(id(gas_resistance).state);'
-            iaq: !lambda 'return std::to_string(id(iaq).state);'
               
     
 # output:
