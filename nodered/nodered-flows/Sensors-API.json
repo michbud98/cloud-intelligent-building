@@ -112,7 +112,7 @@
             "70bbc90537829af7"
         ],
         "x": 54,
-        "y": 19,
+        "y": 59,
         "w": 1212,
         "h": 422
     },
@@ -769,7 +769,7 @@
         "upload": false,
         "swaggerDoc": "",
         "x": 180,
-        "y": 120,
+        "y": 160,
         "wires": [
             [
                 "d2d9175cc521443a",
@@ -786,7 +786,7 @@
         "statusCode": "",
         "headers": {},
         "x": 990,
-        "y": 160,
+        "y": 200,
         "wires": []
     },
     {
@@ -804,7 +804,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 460,
-        "y": 60,
+        "y": 100,
         "wires": []
     },
     {
@@ -813,7 +813,7 @@
         "z": "13f594f6750189d6",
         "g": "c2e3c67e8b32942e",
         "name": "JSON test",
-        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\n//else if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"temperature\" in msg.payload && \"pressure\" in msg.payload && \"humidity\" in msg.payload)){\nelse if(!((\"sensor_id\", \"board_type\", \"sensor_type\", \"room\", \"temperature\", \"pressure\", \"humidity\", \"gas_resistance\", \"iaq\") in msg.payload )){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't have right format.\\r\\nJSON should have fields: sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance, iaq.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
+        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\n//else if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"temperature\" in msg.payload && \"pressure\" in msg.payload && \"humidity\" in msg.payload)){\nelse if(!((\"sensor_id\", \"board_type\", \"sensor_type\", \"room\", \"temperature\", \"pressure\", \"humidity\", \"gas_resistance\") in msg.payload )){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't have right format.\\r\\nJSON should have fields: sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance, iaq.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -821,7 +821,7 @@
         "finalize": "",
         "libs": [],
         "x": 410,
-        "y": 120,
+        "y": 160,
         "wires": [
             [
                 "b61e240e36ac6d7e",
@@ -851,7 +851,7 @@
         "repair": false,
         "outputs": 2,
         "x": 640,
-        "y": 120,
+        "y": 160,
         "wires": [
             [
                 "50c8b9014b1bf57c",
@@ -877,7 +877,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 630,
-        "y": 180,
+        "y": 220,
         "wires": []
     },
     {
@@ -889,7 +889,7 @@
         "statusCode": "",
         "headers": {},
         "x": 980,
-        "y": 80,
+        "y": 120,
         "wires": []
     },
     {
@@ -907,7 +907,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 440,
-        "y": 280,
+        "y": 320,
         "wires": []
     },
     {
@@ -920,7 +920,7 @@
             "78936ed5134682cd"
         ],
         "x": 95,
-        "y": 340,
+        "y": 380,
         "wires": [
             [
                 "8e4db32e74c6260d",
@@ -939,7 +939,7 @@
             "11b12c8f2978b551"
         ],
         "x": 895,
-        "y": 120,
+        "y": 160,
         "wires": []
     },
     {
@@ -948,7 +948,7 @@
         "z": "13f594f6750189d6",
         "g": "c2e3c67e8b32942e",
         "name": "Prepare Timescaledb insert query",
-        "func": "sensor_data = msg.payload;\nmsg.topic = \"timescale_query\"\n\nmsg.queryParameters = {\n    sensor_id: sensor_data.sensor_id.toLowerCase(),\n    board_type: sensor_data.board_type.toLowerCase(),\n    sensor_type: sensor_data.sensor_type.toLowerCase(),\n    room: sensor_data.room.toLowerCase(),\n    temperature: sensor_data.temperature,\n    pressure: sensor_data.pressure,\n    humidity: sensor_data.humidity,\n    gas_resistance: sensor_data.gas_resistance,\n    iaq: sensor_data.iaq,\n    iaq_accuracy: parseInt(sensor_data.iaq_accuracy),\n    co2_equivalent: sensor_data.co2_equivalent,\n    bvoc_equivalent: sensor_data.bvoc_equivalent\n}\n\nmsg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance, iaq, iaq_accuracy, co2_equivalent, bvoc_equivalent) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $room, $temperature, $pressure, $humidity, $gas_resistance, $iaq, $iaq_accuracy, $co2_equivalent, $bvoc_equivalent);`\n    \nreturn msg;\n\n\n",
+        "func": "sensor_data = msg.payload;\nmsg.topic = \"timescale_query\"\n\n\n\nif(typeof(sensor_data.iaq) !== \"undefined\")\n{\n\n    msg.queryParameters = {\n        sensor_id: sensor_data.sensor_id.toLowerCase(),\n        board_type: sensor_data.board_type.toLowerCase(),\n        sensor_type: sensor_data.sensor_type.toLowerCase(),\n        room: sensor_data.room.toLowerCase(),\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity,\n        gas_resistance: sensor_data.gas_resistance,\n        iaq: sensor_data.iaq,\n        iaq_accuracy: parseInt(sensor_data.iaq_accuracy),\n        co2_equivalent: sensor_data.co2_equivalent,\n        bvoc_equivalent: sensor_data.bvoc_equivalent\n    }\n    msg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance, iaq, iaq_accuracy, co2_equivalent, bvoc_equivalent) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $room, $temperature, $pressure, $humidity, $gas_resistance, $iaq, $iaq_accuracy, $co2_equivalent, $bvoc_equivalent);`\n      \n}else {\n    msg.queryParameters = {\n        sensor_id: sensor_data.sensor_id.toLowerCase(),\n        board_type: sensor_data.board_type.toLowerCase(),\n        sensor_type: sensor_data.sensor_type.toLowerCase(),\n        room: sensor_data.room.toLowerCase(),\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity,\n        gas_resistance: sensor_data.gas_resistance\n    }\n    msg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $room, $temperature, $pressure, $humidity, $gas_resistance);`\n   \n}\n\n \nreturn msg;\n\n\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -956,7 +956,7 @@
         "finalize": "",
         "libs": [],
         "x": 420,
-        "y": 340,
+        "y": 380,
         "wires": [
             [
                 "495f4728cc474793",
@@ -976,7 +976,7 @@
         "rowsPerMsg": 1,
         "outputs": 1,
         "x": 770,
-        "y": 340,
+        "y": 380,
         "wires": [
             [
                 "f551cc72b4d1a714"
@@ -998,7 +998,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1040,
-        "y": 340,
+        "y": 380,
         "wires": []
     },
     {
@@ -1016,7 +1016,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 830,
-        "y": 260,
+        "y": 300,
         "wires": []
     },
     {
@@ -1034,7 +1034,7 @@
         "statusVal": "",
         "statusType": "auto",
         "x": 1070,
-        "y": 400,
+        "y": 440,
         "wires": []
     },
     {
@@ -1049,7 +1049,7 @@
         "rowsPerMsg": 1,
         "outputs": 1,
         "x": 780,
-        "y": 400,
+        "y": 440,
         "wires": [
             [
                 "2c5ae880773d6551"
