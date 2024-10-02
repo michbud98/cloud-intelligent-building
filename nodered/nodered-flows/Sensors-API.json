@@ -1,6 +1,6 @@
 [
     {
-        "id": "13f594f6750189d6",
+        "id": "6f295efb41de0f64",
         "type": "tab",
         "label": "Sensors API",
         "disabled": false,
@@ -8,26 +8,26 @@
         "env": []
     },
     {
-        "id": "03fa14a34607f9cb",
+        "id": "f3de19ae627756a8",
         "type": "group",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "name": "Boiler sensor",
         "style": {
             "label": true
         },
         "nodes": [
-            "e3652e1ddefd85e8",
-            "568360a52382a996",
-            "597b7e09e1b35d2e",
-            "09747ac119e7e846",
-            "982b7f09e20766b2",
-            "c23472e10379c772",
-            "609ec10a1ea22640",
-            "bab9a0c16086fffb",
-            "1e1c71e9d717b61b",
-            "aa392c4c14ed59a9",
-            "9b7925c5617930b7",
-            "0a8a03c7ec94581e"
+            "8c3e16ee22c93023",
+            "20b49a20a02f99d1",
+            "613f7b6db7a9d2df",
+            "50746b1e44afbbb9",
+            "c62166d70d8a7cd2",
+            "27a506d0afda7f4d",
+            "0d50e7b83a890505",
+            "391fe0dd47fdfea7",
+            "44e1c880e5af92ab",
+            "3a6ebff3b3ba3aff",
+            "61ee42fb9395228f",
+            "0e913d3d6c71f6e9"
         ],
         "x": 54,
         "y": 499,
@@ -35,23 +35,23 @@
         "h": 202
     },
     {
-        "id": "eb3085a56f03028c",
+        "id": "46ae6eaea7b98a6c",
         "type": "group",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "name": "Outdoors pocasidoma API",
         "style": {
             "label": true
         },
         "nodes": [
-            "6951195d01acac38",
-            "0c25d1c2050f9f6d",
-            "041c459855669739",
-            "43367711596cfdcd",
-            "656c8b1014bea7a3",
-            "9e478f79be9d61b4",
-            "9f491d10ccc7fd37",
-            "894d5a3b917e7c31",
-            "5b413f5f6fe058f7"
+            "84a1512053cd5f10",
+            "e9bc1d8d864cd01a",
+            "7f209b6dc426abd4",
+            "81bb3521bf046ed9",
+            "cd4fd42d5ff75102",
+            "703bd536e69dc5da",
+            "597446dc812fa59d",
+            "e9591cebc7738df1",
+            "7fcea0c611bd2f13"
         ],
         "x": 54,
         "y": 1099,
@@ -59,26 +59,26 @@
         "h": 222
     },
     {
-        "id": "57e7ef10668b48c8",
+        "id": "91fb6c2e6d03d44f",
         "type": "group",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "name": "Outdoors sensor",
         "style": {
             "label": true
         },
         "nodes": [
-            "da6315cedc16c4c6",
-            "f97f67bcd0f4adfb",
-            "294662b5d930efc6",
-            "21e60e75bc2adf3f",
-            "cde59d9eee59c19a",
-            "3be6ad59708cef53",
-            "409a2f5c56dd606d",
-            "c933f2e547a12ed0",
-            "9c5d22c32212d640",
-            "f1c01d1326c8743c",
-            "996455b09d4b1577",
-            "d7c08eeaf821ed41"
+            "0533be7df303af06",
+            "259bf77f1b32d532",
+            "0961c32405383a51",
+            "1e4fd941529df255",
+            "b1769eb6983f968e",
+            "fb9a65ca01590cc7",
+            "6d06af34243d112a",
+            "3cc01fcea2cef0bb",
+            "7c2978126c2f444c",
+            "994eb5b6fbb61d47",
+            "3c6110bd7760aa63",
+            "647c4abad8596dbd"
         ],
         "x": 54,
         "y": 799,
@@ -88,7 +88,7 @@
     {
         "id": "c2e3c67e8b32942e",
         "type": "group",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "name": "EspHome sensors",
         "style": {
             "label": true
@@ -117,10 +117,10 @@
         "h": 422
     },
     {
-        "id": "e3652e1ddefd85e8",
+        "id": "8c3e16ee22c93023",
         "type": "http in",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "Get values from boiler sensor",
         "url": "/postBoiler",
         "method": "post",
@@ -130,16 +130,16 @@
         "y": 600,
         "wires": [
             [
-                "597b7e09e1b35d2e",
-                "09747ac119e7e846"
+                "613f7b6db7a9d2df",
+                "50746b1e44afbbb9"
             ]
         ]
     },
     {
-        "id": "568360a52382a996",
+        "id": "20b49a20a02f99d1",
         "type": "http response",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "HTTP Response on Error",
         "statusCode": "",
         "headers": {},
@@ -148,10 +148,10 @@
         "wires": []
     },
     {
-        "id": "597b7e09e1b35d2e",
+        "id": "613f7b6db7a9d2df",
         "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "Data from sensor",
         "active": true,
         "tosidebar": true,
@@ -166,10 +166,10 @@
         "wires": []
     },
     {
-        "id": "09747ac119e7e846",
+        "id": "50746b1e44afbbb9",
         "type": "function",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "JSON test",
         "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\nelse if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"tmp_in\" in msg.payload && \"tmp_out\" in msg.payload && \"dhw_tmp\" in msg.payload && \"dhw_coil_tmp\" in msg.payload )){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't have right format.\\r\\nJSON should have fields: sensor_id, board_type, sensor_type, tmp_in, tmp_out, dhw_tmp, dhw_coil_tmp.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
         "outputs": 1,
@@ -181,16 +181,16 @@
         "y": 600,
         "wires": [
             [
-                "982b7f09e20766b2",
-                "c23472e10379c772"
+                "c62166d70d8a7cd2",
+                "27a506d0afda7f4d"
             ]
         ]
     },
     {
-        "id": "982b7f09e20766b2",
+        "id": "c62166d70d8a7cd2",
         "type": "switch",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "HTTP response switch",
         "property": "statusCode",
         "propertyType": "msg",
@@ -211,19 +211,19 @@
         "y": 600,
         "wires": [
             [
-                "609ec10a1ea22640",
-                "aa392c4c14ed59a9"
+                "0d50e7b83a890505",
+                "3a6ebff3b3ba3aff"
             ],
             [
-                "568360a52382a996"
+                "20b49a20a02f99d1"
             ]
         ]
     },
     {
-        "id": "c23472e10379c772",
+        "id": "27a506d0afda7f4d",
         "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "Print response",
         "active": true,
         "tosidebar": true,
@@ -238,10 +238,10 @@
         "wires": []
     },
     {
-        "id": "609ec10a1ea22640",
+        "id": "0d50e7b83a890505",
         "type": "http response",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "HTTP Response OK",
         "statusCode": "",
         "headers": {},
@@ -250,10 +250,10 @@
         "wires": []
     },
     {
-        "id": "6951195d01acac38",
+        "id": "84a1512053cd5f10",
         "type": "http request",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
         "name": "HTTP Req to pocasidoma",
         "method": "GET",
         "ret": "txt",
@@ -270,15 +270,15 @@
         "y": 1140,
         "wires": [
             [
-                "041c459855669739"
+                "7f209b6dc426abd4"
             ]
         ]
     },
     {
-        "id": "0c25d1c2050f9f6d",
+        "id": "e9bc1d8d864cd01a",
         "type": "inject",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
         "name": "",
         "props": [
             {
@@ -300,15 +300,15 @@
         "y": 1140,
         "wires": [
             [
-                "6951195d01acac38"
+                "84a1512053cd5f10"
             ]
         ]
     },
     {
-        "id": "041c459855669739",
+        "id": "7f209b6dc426abd4",
         "type": "json",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
         "name": "",
         "property": "payload",
         "action": "",
@@ -317,16 +317,16 @@
         "y": 1140,
         "wires": [
             [
-                "43367711596cfdcd",
-                "656c8b1014bea7a3"
+                "81bb3521bf046ed9",
+                "cd4fd42d5ff75102"
             ]
         ]
     },
     {
-        "id": "43367711596cfdcd",
+        "id": "81bb3521bf046ed9",
         "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
         "name": "Parsed JSON",
         "active": true,
         "tosidebar": true,
@@ -341,10 +341,10 @@
         "wires": []
     },
     {
-        "id": "da6315cedc16c4c6",
+        "id": "0533be7df303af06",
         "type": "http in",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "",
         "url": "/luftdatenSensor",
         "method": "post",
@@ -354,16 +354,16 @@
         "y": 900,
         "wires": [
             [
-                "f97f67bcd0f4adfb",
-                "21e60e75bc2adf3f"
+                "259bf77f1b32d532",
+                "1e4fd941529df255"
             ]
         ]
     },
     {
-        "id": "f97f67bcd0f4adfb",
+        "id": "259bf77f1b32d532",
         "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "Data from sensor",
         "active": true,
         "tosidebar": true,
@@ -378,10 +378,10 @@
         "wires": []
     },
     {
-        "id": "294662b5d930efc6",
+        "id": "0961c32405383a51",
         "type": "http response",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "OK Response",
         "statusCode": "",
         "headers": {},
@@ -390,10 +390,10 @@
         "wires": []
     },
     {
-        "id": "21e60e75bc2adf3f",
+        "id": "1e4fd941529df255",
         "type": "function",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "JSON test",
         "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
         "outputs": 1,
@@ -405,16 +405,16 @@
         "y": 900,
         "wires": [
             [
-                "cde59d9eee59c19a",
-                "3be6ad59708cef53"
+                "b1769eb6983f968e",
+                "fb9a65ca01590cc7"
             ]
         ]
     },
     {
-        "id": "cde59d9eee59c19a",
+        "id": "b1769eb6983f968e",
         "type": "switch",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "HTTP response switch",
         "property": "statusCode",
         "propertyType": "msg",
@@ -435,19 +435,19 @@
         "y": 900,
         "wires": [
             [
-                "294662b5d930efc6",
-                "c933f2e547a12ed0"
+                "0961c32405383a51",
+                "3cc01fcea2cef0bb"
             ],
             [
-                "409a2f5c56dd606d"
+                "6d06af34243d112a"
             ]
         ]
     },
     {
-        "id": "3be6ad59708cef53",
+        "id": "fb9a65ca01590cc7",
         "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "Print response",
         "active": true,
         "tosidebar": true,
@@ -462,10 +462,10 @@
         "wires": []
     },
     {
-        "id": "409a2f5c56dd606d",
+        "id": "6d06af34243d112a",
         "type": "http response",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "HTTP Response on Error",
         "statusCode": "",
         "headers": {},
@@ -474,10 +474,10 @@
         "wires": []
     },
     {
-        "id": "aa392c4c14ed59a9",
+        "id": "3a6ebff3b3ba3aff",
         "type": "function",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "Prepare Timescaledb insert query",
         "func": "boiler_data = msg.payload;\n\nmsg.queryParameters = { \n    sensor_id: boiler_data.sensor_id,\n    board_type: boiler_data.board_type,\n    sensor_type: boiler_data.sensor_type,\n    tmp_in: boiler_data.tmp_in,\n    tmp_out: boiler_data.tmp_out,\n    dhw_tmp: boiler_data.dhw_tmp,\n    dhw_coil_tmp: boiler_data.dhw_coil_tmp\n}\n\nmsg.query = `INSERT INTO boiler_measurements (time, sensor_id, board_type, sensor_type, tmp_in, tmp_out, dhw_tmp, dhw_coil_tmp) \nVALUES (NOW(), $sensor_id, $board_type, $sensor_type, $tmp_in, $tmp_out, $dhw_tmp, $dhw_coil_tmp);`\n\nreturn msg;\n\n",
         "outputs": 1,
@@ -490,17 +490,17 @@
         "y": 600,
         "wires": [
             [
-                "bab9a0c16086fffb"
+                "391fe0dd47fdfea7"
             ]
         ]
     },
     {
-        "id": "c933f2e547a12ed0",
+        "id": "3cc01fcea2cef0bb",
         "type": "function",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "Prepare Timescaledb insert query",
-        "func": "sensor_data = msg.payload;\nvalue_names = [\"BME280_temperature\",\"BME280_pressure\", \"BME280_humidity\"];\nextracted_values ={};\n\n// Extracts data from JSON sent by luftdaten sensor\nsensor_data.sensordatavalues.forEach((value) => {\n    if (value_names.includes(value.value_type)){\n        extracted_values[value.value_type] = value.value;\n    }\n    \n})\n\nmsg.queryParameters = { \n    sensor_id: `luftdaten-${sensor_data.esp8266id}`,\n    board_type: \"esp8266\",\n    sensor_type: \"bme280\",\n    room: \"outdoors\",\n    temperature: parseInt(extracted_values[\"BME280_temperature\"]),\n    pressure: parseInt(extracted_values[\"BME280_pressure\"]) / 100,\n    humidity: parseInt(extracted_values[\"BME280_humidity\"])\n}\n\nmsg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, room, sensor_type, temperature, pressure, humidity) \nVALUES (NOW(), $sensor_id, $board_type, $room, $sensor_type, $temperature, $pressure, $humidity);`\n\nreturn msg;\n\n\n",
+        "func": "sensor_data = msg.payload;\nvalue_names = [\"BME280_temperature\",\"BME280_pressure\", \"BME280_humidity\"];\nextracted_values ={};\n\n// Extracts data from JSON sent by luftdaten sensor\nsensor_data.sensordatavalues.forEach((value) => {\n    if (value_names.includes(value.value_type)){\n        extracted_values[value.value_type] = value.value;\n    }\n    \n})\n\nmsg.queryParameters = { \n    sensor_id: `luftdaten-${sensor_data.esp8266id}`,\n    board_type: \"esp8266\",\n    sensor_type: \"bme280\",\n    room: \"Outdoors\",\n    temperature: parseInt(extracted_values[\"BME280_temperature\"]),\n    pressure: parseInt(extracted_values[\"BME280_pressure\"]) / 100,\n    humidity: parseInt(extracted_values[\"BME280_humidity\"])\n}\n\nmsg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, room, sensor_type, temperature, pressure, humidity) \nVALUES (NOW(), $sensor_id, $board_type, $room, $sensor_type, $temperature, $pressure, $humidity);`\n\nreturn msg;\n\n\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -511,15 +511,15 @@
         "y": 880,
         "wires": [
             [
-                "9c5d22c32212d640"
+                "7c2978126c2f444c"
             ]
         ]
     },
     {
-        "id": "9c5d22c32212d640",
+        "id": "7c2978126c2f444c",
         "type": "postgresql",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "Local PostgreSQL",
         "query": "",
         "postgreSQLConfig": "b6d5c0074129b3d4",
@@ -530,15 +530,15 @@
         "y": 880,
         "wires": [
             [
-                "f1c01d1326c8743c"
+                "994eb5b6fbb61d47"
             ]
         ]
     },
     {
-        "id": "f1c01d1326c8743c",
+        "id": "994eb5b6fbb61d47",
         "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
         "name": "Print DB outdoors response",
         "active": true,
         "tosidebar": true,
@@ -553,12 +553,12 @@
         "wires": []
     },
     {
-        "id": "656c8b1014bea7a3",
+        "id": "cd4fd42d5ff75102",
         "type": "function",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
         "name": "Prepare Timescaledb insert query",
-        "func": "web_scrape_data = msg.payload.Data;\nvalue_names = [\"Vítr směr\", \"Tlak relat.\", \"Vlhkost ven.\", \"Teplota ven.\", \"Intenzita srážek\", \"Déšť\"];\nextracted_values = {};\n\nweb_scrape_data.allMeasures.forEach((value) => {\n    if (value_names.includes(value.Name)){\n        extracted_values[value.Name] = value.Value;\n    }\n    \n})\n\nmsg.queryParameters = { \n    sensor_id: `pocasidoma-${web_scrape_data.id}`,\n    sensor_type: \"Davis Vantage PRO2\",\n    room: \"outdoors\",\n    temperature: extracted_values[\"Teplota ven.\"],\n    pressure: extracted_values[\"Tlak relat.\"],\n    humidity: extracted_values[\"Vlhkost ven.\"]\n}\n\nmsg.query = `INSERT INTO sensor_measurements (time, sensor_id, room, sensor_type, temperature, pressure, humidity) \nVALUES (NOW(), $sensor_id, $room, $sensor_type, $temperature, $pressure, $humidity);`\n\nreturn msg;\n\n\n",
+        "func": "web_scrape_data = msg.payload.Data;\nvalue_names = [\"Vítr směr\", \"Tlak relat.\", \"Vlhkost ven.\", \"Teplota ven.\", \"Intenzita srážek\", \"Déšť\"];\nextracted_values = {};\n\nweb_scrape_data.allMeasures.forEach((value) => {\n    if (value_names.includes(value.Name)){\n        extracted_values[value.Name] = value.Value;\n    }\n    \n})\n\nmsg.queryParameters = { \n    sensor_id: `pocasidoma-${web_scrape_data.id}`,\n    sensor_type: \"Davis Vantage PRO2\",\n    room: \"Outdoors\",\n    temperature: extracted_values[\"Teplota ven.\"],\n    pressure: extracted_values[\"Tlak relat.\"],\n    humidity: extracted_values[\"Vlhkost ven.\"]\n}\n\nmsg.query = `INSERT INTO sensor_measurements (time, sensor_id, room, sensor_type, temperature, pressure, humidity) \nVALUES (NOW(), $sensor_id, $room, $sensor_type, $temperature, $pressure, $humidity);`\n\nreturn msg;\n\n\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -569,15 +569,15 @@
         "y": 1200,
         "wires": [
             [
-                "9e478f79be9d61b4"
+                "703bd536e69dc5da"
             ]
         ]
     },
     {
-        "id": "9e478f79be9d61b4",
+        "id": "703bd536e69dc5da",
         "type": "postgresql",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
         "name": "Local PostgreSQL",
         "query": "",
         "postgreSQLConfig": "b6d5c0074129b3d4",
@@ -588,15 +588,15 @@
         "y": 1200,
         "wires": [
             [
-                "9f491d10ccc7fd37"
+                "597446dc812fa59d"
             ]
         ]
     },
     {
-        "id": "9f491d10ccc7fd37",
+        "id": "597446dc812fa59d",
         "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
         "name": "Print DB pocasidoma API response",
         "active": true,
         "tosidebar": true,
@@ -611,10 +611,10 @@
         "wires": []
     },
     {
-        "id": "bab9a0c16086fffb",
+        "id": "391fe0dd47fdfea7",
         "type": "postgresql",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "Local PostgreSQL",
         "query": "",
         "postgreSQLConfig": "b6d5c0074129b3d4",
@@ -625,15 +625,15 @@
         "y": 600,
         "wires": [
             [
-                "1e1c71e9d717b61b"
+                "44e1c880e5af92ab"
             ]
         ]
     },
     {
-        "id": "1e1c71e9d717b61b",
+        "id": "44e1c880e5af92ab",
         "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
         "name": "Print DB boiler response",
         "active": true,
         "tosidebar": true,
@@ -648,120 +648,9 @@
         "wires": []
     },
     {
-        "id": "9b7925c5617930b7",
-        "type": "postgresql",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
-        "name": "Remote PostgreSQL",
-        "query": "",
-        "postgreSQLConfig": "bde0a1a7699505c0",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 1260,
-        "y": 660,
-        "wires": [
-            [
-                "0a8a03c7ec94581e"
-            ]
-        ]
-    },
-    {
-        "id": "0a8a03c7ec94581e",
-        "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "03fa14a34607f9cb",
-        "name": "Print DB remote boiler response",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1510,
-        "y": 660,
-        "wires": []
-    },
-    {
-        "id": "996455b09d4b1577",
-        "type": "postgresql",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
-        "name": "Remote PostgreSQL",
-        "query": "",
-        "postgreSQLConfig": "bde0a1a7699505c0",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 1240,
-        "y": 960,
-        "wires": [
-            [
-                "d7c08eeaf821ed41"
-            ]
-        ]
-    },
-    {
-        "id": "d7c08eeaf821ed41",
-        "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "57e7ef10668b48c8",
-        "name": "Print DB remote outdoors response",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1500,
-        "y": 960,
-        "wires": []
-    },
-    {
-        "id": "894d5a3b917e7c31",
-        "type": "postgresql",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
-        "name": "Remote PostgreSQL",
-        "query": "",
-        "postgreSQLConfig": "bde0a1a7699505c0",
-        "split": false,
-        "rowsPerMsg": 1,
-        "outputs": 1,
-        "x": 1180,
-        "y": 1280,
-        "wires": [
-            [
-                "5b413f5f6fe058f7"
-            ]
-        ]
-    },
-    {
-        "id": "5b413f5f6fe058f7",
-        "type": "debug",
-        "z": "13f594f6750189d6",
-        "g": "eb3085a56f03028c",
-        "name": "Print remote DB pocasidoma API response",
-        "active": true,
-        "tosidebar": true,
-        "console": false,
-        "tostatus": false,
-        "complete": "true",
-        "targetType": "full",
-        "statusVal": "",
-        "statusType": "auto",
-        "x": 1490,
-        "y": 1280,
-        "wires": []
-    },
-    {
         "id": "07d6b639cb962ff6",
         "type": "http in",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Get values from sensor",
         "url": "/postSensor",
@@ -780,7 +669,7 @@
     {
         "id": "94204058074f2134",
         "type": "http response",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "HTTP Response on Error",
         "statusCode": "",
@@ -792,7 +681,7 @@
     {
         "id": "d2d9175cc521443a",
         "type": "debug",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Data from EspHome sensor",
         "active": true,
@@ -810,10 +699,10 @@
     {
         "id": "c979f22f6171cbe6",
         "type": "function",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "JSON test",
-        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\n//else if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"temperature\" in msg.payload && \"pressure\" in msg.payload && \"humidity\" in msg.payload)){\nelse if(!((\"sensor_id\", \"board_type\", \"sensor_type\", \"room\", \"temperature\", \"pressure\", \"humidity\", \"gas_resistance\") in msg.payload )){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't have right format.\\r\\nJSON should have fields: sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance, iaq.\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
+        "func": "\n// Post Request does not containe JSON data, flow stops\nif(typeof(msg.payload) != \"object\" ){\n    msg.statusCode = 415;\n    msg.payload = \"Data are not in JSON format\";\n}\n// Empty JSON, flow stops\nelse if(JSON.stringify(msg.payload) == '{}'){\n    msg.statusCode = 422;\n    msg.payload = \"JSON is empty\";\n}\n\n// JSON does not contain all data, flow stops\n//else if(!(\"sensor_id\" in msg.payload && \"board_type\" in msg.payload && \"sensor_type\" in msg.payload && \"temperature\" in msg.payload && \"pressure\" in msg.payload && \"humidity\" in msg.payload)){\nelse if(!((\"sensor_id\", \"board_type\", \"sensor_type\", \"room\", \"temperature\", \"pressure\", \"humidity\") in msg.payload )){\n    msg.statusCode = 422;\n    msg.payload = \"JSON doesn't have right format.\\r\\nJSON should have fields: sensor_id, board_type, sensor_type, room, temperature, pressure, humidity\";\n}\n\n// Everything is fine and we can proceed with rest of the code flow\nelse{\n    msg.statusCode = 200;\n}\nreturn msg;",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -832,7 +721,7 @@
     {
         "id": "b61e240e36ac6d7e",
         "type": "switch",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "HTTP response switch",
         "property": "statusCode",
@@ -865,7 +754,7 @@
     {
         "id": "213a26f8f0e4420a",
         "type": "debug",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Print  indoors JSON",
         "active": true,
@@ -883,7 +772,7 @@
     {
         "id": "50c8b9014b1bf57c",
         "type": "http response",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "HTTP Response OK",
         "statusCode": "",
@@ -895,7 +784,7 @@
     {
         "id": "a9c50bae42883c2e",
         "type": "debug",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Incoming JSON before query preparation",
         "active": true,
@@ -913,7 +802,7 @@
     {
         "id": "11b12c8f2978b551",
         "type": "link in",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "",
         "links": [
@@ -931,7 +820,7 @@
     {
         "id": "78936ed5134682cd",
         "type": "link out",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "",
         "mode": "link",
@@ -945,10 +834,10 @@
     {
         "id": "8e4db32e74c6260d",
         "type": "function",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Prepare Timescaledb insert query",
-        "func": "sensor_data = msg.payload;\nmsg.topic = \"timescale_query\"\n\n\n\nif(typeof(sensor_data.iaq) !== \"undefined\")\n{\n\n    msg.queryParameters = {\n        sensor_id: sensor_data.sensor_id.toLowerCase(),\n        board_type: sensor_data.board_type.toLowerCase(),\n        sensor_type: sensor_data.sensor_type.toLowerCase(),\n        room: sensor_data.room.toLowerCase(),\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity,\n        gas_resistance: sensor_data.gas_resistance,\n        iaq: sensor_data.iaq,\n        iaq_accuracy: parseInt(sensor_data.iaq_accuracy),\n        co2_equivalent: sensor_data.co2_equivalent,\n        bvoc_equivalent: sensor_data.bvoc_equivalent\n    }\n    msg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance, iaq, iaq_accuracy, co2_equivalent, bvoc_equivalent) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $room, $temperature, $pressure, $humidity, $gas_resistance, $iaq, $iaq_accuracy, $co2_equivalent, $bvoc_equivalent);`\n      \n}else {\n    msg.queryParameters = {\n        sensor_id: sensor_data.sensor_id.toLowerCase(),\n        board_type: sensor_data.board_type.toLowerCase(),\n        sensor_type: sensor_data.sensor_type.toLowerCase(),\n        room: sensor_data.room.toLowerCase(),\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity,\n        gas_resistance: sensor_data.gas_resistance\n    }\n    msg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $room, $temperature, $pressure, $humidity, $gas_resistance);`\n   \n}\n\n \nreturn msg;\n\n\n",
+        "func": "sensor_data = msg.payload;\nmsg.topic = \"timescale_query\"\n\nif(typeof(sensor_data.iaq) !== \"undefined\")\n{\n\n    msg.queryParameters = {\n        sensor_id: sensor_data.sensor_id.toLowerCase(),\n        board_type: sensor_data.board_type.toLowerCase(),\n        sensor_type: sensor_data.sensor_type.toLowerCase(),\n        room: sensor_data.room.toLowerCase(),\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity,\n        gas_resistance: sensor_data.gas_resistance,\n        iaq: sensor_data.iaq,\n        iaq_accuracy: parseInt(sensor_data.iaq_accuracy),\n        co2_equivalent: sensor_data.co2_equivalent,\n        bvoc_equivalent: sensor_data.bvoc_equivalent\n    }\n    msg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, room, temperature, pressure, humidity, gas_resistance, iaq, iaq_accuracy, co2_equivalent, bvoc_equivalent) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $room, $temperature, $pressure, $humidity, $gas_resistance, $iaq, $iaq_accuracy, $co2_equivalent, $bvoc_equivalent);`\n      \n}else {\n    msg.queryParameters = {\n        sensor_id: sensor_data.sensor_id.toLowerCase(),\n        board_type: sensor_data.board_type.toLowerCase(),\n        sensor_type: sensor_data.sensor_type.toLowerCase(),\n        room: sensor_data.room.toLowerCase(),\n        temperature: sensor_data.temperature,\n        pressure: sensor_data.pressure,\n        humidity: sensor_data.humidity\n    }\n    msg.query = `INSERT INTO sensor_measurements (time, sensor_id, board_type, sensor_type, room, temperature, pressure, humidity) \n    VALUES (NOW(), $sensor_id, $board_type, $sensor_type, $room, $temperature, $pressure, $humidity);`\n   \n}\n\n \nreturn msg;\n\n\n",
         "outputs": 1,
         "timeout": "",
         "noerr": 0,
@@ -967,7 +856,7 @@
     {
         "id": "d051ac3741bf5474",
         "type": "postgresql",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Local PostgreSQL",
         "query": "",
@@ -986,7 +875,7 @@
     {
         "id": "f551cc72b4d1a714",
         "type": "debug",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Print DB EspHome response",
         "active": true,
@@ -1004,7 +893,7 @@
     {
         "id": "495f4728cc474793",
         "type": "debug",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Print prepared Timescale query",
         "active": true,
@@ -1022,7 +911,7 @@
     {
         "id": "2c5ae880773d6551",
         "type": "debug",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Print remote DB EspHome response",
         "active": true,
@@ -1040,7 +929,7 @@
     {
         "id": "70bbc90537829af7",
         "type": "postgresql",
-        "z": "13f594f6750189d6",
+        "z": "6f295efb41de0f64",
         "g": "c2e3c67e8b32942e",
         "name": "Remote PostgreSQL",
         "query": "",
@@ -1055,6 +944,117 @@
                 "2c5ae880773d6551"
             ]
         ]
+    },
+    {
+        "id": "61ee42fb9395228f",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
+        "name": "Remote PostgreSQL",
+        "query": "",
+        "postgreSQLConfig": "bde0a1a7699505c0",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1260,
+        "y": 660,
+        "wires": [
+            [
+                "0e913d3d6c71f6e9"
+            ]
+        ]
+    },
+    {
+        "id": "0e913d3d6c71f6e9",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "f3de19ae627756a8",
+        "name": "Print DB remote boiler response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1510,
+        "y": 660,
+        "wires": []
+    },
+    {
+        "id": "3c6110bd7760aa63",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "Remote PostgreSQL",
+        "query": "",
+        "postgreSQLConfig": "bde0a1a7699505c0",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1240,
+        "y": 960,
+        "wires": [
+            [
+                "647c4abad8596dbd"
+            ]
+        ]
+    },
+    {
+        "id": "647c4abad8596dbd",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "91fb6c2e6d03d44f",
+        "name": "Print DB remote outdoors response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1500,
+        "y": 960,
+        "wires": []
+    },
+    {
+        "id": "e9591cebc7738df1",
+        "type": "postgresql",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "Remote PostgreSQL",
+        "query": "",
+        "postgreSQLConfig": "bde0a1a7699505c0",
+        "split": false,
+        "rowsPerMsg": 1,
+        "outputs": 1,
+        "x": 1180,
+        "y": 1280,
+        "wires": [
+            [
+                "7fcea0c611bd2f13"
+            ]
+        ]
+    },
+    {
+        "id": "7fcea0c611bd2f13",
+        "type": "debug",
+        "z": "6f295efb41de0f64",
+        "g": "46ae6eaea7b98a6c",
+        "name": "Print remote DB pocasidoma API response",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "true",
+        "targetType": "full",
+        "statusVal": "",
+        "statusType": "auto",
+        "x": 1490,
+        "y": 1280,
+        "wires": []
     },
     {
         "id": "b6d5c0074129b3d4",

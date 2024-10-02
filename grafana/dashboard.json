@@ -24,7 +24,7 @@
   "editable": true,
   "fiscalYearStartMonth": 0,
   "graphTooltip": 0,
-  "id": 3,
+  "id": 1,
   "links": [],
   "liveNow": false,
   "panels": [
@@ -54,7 +54,7 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
+        "w": 8,
         "x": 0,
         "y": 0
       },
@@ -85,7 +85,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
+          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements \nWHERE room = '$room'\nORDER BY time DESC LIMIT 1;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -135,8 +135,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 6,
+        "w": 8,
+        "x": 8,
         "y": 0
       },
       "id": 16,
@@ -166,7 +166,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
+          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements \nWHERE room = '$room'\nORDER BY time DESC LIMIT 1;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -216,8 +216,8 @@
       },
       "gridPos": {
         "h": 4,
-        "w": 6,
-        "x": 12,
+        "w": 8,
+        "x": 16,
         "y": 0
       },
       "id": 17,
@@ -247,7 +247,7 @@
           "editorMode": "code",
           "format": "table",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
+          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements \nWHERE room = '$room'\nORDER BY time DESC LIMIT 1;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -269,107 +269,6 @@
         }
       ],
       "title": "Humidity",
-      "type": "stat"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "edimgb9aqg1z4f"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "thresholds"
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              },
-              {
-                "color": "#EAB839",
-                "value": 51
-              },
-              {
-                "color": "dark-orange",
-                "value": 101
-              },
-              {
-                "color": "dark-red",
-                "value": 151
-              },
-              {
-                "color": "dark-purple",
-                "value": 201
-              },
-              {
-                "color": "#000019",
-                "value": 301
-              }
-            ]
-          },
-          "unit": "none"
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 4,
-        "w": 6,
-        "x": 18,
-        "y": 0
-      },
-      "id": 18,
-      "options": {
-        "colorMode": "value",
-        "graphMode": "area",
-        "justifyMode": "auto",
-        "orientation": "auto",
-        "reduceOptions": {
-          "calcs": [
-            "lastNotNull"
-          ],
-          "fields": "",
-          "values": false
-        },
-        "showPercentChange": false,
-        "textMode": "auto",
-        "wideLayout": true
-      },
-      "pluginVersion": "10.4.2",
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "edimgb9aqg1z4f"
-          },
-          "editorMode": "code",
-          "format": "table",
-          "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time DESC LIMIT 1;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Indoor Air Quality",
       "type": "stat"
     },
     {
@@ -499,7 +398,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, temperature from sensor_measurements WHERE room = '$room' ORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -624,7 +523,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo()\nORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, pressure from sensor_measurements WHERE room = '$room' ORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -733,7 +632,7 @@
           "editorMode": "code",
           "format": "time_series",
           "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
+          "rawSql": "SELECT time, sensor_id, room, humidity from sensor_measurements WHERE room = '$room' ORDER BY time;",
           "refId": "A",
           "sql": {
             "columns": [
@@ -756,113 +655,6 @@
       ],
       "title": "Humidity",
       "type": "timeseries"
-    },
-    {
-      "datasource": {
-        "type": "grafana-postgresql-datasource",
-        "uid": "edimgb9aqg1z4f"
-      },
-      "fieldConfig": {
-        "defaults": {
-          "color": {
-            "mode": "palette-classic"
-          },
-          "custom": {
-            "axisBorderShow": false,
-            "axisCenteredZero": false,
-            "axisColorMode": "text",
-            "axisLabel": "",
-            "axisPlacement": "auto",
-            "barAlignment": 0,
-            "drawStyle": "line",
-            "fillOpacity": 10,
-            "gradientMode": "none",
-            "hideFrom": {
-              "legend": false,
-              "tooltip": false,
-              "viz": false
-            },
-            "insertNulls": false,
-            "lineInterpolation": "linear",
-            "lineWidth": 1,
-            "pointSize": 5,
-            "scaleDistribution": {
-              "type": "linear"
-            },
-            "showPoints": "auto",
-            "spanNulls": true,
-            "stacking": {
-              "group": "A",
-              "mode": "none"
-            },
-            "thresholdsStyle": {
-              "mode": "off"
-            }
-          },
-          "mappings": [],
-          "thresholds": {
-            "mode": "absolute",
-            "steps": [
-              {
-                "color": "green",
-                "value": null
-              }
-            ]
-          }
-        },
-        "overrides": []
-      },
-      "gridPos": {
-        "h": 8,
-        "w": 24,
-        "x": 0,
-        "y": 22
-      },
-      "id": 14,
-      "options": {
-        "legend": {
-          "calcs": [],
-          "displayMode": "list",
-          "placement": "bottom",
-          "showLegend": true
-        },
-        "tooltip": {
-          "mode": "single",
-          "sort": "none"
-        }
-      },
-      "targets": [
-        {
-          "datasource": {
-            "type": "grafana-postgresql-datasource",
-            "uid": "edimgb9aqg1z4f"
-          },
-          "editorMode": "code",
-          "format": "time_series",
-          "rawQuery": true,
-          "rawSql": "SELECT time, sensor_id, room, iaq from sensor_measurements \nWHERE room = '$room' AND \"time\" BETWEEN $__timeFrom() AND $__timeTo() \nORDER BY time;",
-          "refId": "A",
-          "sql": {
-            "columns": [
-              {
-                "parameters": [],
-                "type": "function"
-              }
-            ],
-            "groupBy": [
-              {
-                "property": {
-                  "type": "string"
-                },
-                "type": "groupBy"
-              }
-            ],
-            "limit": 50
-          }
-        }
-      ],
-      "title": "Inside Air Quality",
-      "type": "timeseries"
     }
   ],
   "refresh": "5m",
@@ -880,13 +672,13 @@
           "type": "grafana-postgresql-datasource",
           "uid": "edimgb9aqg1z4f"
         },
-        "definition": "SELECT room FROM sensor_measurements GROUP BY room; ",
+        "definition": "SELECT room FROM sensor_measurements;",
         "hide": 0,
         "includeAll": false,
         "multi": false,
         "name": "room",
         "options": [],
-        "query": "SELECT room FROM sensor_measurements GROUP BY room; ",
+        "query": "SELECT room FROM sensor_measurements;",
         "refresh": 2,
         "regex": "",
         "skipUrlSync": false,
@@ -903,6 +695,6 @@
   "timezone": "",
   "title": "Sensor-stack",
   "uid": "ozNtCIsMz",
-  "version": 3,
+  "version": 11,
   "weekStart": ""
 }
